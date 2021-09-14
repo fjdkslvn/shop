@@ -7,6 +7,12 @@
 <title>index.jsp</title>
 </head>
 <body>
-	<h1>메인페이지</h1>
+   <!-- start : submenu include -->
+   <div>
+      <jsp:include page="/partial/submenu.jsp"></jsp:include>
+   </div>
+   <!-- end : submenu include -->
+   <h1>메인페이지</h1>S
+   
 </body>
 </html>
