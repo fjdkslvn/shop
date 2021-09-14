@@ -16,7 +16,7 @@
 <%
 	//로그인 상태에서는 진입할 수 없음
 	if(session.getAttribute("loginMember") != null){
-		response.sendRedirect("./index.jsp");
+		response.sendRedirect(request.getContextPath()+"/index.jsp");
 		return;
 	}
 

@@ -41,7 +41,7 @@ public class MemberDao {
 		System.out.println("로그인 stmt :"+stmt);
 		ResultSet rs = stmt.executeQuery();
 		
-		// 로그인 성공시 아이디와 이름을 return
+		// 로그인 성공시 유저정보를 return
 		if(rs.next()) {
 			System.out.println("로그인 유저 멤버번호 :"+Integer.parseInt(rs.getString("memberNo")));
 			System.out.println("로그인 유저 아이디 :"+rs.getString("memberId"));

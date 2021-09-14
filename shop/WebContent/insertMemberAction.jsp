@@ -7,24 +7,24 @@
 	
 	// 로그인 상태에서는 진입할 수 없음
 	if(session.getAttribute("loginMember") != null){
-		response.sendRedirect("./index.jsp");
+		response.sendRedirect(request.getContextPath()+"/index.jsp");
 		return;
 	}
 	
 	// 입력값의 null이나 공백을 거르는 코드
 	if(request.getParameter("id")==null || request.getParameter("pw")==null || request.getParameter("pw2")==null || request.getParameter("name")==null || request.getParameter("age")==null || request.getParameter("gender")==null){
-		response.sendRedirect("./insertMemberForm.jsp");
+		response.sendRedirect(request.getContextPath()+"/insertMemberForm.jsp");
 		return;
 	}
 	
 	if(request.getParameter("id")=="" || request.getParameter("pw")=="" || request.getParameter("pw2")=="" || request.getParameter("name")=="" || request.getParameter("age")=="" || request.getParameter("gender")==""){
-		response.sendRedirect("./insertMemberForm.jsp");
+		response.sendRedirect(request.getContextPath()+"/insertMemberForm.jsp");
 		return;
 	}
 	
 	// 비밀번호 검사
 	if(!request.getParameter("pw").equals(request.getParameter("pw2"))){
-		response.sendRedirect("./index.jsp");
+		response.sendRedirect(request.getContextPath()+"/index.jsp");
 		return;
 	}
 	
@@ -40,7 +40,7 @@
 	mdao.insertMember(member);
 	
 	// 회원가입 후 로그인화면으로 이동
-	response.sendRedirect("./loginForm.jsp");
+	response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
 	return;
 	
 

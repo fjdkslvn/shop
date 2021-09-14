@@ -7,17 +7,17 @@
 	
 	// 로그인 상태에서는 진입할 수 없음
 	if(session.getAttribute("loginMember") != null){
-		response.sendRedirect("./index.jsp");
+		response.sendRedirect(request.getContextPath()+"/index.jsp");
 		return;
 	}
 	
 	// 로그인 값이 비어있다면 로그인 화면으로 돌려보내자
 	if(request.getParameter("id")== null || request.getParameter("pw")==null){
-		response.sendRedirect("./login.jsp");
+		response.sendRedirect(request.getContextPath()+"/login.jsp");
 		return;
 	}
 	if(request.getParameter("id")== "" || request.getParameter("pw")==""){
-		response.sendRedirect("./login.jsp");
+		response.sendRedirect(request.getContextPath()+"/login.jsp");
 		return;
 	}
 	
@@ -32,13 +32,13 @@
 	// 로그인 실패시 다시 로그인화면으로 이동
 	if(returnMember == null){
 		System.out.println("로그인 실패");
-		response.sendRedirect("./loginForm.jsp");
+		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
 		return;
 	} else { // 로그인 성공시 메인화면으로 이동
 		System.out.println("로그인 성공");
 		// session에 로그인한 유저 정보 담기
 		session.setAttribute("loginMember", returnMember);
-		response.sendRedirect("./index.jsp");
+		response.sendRedirect(request.getContextPath()+"/index.jsp");
 		return;
 	}
 %>
