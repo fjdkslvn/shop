@@ -25,13 +25,18 @@
 					*<%=loginMember.getMemberLevel() %>레벨* <%=loginMember.getMemberNo() %>번 회원님 반갑습니다.
 					<a href="<%=request.getContextPath() %>/logout.jsp">로그아웃</a>
 				<%
+				if(loginMember.getMemberLevel()>0){
+					%>
+						<a href="<%=request.getContextPath() %>/admin/adminindex.jsp">관리자 페이지</a>
+					<%
+				}
 			}
 		%>
 	</div>
 	<br>
 	   <!-- start : submenu include -->
 	   <div>
-	      <jsp:include page="/partial/submenu.jsp"></jsp:include>
+	      <jsp:include page="/partial/mainMenu.jsp"></jsp:include>
 	   </div>
 	   <!-- end : submenu include -->
 	   <h1>메인페이지</h1>

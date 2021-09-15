@@ -49,7 +49,7 @@
 			나이 :
 			<select name="age">
 			<%
-				for(int i=1;i<120;i++){
+				for(int i=1;i<=120;i++){
 			%>
 					<option value="<%=i %>"><%=i %></option>
 			<%
