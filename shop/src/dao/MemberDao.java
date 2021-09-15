@@ -11,6 +11,32 @@ import vo.*;
 
 public class MemberDao {
 	
+	// [관리자] 회원목록출력 마지막 페이지 연산(특정회원)
+		public int selectMemberListSearchLastPage(int rowPerPage, String searchMemberId) throws ClassNotFoundException, SQLException {
+			DBUtil dbUtil = new DBUtil();
+		    Connection conn = dbUtil.getConnection();
+	    
+		   // 전체 페이지수 구하기
+	       PreparedStatement stmt;
+	   	   String sql = "select count(*) from member where member_id like ?";
+	  	   stmt = conn.prepareStatement(sql);
+	  	   stmt.setString(1, "%"+searchMemberId+"%");
+	  	   System.out.println("특정 회원수 stmt : "+stmt);
+		   ResultSet rs = stmt.executeQuery();
+		   rs.next();
+		   int totalData = rs.getInt("count(*)");
+		   int lastPage= totalData/rowPerPage; // 마지막 페이지 번호
+		   if(totalData%rowPerPage!=0){
+		   	lastPage +=1;
+		   }
+		   
+		   rs.close();
+		   stmt.close();
+		   conn.close();
+		   
+		   return lastPage;
+		}
+	
 	// [관리자] 회원목록출력 마지막 페이지 연산
 	public int selectMemberListLastPage(int rowPerPage) throws ClassNotFoundException, SQLException {
 		DBUtil dbUtil = new DBUtil();
@@ -34,6 +60,42 @@ public class MemberDao {
 	   conn.close();
 	   
 	   return lastPage;
+	}
+	
+	// [관리자] 회원목록출력(특정 회원)
+	public ArrayList<Member> selectMemberListAllBySearchMemberId(int beginRow, int rowPerPage, String searchMemberId) throws ClassNotFoundException, SQLException {
+		ArrayList<Member> list = new ArrayList<Member>();
+		
+		// mariaDB 연동
+		DBUtil dbUilt = new DBUtil();
+		Connection conn = dbUilt.getConnection();
+		String sql = "select member_no memberNo, member_id memberId, member_level memberLevel, member_name memberName, member_age memberAge, member_gender memberGender, update_date updateDate, create_date createDate from member where member_id like ? order by member_level desc limit ?,?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, "%"+searchMemberId+"%");
+		stmt.setInt(2, beginRow);
+		stmt.setInt(3, rowPerPage);
+		System.out.println("회원목록 출력 stmt : "+stmt);
+		ResultSet rs = stmt.executeQuery();
+		
+		// 각 멤버의 정보를 리스트에 담는다
+		while(rs.next()) {
+			Member member = new Member();
+			member.setMemberNo(Integer.parseInt(rs.getString("memberNo")));
+			member.setMemberId(rs.getString("memberId"));
+			member.setMemberLevel(Integer.parseInt(rs.getString("memberLevel")));
+			member.setMemberName(rs.getString("memberName"));
+			member.setMemberAge(Integer.parseInt(rs.getString("memberAge")));
+			member.setMemberGender(rs.getString("memberGender"));
+			member.setUpdateDate(rs.getString("updateDate"));
+			member.setCreateDate(rs.getString("createDate"));
+			
+			list.add(member);
+		}
+		rs.close();
+		stmt.close();
+		conn.close();
+				
+		return list;
 	}
 	
 	// [관리자] 회원목록출력
