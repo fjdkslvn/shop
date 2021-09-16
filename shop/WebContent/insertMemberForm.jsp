@@ -19,7 +19,6 @@
 		response.sendRedirect(request.getContextPath()+"/index.jsp");
 		return;
 	}
-
 %>
 
 <div class="join-form content-center top-margin">

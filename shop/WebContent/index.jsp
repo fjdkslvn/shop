@@ -22,7 +22,7 @@
 			} else {
 				Member loginMember = (Member)session.getAttribute("loginMember");
 				%>
-					*<%=loginMember.getMemberLevel() %>레벨* <%=loginMember.getMemberNo() %>번 회원님 반갑습니다.
+					*<%=loginMember.getMemberLevel() %>레벨* <%=loginMember.getMemberId() %>회원님 반갑습니다.
 					<a href="<%=request.getContextPath() %>/logout.jsp">로그아웃</a>
 				<%
 				if(loginMember.getMemberLevel()>0){

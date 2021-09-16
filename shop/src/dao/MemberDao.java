@@ -11,31 +11,84 @@ import vo.*;
 
 public class MemberDao {
 	
+	// [관리자] 특정 회원의 회원등급을 수정 , no, 수정된 level
+	public void updateMemberLevelByAdmin(Member member) throws ClassNotFoundException, SQLException {
+		DBUtil dbUtil = new DBUtil();
+	    Connection conn = dbUtil.getConnection();
+    
+	   // 업데이트하기
+       PreparedStatement stmt;
+   	   String sql = "update member set member_level=? where member_no=?";
+  	   stmt = conn.prepareStatement(sql);
+  	   stmt.setInt(1, member.getMemberLevel());
+  	   stmt.setInt(2, member.getMemberNo());
+  	   System.out.println("특정 멤버 등급 수정 stmt : "+stmt);
+	   stmt.executeUpdate();
+	   
+	   stmt.close();
+	   conn.close();
+	}
+	
+	// [관리자] 특정 회원의 비밀번호를 수정 ,no, 수정된pw
+	public void updateMemberPwByAdmin(Member member) throws ClassNotFoundException, SQLException {
+		DBUtil dbUtil = new DBUtil();
+	    Connection conn = dbUtil.getConnection();
+    
+	   // 업데이트하기
+       PreparedStatement stmt;
+   	   String sql = "update member set member_pw=PASSWORD(?) where member_no=?";
+  	   stmt = conn.prepareStatement(sql);
+  	   stmt.setString(1, member.getMemberPw());
+  	   stmt.setInt(2, member.getMemberNo());
+  	   System.out.println("특정 멤버 등급 수정 stmt : "+stmt);
+	   stmt.executeUpdate();
+	   
+	   stmt.close();
+	   conn.close();
+	}
+	
+	// [관리자] 특정 회원을 강제 탈퇴
+	public void deleteMemberByAdmin(int memberNo) throws ClassNotFoundException, SQLException {
+		DBUtil dbUtil = new DBUtil();
+	    Connection conn = dbUtil.getConnection();
+    
+	   // 회원을 삭제하기
+       PreparedStatement stmt;
+   	   String sql = "delete from member where member_no=?";
+  	   stmt = conn.prepareStatement(sql);
+  	   stmt.setInt(1, memberNo);
+  	   System.out.println("특정 멤버 삭제 stmt : "+stmt);
+	   stmt.executeUpdate();
+	   
+	   stmt.close();
+	   conn.close();
+	}
+	
 	// [관리자] 회원목록출력 마지막 페이지 연산(특정회원)
-		public int selectMemberListSearchLastPage(int rowPerPage, String searchMemberId) throws ClassNotFoundException, SQLException {
-			DBUtil dbUtil = new DBUtil();
-		    Connection conn = dbUtil.getConnection();
-	    
-		   // 전체 페이지수 구하기
-	       PreparedStatement stmt;
-	   	   String sql = "select count(*) from member where member_id like ?";
-	  	   stmt = conn.prepareStatement(sql);
-	  	   stmt.setString(1, "%"+searchMemberId+"%");
-	  	   System.out.println("특정 회원수 stmt : "+stmt);
-		   ResultSet rs = stmt.executeQuery();
-		   rs.next();
-		   int totalData = rs.getInt("count(*)");
-		   int lastPage= totalData/rowPerPage; // 마지막 페이지 번호
-		   if(totalData%rowPerPage!=0){
-		   	lastPage +=1;
-		   }
-		   
-		   rs.close();
-		   stmt.close();
-		   conn.close();
-		   
-		   return lastPage;
-		}
+	public int selectMemberListSearchLastPage(int rowPerPage, String searchMemberId) throws ClassNotFoundException, SQLException {
+		DBUtil dbUtil = new DBUtil();
+	    Connection conn = dbUtil.getConnection();
+    
+	   // 전체 페이지수 구하기
+       PreparedStatement stmt;
+   	   String sql = "select count(*) from member where member_id like ?";
+  	   stmt = conn.prepareStatement(sql);
+  	   stmt.setString(1, "%"+searchMemberId+"%");
+  	   System.out.println("특정 회원수 stmt : "+stmt);
+	   ResultSet rs = stmt.executeQuery();
+	   rs.next();
+	   int totalData = rs.getInt("count(*)");
+	   int lastPage= totalData/rowPerPage; // 마지막 페이지 번호
+	   if(totalData%rowPerPage!=0){
+	   	lastPage +=1;
+	   }
+	   
+	   rs.close();
+	   stmt.close();
+	   conn.close();
+	   
+	   return lastPage;
+	}
 	
 	// [관리자] 회원목록출력 마지막 페이지 연산
 	public int selectMemberListLastPage(int rowPerPage) throws ClassNotFoundException, SQLException {
@@ -60,6 +113,38 @@ public class MemberDao {
 	   conn.close();
 	   
 	   return lastPage;
+	}
+	
+	// 특정회원 1명 값 받아오기
+	public Member selectMemberOne(int memberNo) throws ClassNotFoundException, SQLException {
+		Member returnMember = new Member();
+		
+		// mariaDB 연동
+		DBUtil dbUilt = new DBUtil();
+		Connection conn = dbUilt.getConnection();
+		String sql = "select member_no memberNo, member_id memberId, member_level memberLevel, member_name memberName, member_age memberAge, member_gender memberGender, update_date updateDate, create_date createDate from member where member_no=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, memberNo);
+		System.out.println("특정회원 정보 조회 stmt : "+stmt);
+		ResultSet rs = stmt.executeQuery();
+		
+		// 각 멤버의 정보를 리스트에 담는다
+		while(rs.next()) {
+			returnMember.setMemberNo(Integer.parseInt(rs.getString("memberNo")));
+			returnMember.setMemberId(rs.getString("memberId"));
+			returnMember.setMemberLevel(Integer.parseInt(rs.getString("memberLevel")));
+			returnMember.setMemberName(rs.getString("memberName"));
+			returnMember.setMemberAge(Integer.parseInt(rs.getString("memberAge")));
+			returnMember.setMemberGender(rs.getString("memberGender"));
+			returnMember.setUpdateDate(rs.getString("updateDate"));
+			returnMember.setCreateDate(rs.getString("createDate"));
+		}
+		
+		rs.close();
+		stmt.close();
+		conn.close();
+				
+		return returnMember;
 	}
 	
 	// [관리자] 회원목록출력(특정 회원)
@@ -138,7 +223,7 @@ public class MemberDao {
 		// DB 연동 및 쿼리실행
 		DBUtil dbUilt = new DBUtil();
 		Connection conn = dbUilt.getConnection();
-		String sql = "insert into member(member_id, member_pw, member_level, member_name, member_age, member_gender, update_date, create_date) VALUES (?,?,0,?,?,?,now(),NOW())";
+		String sql = "insert into member(member_id, member_pw, member_level, member_name, member_age, member_gender, update_date, create_date) VALUES (?,PASSWORD(?),0,?,?,?,now(),NOW())";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, member.getMemberId());
 		stmt.setString(2, member.getMemberPw());
@@ -170,10 +255,12 @@ public class MemberDao {
 		if(rs.next()) {
 			System.out.println("로그인 유저 멤버번호 :"+Integer.parseInt(rs.getString("memberNo")));
 			System.out.println("로그인 유저 아이디 :"+rs.getString("memberId"));
+			System.out.println("로그인 유저 비밀번호 :"+member.getMemberPw());
 			System.out.println("로그인 유저 등급 :"+Integer.parseInt(rs.getString("memberLevel")));
 			returnMember.setMemberNo(Integer.parseInt(rs.getString("memberNo")));
 			returnMember.setMemberId(rs.getString("memberId"));
 			returnMember.setMemberLevel(Integer.parseInt(rs.getString("memberLevel")));
+			returnMember.setMemberPw(member.getMemberPw());
 			
 			rs.close();
 			stmt.close();
