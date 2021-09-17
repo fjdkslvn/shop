@@ -54,7 +54,7 @@
 	<div>
 		<jsp:include page="/partial/adminMenu.jsp"></jsp:include>
 	</div>
-	<table border="1">
+	<table class="table" border="1">
 		<thead>
 			<tr>
 				<th>memberNo</th>

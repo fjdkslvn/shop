@@ -22,11 +22,30 @@
 %>
 
 <div class="join-form content-center top-margin">
+<%
+	// 아이디 중복검사를 위한 코드
+	String memberIdCheck="";
+	if(request.getParameter("memberIdCheck")!= null){
+		memberIdCheck = request.getParameter("memberIdCheck");
+	}
+
+%>
+	<div><%=request.getParameter("idCheckResult") %></div> <!-- null or 이미사용중인아이디입니다 -->
 	
-	<form action="insertMemberAction.jsp">
+	<!-- 멤버아이디가 사용가능한지 확인 폼 -->
+	<form action="<%=request.getContextPath() %>/selectMemberIdCheckAction.jsp" method="post">
+		<div class="form-group">
+			회원아이디 
+			<input type="text" class="form-control" name="memberIdCheck">
+			<button type="submit">아이디 중복 검사</button>
+		</div>
+	</form>
+	
+	<!-- 회원가입 폼 -->
+	<form action="insertMemberAction.jsp" method="post">
 	    <div class="form-group">
 	        아이디
-	        <input type="text" class="form-control" name="id">
+	        <input type="text" class="form-control" name="id" value="<%=memberIdCheck %>" readonly>
 	    </div>
 	
 	    <div class="form-group">

@@ -11,6 +11,25 @@ import vo.*;
 
 public class MemberDao {
 	
+	// [회원] 멤버 아이디 중복 검사
+	public String selectMemberId(String memberIdCheck) throws ClassNotFoundException, SQLException {
+		String memberId = null;
+		DBUtil dbUtil = new DBUtil();
+	    Connection conn = dbUtil.getConnection();
+	    String sql = "select member_id memberId from member where member_id=?";
+	    PreparedStatement stmt = conn.prepareStatement(sql);
+	    stmt.setString(1, memberIdCheck);
+	    ResultSet rs = stmt.executeQuery();
+	    if(rs.next()) {
+	    	memberId = rs.getString("memberId");
+	    }
+	    rs.close();
+	    stmt.close();
+	    conn.close();
+	    // null이면 존재하지 않으니 사용가능한 아이디, 반대는 불가능
+	    return memberId;
+	}
+	
 	// [관리자] 특정 회원의 회원등급을 수정 , no, 수정된 level
 	public void updateMemberLevelByAdmin(Member member) throws ClassNotFoundException, SQLException {
 		DBUtil dbUtil = new DBUtil();
