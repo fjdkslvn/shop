@@ -14,6 +14,13 @@
 	<title>회원비밀번호수정</title>
 </head>
 <%
+	//로그인이 되어있지 않거나 일반 회원이라면 메인화면으로 넘기기
+	Member loginMember = (Member)session.getAttribute("loginMember");
+	if(loginMember==null || loginMember.getMemberLevel() < 1){
+		response.sendRedirect(request.getContextPath()+"/index.jsp");
+		return;
+	}
+	
 	// 수정될 회원 번호
 	int memberNo;
 	if(request.getParameter("memberNo")!=null){

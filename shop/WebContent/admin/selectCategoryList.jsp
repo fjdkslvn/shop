@@ -68,5 +68,9 @@
 			%>
 		</tbody>
 	</table>
+	
+	<form action="<%=request.getContextPath() %>/admin/insertCategoryForm.jsp" method="post">
+		<button class="btn btn-secondary" type="submit">카테고리 추가</button>
+	</form>
 </body>
 </html>

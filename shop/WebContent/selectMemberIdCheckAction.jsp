@@ -24,5 +24,6 @@
 		System.out.println(memberIdCheck+"는 사용가능한 아이디 입니다:");
 	} else{
 		response.sendRedirect(request.getContextPath()+"/insertMemberForm.jsp?idCheckResult=This ID is already taken");
+		return;
 	}
 %>
