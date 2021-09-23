@@ -12,6 +12,41 @@ import vo.Ebook;
 
 public class EbookDao {
 	
+	public void updateEbookImg(Ebook ebook) throws ClassNotFoundException, SQLException {
+		DBUtil dbUtil = new DBUtil();
+	    Connection conn = dbUtil.getConnection();
+	    String sql ="update ebook set ebook_img=? where ebook_no=?";
+	    PreparedStatement stmt = conn.prepareStatement(sql);
+	    stmt.setString(1, ebook.getEbookImg());
+	    stmt.setInt(2, ebook.getEbookNo());
+	    stmt.executeUpdate();
+	    
+	    stmt.close();
+	    conn.close();
+	}
+	
+	
+	public Ebook selectEbookOne(int ebookNo) throws ClassNotFoundException, SQLException {
+		Ebook ebook = null;
+		DBUtil dbUtil = new DBUtil();
+	    Connection conn = dbUtil.getConnection();
+	    String sql = "select ebook_no ebookNo, ebook_img ebookImg from ebook where ebook_no=?";
+	    PreparedStatement stmt = conn.prepareStatement(sql);
+	    stmt.setInt(1, ebookNo);
+	    ResultSet rs = stmt.executeQuery();
+	    if(rs.next()) {
+	    	ebook = new Ebook();
+	    	ebook.setEbookNo(rs.getInt("ebookNo"));
+	    	ebook.setEbookImg(rs.getString("ebookImg"));
+	    }
+	    
+	    rs.close();
+	   stmt.close();
+	   conn.close();
+	    
+	    return ebook;
+	}
+	
 	// [관리자] 전자책 마지막 페이지 연산 (카테고리 별)
 	public int selectEbookListLastPageByCategory(int rowPerPage, String categoryName) throws ClassNotFoundException, SQLException {
 		DBUtil dbUtil = new DBUtil();
