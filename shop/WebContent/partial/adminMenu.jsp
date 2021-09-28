@@ -6,6 +6,7 @@
 <div>
    <nav class="navbar navbar-expand-sm bg-light">
       <ul class="navbar-nav">
+      	<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/admin/adminindex.jsp">[관리자 메인]</a></li>
          <!-- 회원 관리 : 목록, 수정(등급,비밀번호), 강제탈퇴 -->
          <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/admin/selectMemberList.jsp">[회원 관리]</a></li>
          <!--

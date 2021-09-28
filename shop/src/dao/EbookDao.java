@@ -11,6 +11,60 @@ import vo.Category;
 import vo.Ebook;
 
 public class EbookDao {
+	
+	// 신상품 5개 목록 출력
+	public ArrayList<Ebook> selectNewEbookList() throws ClassNotFoundException, SQLException{
+		ArrayList<Ebook> list = new ArrayList<>();
+		
+	      // mariaDB 연동
+	      DBUtil dbUilt = new DBUtil();
+	      Connection conn = dbUilt.getConnection();
+	      String sql = "SELECT ebook_no ebookNo, ebook_title ebookTitle, ebook_img ebookImg, ebook_price ebookPrice FROM ebook ORDER BY create_date DESC LIMIT 0,5";
+	      PreparedStatement stmt = conn.prepareStatement(sql);
+	      System.out.println("ebook 목록 출력 stmt : "+stmt);
+	      ResultSet rs = stmt.executeQuery();
+	      
+	      // 각 전자책의 정보를 리스트에 담는다
+	      while(rs.next()) {
+	         Ebook ebook = new Ebook();
+	         ebook.setEbookNo(Integer.parseInt(rs.getString("ebookNo")));
+	         ebook.setEbookTitle(rs.getString("ebookTitle"));
+	         ebook.setEbookImg(rs.getString("ebookImg"));
+	         ebook.setEbookPrice(rs.getInt("ebookPrice"));
+	         list.add(ebook);
+	      }
+	      rs.close();
+	      stmt.close();
+	      conn.close();
+	      return list;
+	}
+	
+	// 인기 상품 5개 목록 출력
+	public ArrayList<Ebook> selectPopularEbookList() throws ClassNotFoundException, SQLException{
+		ArrayList<Ebook> list = new ArrayList<>();
+		
+	      // mariaDB 연동
+	      DBUtil dbUilt = new DBUtil();
+	      Connection conn = dbUilt.getConnection();
+	      String sql = "SELECT t.ebook_no ebookNo, e.ebook_title ebookTitle, e.ebook_img ebookImg, e.ebook_price ebookPrice from ebook e INNER join (select ebook_no, count(ebook_no) cnt from orders GROUP BY ebook_no ORDER BY COUNT(ebook_no) DESC LIMIT 0,5) t ON e.ebook_no=t.ebook_no";
+	      PreparedStatement stmt = conn.prepareStatement(sql);
+	      System.out.println("ebook 목록 출력 stmt : "+stmt);
+	      ResultSet rs = stmt.executeQuery();
+	      
+	      // 각 전자책의 정보를 리스트에 담는다
+	      while(rs.next()) {
+	         Ebook ebook = new Ebook();
+	         ebook.setEbookNo(Integer.parseInt(rs.getString("ebookNo")));
+	         ebook.setEbookTitle(rs.getString("ebookTitle"));
+	         ebook.setEbookImg(rs.getString("ebookImg"));
+	         ebook.setEbookPrice(rs.getInt("ebookPrice"));
+	         list.add(ebook);
+	      }
+	      rs.close();
+	      stmt.close();
+	      conn.close();
+	      return list;
+	}
    
    // 전자책 이미지 변경하기
    public void updateEbookImg(Ebook ebook) throws ClassNotFoundException, SQLException {
@@ -32,7 +86,7 @@ public class EbookDao {
       Ebook ebook = null;
       DBUtil dbUtil = new DBUtil();
        Connection conn = dbUtil.getConnection();
-       String sql = "select ebook_no ebookNo, ebook_img ebookImg from ebook where ebook_no=?";
+       String sql = "select ebook_no ebookNo, ebook_img ebookImg, ebook_price, ebook_title from ebook where ebook_no=?";
        PreparedStatement stmt = conn.prepareStatement(sql);
        stmt.setInt(1, ebookNo);
        ResultSet rs = stmt.executeQuery();
@@ -40,6 +94,8 @@ public class EbookDao {
           ebook = new Ebook();
           ebook.setEbookNo(rs.getInt("ebookNo"));
           ebook.setEbookImg(rs.getString("ebookImg"));
+          ebook.setEbookPrice(rs.getInt("ebook_price"));
+          ebook.setEbookTitle(rs.getString("ebook_title"));
        }
        
        rs.close();

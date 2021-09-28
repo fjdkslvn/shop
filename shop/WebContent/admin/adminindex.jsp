@@ -22,6 +22,7 @@
       <jsp:include page="/partial/adminMenu.jsp"></jsp:include>
    </div>
    <!-- end : submenu include -->
-	<div><%=loginMember.getMemberId() %>님 반갑습니다. <a href="<%=request.getContextPath() %>/logout.jsp">로그아웃</a></div>
+	<a href="<%=request.getContextPath() %>/index.jsp">메인으로 돌아가기</a>
+	<a href="<%=request.getContextPath() %>/logout.jsp">로그아웃</a></div>
 </body>
 </html>
