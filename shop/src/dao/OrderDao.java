@@ -12,6 +12,21 @@ import commons.DBUtil;
 
 public class OrderDao {
 	
+	// 주문 하기(테이블에 삽입)
+	public void insertOrder(Order order) throws ClassNotFoundException, SQLException {
+		DBUtil dbUtil = new DBUtil();
+       Connection conn = dbUtil.getConnection();
+       String sql = "insert into orders(ebook_no, member_no, order_price, create_date, update_date) VALUE(?,?,?,now(),NOW())";
+       PreparedStatement stmt = conn.prepareStatement(sql);
+       stmt.setInt(1, order.getEbookNo());
+       stmt.setInt(2, order.getMemberNo());
+       stmt.setInt(3, order.getOrderPrice());
+       stmt.executeUpdate();
+       
+       stmt.close();
+       conn.close();
+	}
+	
 	// 나의 주문 리스트 출력
     public ArrayList<OrderEbookMember> selectOrderListByMember(int memberNo) throws ClassNotFoundException, SQLException{
       ArrayList<OrderEbookMember> list = new ArrayList<>();

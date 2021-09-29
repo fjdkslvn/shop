@@ -82,8 +82,8 @@
 			
 			<div class="form-group">
 				성별 : 
-				<input type="radio" name="gender" id="memberGender" value="남"> 남성
-				<input type="radio" name="gender" id="memberGender" value="여"> 여성
+				<input type="radio" class="memberGender" name="memberGender" value="남">남
+				<input type="radio" class="memberGender" name="memberGender" value="여">여
 			</div>
 		
 			<div class="btn-center">

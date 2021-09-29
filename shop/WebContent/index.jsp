@@ -7,12 +7,13 @@
 <html>
 <head>
    <!-- style.css 불러오기 -->
-   <link rel="stylesheet" type="text/css" href="style.css">
+   <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/style.css">
    
    <meta charset="UTF-8">
    <title>index.jsp</title>
 </head>
 <body>
+	<h1>메인페이지</h1>
    <div class="right">
       <%
       	 request.setCharacterEncoding("utf-8");
@@ -45,7 +46,6 @@
          <jsp:include page="/partial/mainMenu.jsp"></jsp:include>
       </div>
       <!-- end : submenu include -->
-      <h1>메인페이지</h1>
       <br>
       
       <!-- 상품 목록 출력 -->
@@ -60,16 +60,53 @@
       final int ROW_PER_PAGE = 10; // 페이지에 보일 주문 개수
       int beginRow = (currentPage-1)*ROW_PER_PAGE; // 주문 목록 시작 부분
       
-      // 전체 목록
+      // 최근 공지 가져오기
+  	  NoticeDao noticeDao = new NoticeDao();
+  	  ArrayList<Notice> noticeList = noticeDao.selectRecentNoticeList();
+      
+      // 전체 상품 목록
       EbookDao ebookDao = new EbookDao();
       ArrayList<Ebook> ebookList = ebookDao.selectEbookList(beginRow, ROW_PER_PAGE);
       
-      // 인기 목록 5개
+      // 인기 상품 목록 5개
       ArrayList<Ebook> popularEbookList = ebookDao.selectPopularEbookList();
       
       // 신상품 목록 5개
       ArrayList<Ebook> newEbookList = ebookDao.selectNewEbookList();
       %>
+      
+      <h2>최근 공지</h2>
+		<!-- 최근 공지사항 5개를 출력 -->
+		<table class="table" border="1">
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>수정일</th>
+					<th>생성일</th>
+					<th>상세보기</th>
+				</tr>
+			</thead>
+			<tbody>
+				<%
+					// 반복을 통해 카테고리 목록을 표로 출력
+					for(Notice n : noticeList){
+				%>
+						<tr>
+							<td><%=n.getNotice_no() %></td>
+							<td><%=n.getNotice_title() %></td>
+							<td><%=n.getMember_name() %></td>
+							<td><%=n.getUpdate_date() %></td>
+							<td><%=n.getCreate_date() %></td>
+							<td><a href="<%=request.getContextPath() %>/admin/selectNoticeOne.jsp?noticeNo=<%=n.getNotice_no() %>">상세보기</a></td>
+						</tr>
+				<%
+					}
+				%>
+			</tbody>
+		</table>
+		<br>
       
       <h2>신상품 목록</h2>
       <!-- 주문 목록 출력 -->
