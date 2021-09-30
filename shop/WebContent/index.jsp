@@ -10,7 +10,7 @@
    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/style.css">
    
    <meta charset="UTF-8">
-   <title>index.jsp</title>
+   <title>전자책 상점</title>
 </head>
 <body>
 	<h1>메인페이지</h1>
@@ -29,7 +29,7 @@
             %>
                *<%=loginMember.getMemberLevel() %>레벨* <%=loginMember.getMemberId() %>회원님 반갑습니다.
                <a href="<%=request.getContextPath() %>/logout.jsp">로그아웃</a>
-               <a href="<%=request.getContextPath() %>/selectMyImfo.jsp">회원정보</a>
+               <a href="<%=request.getContextPath() %>/selectMyImfo.jsp">내정보</a>
                <a href="<%=request.getContextPath() %>/selectOrderListByMember.jsp">나의주문</a>
             <%
             if(loginMember.getMemberLevel()>0){

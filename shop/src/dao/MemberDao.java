@@ -11,6 +11,27 @@ import vo.*;
 
 public class MemberDao {
 	
+	// [회원] 내정보 수정
+	public void updateMyImfo(Member member) throws ClassNotFoundException, SQLException {
+		DBUtil dbUtil = new DBUtil();
+	    Connection conn = dbUtil.getConnection();
+    
+	   // 업데이트하기
+       PreparedStatement stmt;
+   	   String sql = "update member set member_id=?, member_name=?, member_gender=?, member_age=? where member_no=?";
+  	   stmt = conn.prepareStatement(sql);
+  	   stmt.setString(1, member.getMemberId());
+  	   stmt.setString(2, member.getMemberName());
+  	   stmt.setString(3, member.getMemberGender());
+  	   stmt.setInt(4, member.getMemberAge());
+  	   stmt.setInt(5, member.getMemberNo());
+  	   System.out.println("내 정보 수정 stmt : "+stmt);
+	   stmt.executeUpdate();
+	   
+	   stmt.close();
+	   conn.close();
+	}
+	
 	// [회원] 멤버 아이디 중복 검사
 	public String selectMemberId(String memberIdCheck) throws ClassNotFoundException, SQLException {
 		String memberId = null;
@@ -59,7 +80,7 @@ public class MemberDao {
   	   stmt = conn.prepareStatement(sql);
   	   stmt.setString(1, member.getMemberPw());
   	   stmt.setInt(2, member.getMemberNo());
-  	   System.out.println("특정 멤버 등급 수정 stmt : "+stmt);
+  	   System.out.println("특정 멤버 비밀번호 수정 stmt : "+stmt);
 	   stmt.executeUpdate();
 	   
 	   stmt.close();

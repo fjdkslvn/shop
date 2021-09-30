@@ -36,7 +36,7 @@
 %>
 <body>
 	<div class="join-form content-center top-margin">
-		<form action="updateMemberLevelAction.jsp">
+		<form action="<%=request.getContextPath() %>/admin/updateMemberLevelAction.jsp">
 			<div class="form-group">
 	            관리자 비밀번호
 	            <input type="password" class="form-control" name="pw">

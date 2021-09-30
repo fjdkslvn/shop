@@ -96,25 +96,21 @@
 	<script>
 		$('#btn').click(function(){
 			// 버튼을 click했을때
+			let memberGedner = $('.memberGender:checked'); // . 클래스속성으로 부르면 리턴값은 배열
+			
 			if($('#id').val()==''){ // id가 공백이면
 				alert('ID를 입력하세요.');
-			}
-			if($('#pw').val()==''){ // id가 공백이면
+			} else if($('#pw').val()==''){ 
 				alert('PW를 입력하세요.');
-			}
-			if($('#pw2').val()==''){ // id가 공백이면
+			} else if($('#pw2').val()==''){ 
 				alert('PW2를 입력하세요.');
-			}
-			if($('#name').val()==''){ // id가 공백이면
+			} else if($('#name').val()==''){ 
 				alert('이름을 입력하세요.');
+			} else if(memberGedner.length == 0) {
+	            alert('성별을 선택하세요');
+			} else {
+				$('#joinForm').submit();
 			}
-			let memberGedner = $('.memberGender:checked'); // . 클래스속성으로 부르면 리턴값은 배열
-	         if(memberGedner.length == 0) {
-	            alert('memberGender를 선택하세요');
-	            return;
-	         }
-	         
-	         $('#joinForm').submit();
 		});
 	</script>
 

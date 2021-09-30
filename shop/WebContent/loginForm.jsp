@@ -17,7 +17,7 @@
 </head>
 <body>
 	<div class="content-center top-margin">
-	    <form action="loginAction.jsp" id="loginForm" class="join-form">
+	    <form action="<%=request.getContextPath() %>/loginAction.jsp" id="loginForm" class="join-form">
 	    
 	        <div class="form-group">
 	            아이디
