@@ -4,9 +4,68 @@ import java.sql.*;
 import java.util.*;
 
 import commons.DBUtil;
-import vo.OrderComment;
+import vo.*;
 
 public class OrderCommentDao {
+	
+	public void updateOrderComment(OrderComment orderComment) throws ClassNotFoundException, SQLException {
+		// DB 연동 및 쿼리실행
+		DBUtil dbUilt = new DBUtil();
+		Connection conn = dbUilt.getConnection();
+		String sql = "UPDATE order_comment SET order_comment_content=?, order_score=?, update_date=now() WHERE order_no=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, orderComment.getOrderCommentContent());
+		stmt.setInt(2, orderComment.getOrderScore());
+		stmt.setInt(3, orderComment.getOrderNo());
+		System.out.println("후기수정 stmt : "+stmt);
+		stmt.executeUpdate(); // 쿼리 실행
+		
+		stmt.close();
+		conn.close();
+	}
+	
+	// 후기 불러오기
+	public OrderComment selectOrderCommentOne(int orderNo) throws ClassNotFoundException, SQLException {
+		OrderComment orderComment = new OrderComment();
+		DBUtil dbUtil = new DBUtil();
+        Connection conn = dbUtil.getConnection();
+        String sql = "select order_score, order_comment_content from order_comment where order_no=?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, orderNo);
+        ResultSet rs = stmt.executeQuery();
+        if(rs.next()) {
+    	    orderComment.setOrderScore(rs.getInt("order_score"));
+    	    orderComment.setOrderCommentContent(rs.getString("order_comment_content"));
+        }
+       
+        rs.close();
+        stmt.close();
+        conn.close();
+		return orderComment;
+	}
+	
+	// 주문의 후기를 작성했는지의 여부
+	public boolean selectOrderCommentExistence(int orderNo) throws ClassNotFoundException, SQLException{
+		boolean existence=true;
+		DBUtil dbUtil = new DBUtil();
+	     Connection conn = dbUtil.getConnection();
+	     PreparedStatement stmt;
+		 String sql = "SELECT oc.order_no orderNo FROM (SELECT order_no FROM orders WHERE order_no=?) o left JOIN order_comment oc ON o.order_no=oc.order_no";
+		 stmt = conn.prepareStatement(sql);
+		 stmt.setInt(1, orderNo);
+		 ResultSet rs = stmt.executeQuery();
+		 if(rs.next()) {
+			 if(rs.getInt("orderNo")==0) {
+				 existence=false;
+			 }
+		 }
+	      
+	     rs.close();
+	     stmt.close();
+	     conn.close();
+		
+		return existence;
+	}
 	
    // 후기 목록 마지막 페이지 구하기
    public int selectOrderCommentListLastPage(int rowPerPage, int ebookNo) throws ClassNotFoundException, SQLException {

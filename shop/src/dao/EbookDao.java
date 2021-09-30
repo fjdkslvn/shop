@@ -12,6 +12,56 @@ import vo.Ebook;
 
 public class EbookDao {
 	
+	// [관리자] 전자책 생성
+	public void insertEbook(Ebook ebook) throws ClassNotFoundException, SQLException {
+		DBUtil dbUtil = new DBUtil();
+        Connection conn = dbUtil.getConnection();
+        String sql = "insert into ebook(ebook_ISBN, category_name, ebook_title, ebook_author, ebook_company, ebook_page_count, ebook_price, ebook_img, ebook_summary, ebook_state, update_date, create_date) VALUES (?,?,?,?,?,?,?,?,?,?,now(),NOW())";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, ebook.getEbookISBN());
+        stmt.setString(2, ebook.getCategoryName());
+        stmt.setString(3, ebook.getEbookTitle());
+        stmt.setString(4, ebook.getEbookAuthor());
+        stmt.setString(5, ebook.getEbookCompany());
+        stmt.setInt(6, ebook.getEbookPageCount());
+        stmt.setInt(7, ebook.getEbookPrice());
+        stmt.setString(8, ebook.getEbookImg());
+        stmt.setString(9, ebook.getEbookSummary());
+        stmt.setString(10, ebook.getEbookState());
+        System.out.println("전자책 생성 stmt:"+stmt);
+        stmt.executeUpdate();
+       
+        stmt.close();
+        conn.close();
+		
+	}
+	
+	// 전자책 구매 가능 여부 확인
+	public boolean ebookSaleCheck(int ebookNo) throws ClassNotFoundException, SQLException{
+		boolean check = false;
+		
+		DBUtil dbUtil = new DBUtil();
+        Connection conn = dbUtil.getConnection();
+        String sql = "SELECT ebook_state from ebook where ebook_no=?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, ebookNo);
+        System.out.println("전자책 구매 가능 여부 stmt:"+stmt);
+        ResultSet rs = stmt.executeQuery();
+        
+        if(rs.next()) {
+        	// 전자책 상태 확인
+        	if(rs.getString("ebook_state").equals("판매중")) {
+        		check = true;
+        	}
+        }
+       
+        rs.close();
+        stmt.close();
+        conn.close();
+        
+        return check;
+	}
+	
 	// 신상품 5개 목록 출력
 	public ArrayList<Ebook> selectNewEbookList() throws ClassNotFoundException, SQLException{
 		ArrayList<Ebook> list = new ArrayList<>();
@@ -81,26 +131,35 @@ public class EbookDao {
    }
    
    
-   // 전자책 내용 일부만 추출
+   // 전자책 내용 추출
    public Ebook selectEbookOne(int ebookNo) throws ClassNotFoundException, SQLException {
       Ebook ebook = null;
       DBUtil dbUtil = new DBUtil();
        Connection conn = dbUtil.getConnection();
-       String sql = "select ebook_no ebookNo, ebook_img ebookImg, ebook_price, ebook_title from ebook where ebook_no=?";
+       String sql = "select * from ebook where ebook_no=?";
        PreparedStatement stmt = conn.prepareStatement(sql);
        stmt.setInt(1, ebookNo);
        ResultSet rs = stmt.executeQuery();
        if(rs.next()) {
           ebook = new Ebook();
-          ebook.setEbookNo(rs.getInt("ebookNo"));
-          ebook.setEbookImg(rs.getString("ebookImg"));
+          ebook.setEbookNo(rs.getInt("ebook_no"));
+          ebook.setEbookImg(rs.getString("ebook_img"));
           ebook.setEbookPrice(rs.getInt("ebook_price"));
           ebook.setEbookTitle(rs.getString("ebook_title"));
+          ebook.setCategoryName(rs.getString("category_name"));
+          ebook.setEbookSummary(rs.getString("ebook_summary"));
+          ebook.setEbookPageCount(rs.getInt("ebook_page_count"));
+          ebook.setEbookAuthor(rs.getString("ebook_author"));
+          ebook.setCreateDate(rs.getString("create_date"));
+          ebook.setUpdateDate(rs.getString("update_date"));
+          ebook.setEbookISBN(rs.getString("ebook_ISBN"));
+          ebook.setEbookCompany(rs.getString("ebook_company"));
+          ebook.setEbookState(rs.getString("ebook_state"));
        }
        
        rs.close();
-      stmt.close();
-      conn.close();
+       stmt.close();
+       conn.close();
        
        return ebook;
    }

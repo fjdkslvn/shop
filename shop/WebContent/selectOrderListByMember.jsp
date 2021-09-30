@@ -50,7 +50,21 @@
                   <td><%=oem.getOrder().getCreateDate() %></td>
                   <td><%=oem.getMember().getMemberId() %></td>
                   <td><a href="">상세주문내역</a></td>
-                  <td><a href="<%=request.getContextPath() %>/insertOrderCommentForm.jsp?orderNo=<%=oem.getOrder().getOrderNo() %>&ebookNo=<%=oem.getEbook().getEbookNo() %>">ebook후기</a></td>
+                  <%
+                  	OrderCommentDao orderCommentDao = new OrderCommentDao();
+                  	boolean existence = orderCommentDao.selectOrderCommentExistence(oem.getOrder().getOrderNo());
+                  	
+                  	// 후기가 존재한다면
+                  	if(existence){
+                	%>
+	           			<td><a href="<%=request.getContextPath() %>/updateOrderCommentForm.jsp?orderNo=<%=oem.getOrder().getOrderNo() %>&ebookNo=<%=oem.getEbook().getEbookNo() %>">후기 수정</a></td>
+	           		<%
+                  	} else{ // 후기가 존재하지 않는다면
+	           		%>
+	           			<td><a href="<%=request.getContextPath() %>/insertOrderCommentForm.jsp?orderNo=<%=oem.getOrder().getOrderNo() %>&ebookNo=<%=oem.getEbook().getEbookNo() %>">후기 작성</a></td>
+	           		<%
+                  	}
+                  %>
                </tr>
          <%
             }

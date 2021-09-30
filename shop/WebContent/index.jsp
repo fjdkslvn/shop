@@ -29,7 +29,7 @@
             %>
                *<%=loginMember.getMemberLevel() %>레벨* <%=loginMember.getMemberId() %>회원님 반갑습니다.
                <a href="<%=request.getContextPath() %>/logout.jsp">로그아웃</a>
-               <a href="">회원정보</a>
+               <a href="<%=request.getContextPath() %>/selectMyImfo.jsp">회원정보</a>
                <a href="<%=request.getContextPath() %>/selectOrderListByMember.jsp">나의주문</a>
             <%
             if(loginMember.getMemberLevel()>0){
@@ -99,7 +99,7 @@
 							<td><%=n.getMember_name() %></td>
 							<td><%=n.getUpdate_date() %></td>
 							<td><%=n.getCreate_date() %></td>
-							<td><a href="<%=request.getContextPath() %>/admin/selectNoticeOne.jsp?noticeNo=<%=n.getNotice_no() %>">상세보기</a></td>
+							<td><a href="<%=request.getContextPath() %>/selectNoticeOne.jsp?noticeNo=<%=n.getNotice_no() %>">상세보기</a></td>
 						</tr>
 				<%
 					}

@@ -19,8 +19,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<!-- style.css 불러오기 -->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/style.css">
+	
 	<!-- 부트스트랩 -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	
+	<!-- 자바스크립트 -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	
 	<meta charset="UTF-8">
 	<title>상품상세보기(주문)</title>
@@ -34,29 +40,71 @@
 			Ebook ebook = ebookDao.selectEbookOne(ebookNo);
 		%>
 		<img src="<%=request.getContextPath() %>/image/<%=ebook.getEbookImg() %>" width="200" height="200">
-		<div>제목 : <%=ebook.getEbookTitle() %></div>
-		<div>가격 : <%=ebook.getEbookPrice() %></div>
+		<br><br>
+		<table class="table">
+			<tr>
+				<td>제목</td>
+				<td><%=ebook.getEbookTitle() %></td>
+			</tr>
+			<tr>
+				<td>저자</td>
+				<td><%=ebook.getEbookAuthor() %></td>
+			</tr>
+			<tr>
+				<td>가격</td>
+				<td><%=ebook.getEbookPrice() %></td>
+			</tr>
+			<tr>
+				<td>분량</td>
+				<td><%=ebook.getEbookPageCount() %>p</td>
+			</tr>
+			<tr>
+				<td>소개</td>
+				<td><%=ebook.getEbookSummary() %></td>
+			</tr>
+		</table>
 	</div>
 	<div>
 		<!-- 주문 입력하는 폼 -->
 		<%
 			Member loginMember = (Member)session.getAttribute("loginMember");
-			if(loginMember == null){
+			boolean ebookSaleCheck = ebookDao.ebookSaleCheck(ebookNo);
+			if(!ebookSaleCheck){
+			%>
+				<p>구매할수 없는 서적입니다.</p>
+			<%
+			} else if(loginMember == null){ // 로그인 되어있지 않은 경우
 		%>
 				<div>
 					로그인 후에 주문이 가능합니다.
-					<a href="<%=request.getContextPath() %>/index.jsp">로그인 페이지로 이동</a>
+					<a href="<%=request.getContextPath() %>/loginForm.jsp">로그인 페이지로 이동</a>
 				</div>
 		<%
 			} else{
-		%>
-				<form method="post" action="<%=request.getContextPath() %>/insertOrderAction.jsp">
-					<input type="hidden" name="ebookNo" value="<%=ebookNo %>">
-					<input type="hidden" name="memberNo" value="<%=loginMember.getMemberNo() %>">
-					<input type="hidden" name="orderPrice" value="<%=ebook.getEbookPrice() %>">
-					<button type="submit">주문하기</button>
-				</form>
-		<%
+				// 전자책 보유 여부 확인
+				OrderDao orderDao = new OrderDao();
+				boolean existence = orderDao.orderExistence(loginMember.getMemberNo(), ebookNo);
+				
+				if(existence){ // 이미 해당 전자책을 주문했다면
+				%>
+					<p>해당 서적을 보유중입니다.</p>
+				<%
+				} else{ // 전자책을 주문한적이 없다면
+				%>
+						<form method="post" action="<%=request.getContextPath() %>/insertOrderAction.jsp" id="insertOrder">
+							<input type="hidden" name="ebookNo" value="<%=ebookNo %>">
+							<input type="hidden" name="memberNo" value="<%=loginMember.getMemberNo() %>">
+							<input type="hidden" name="orderPrice" value="<%=ebook.getEbookPrice() %>">
+							<button type="button" id="orderBtn" class="btn btn-secondary">주문하기</button>
+						</form>
+						<script>
+							$('#orderBtn').click(function(){
+								// 버튼을 click했을때
+								$('#insertOrder').submit();
+							});
+						</script>
+				<%
+				}
 			}
 		%>
 	</div>

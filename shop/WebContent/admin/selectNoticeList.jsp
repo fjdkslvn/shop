@@ -84,6 +84,16 @@
 			%>
 		</tbody>
 	</table>
+	<form action="<%=request.getContextPath() %>/admin/insertNoticeForm.jsp" id="insertNoticeForm" method="post">
+		<button class="btn btn-secondary" type="button" id="btn">공지사항 추가</button>
+	</form>
+	
+	<script>
+		$('#btn').click(function(){
+			// 버튼을 클릭하면 공지사항 생성폼으로 이동
+			$('#insertNoticeForm').submit();
+		});
+	</script>
 	
 	<br><br>
 	
@@ -142,16 +152,5 @@
     	}
     %>
 	</ul>
-	
-	<form action="<%=request.getContextPath() %>/admin/insertNoticeForm.jsp" id="insertNoticeForm" method="post">
-		<button class="btn btn-secondary" type="button" id="btn">공지사항 추가</button>
-	</form>
-	
-	<script>
-		$('#btn').click(function(){
-			// 버튼을 클릭하면 공지사항 생성폼으로 이동
-			$('#insertNoticeForm').submit();
-		});
-	</script>
 </body>
 </html>

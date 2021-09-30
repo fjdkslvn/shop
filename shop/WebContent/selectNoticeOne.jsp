@@ -4,13 +4,6 @@
 
 <%
 	request.setCharacterEncoding("utf-8");
-
-	//로그인이 되어있지 않거나 일반 회원이라면 메인화면으로 넘기기
-	Member loginMember = (Member)session.getAttribute("loginMember");
-	if(loginMember==null || loginMember.getMemberLevel() < 1){
-		response.sendRedirect(request.getContextPath()+"/index.jsp");
-		return;
-	}
 	
 	// 방어코드
 	if(request.getParameter("noticeNo")=="" || request.getParameter("noticeNo")==null){
@@ -65,37 +58,5 @@
 			<td><%=notice.getUpdate_date() %></td>
 		</tr>
 	</table>
-	
-	<!-- 수정,삭제 버튼 가로로 배치 -->
-	<table>
-		<tr>
-			<td>
-				<!-- 공지사항 수정 버튼 -->
-				<form action="<%=request.getContextPath() %>/admin/updateNoticeForm.jsp" id="updateNoticeForm" method="post">
-					<input type="hidden" value="<%=notice.getNotice_no() %>" name="noticeNo" id="noticeNo">
-					<button class="btn btn-secondary" type="button" id="updateBtn">공지사항 수정</button>
-				</form>
-			</td>
-			<td>
-				<!-- 공지사항 삭제 버튼 -->
-				<form action="<%=request.getContextPath() %>/admin/deleteNotice.jsp" id="deleteNotice" method="post">
-					<input type="hidden" value="<%=notice.getNotice_no() %>" name="noticeNo" id="noticeNo">
-					<button class="btn btn-secondary" type="button" id="deleteBtn">공지사항 삭제</button>
-				</form>
-			</td>
-		</tr>
-	</table>
-	
-	<script>
-		$('#updateBtn').click(function(){
-			// 버튼을 클릭하면 공지사항 수정폼으로 이동
-			$('#updateNoticeForm').submit();
-		});
-		
-		$('#deleteBtn').click(function(){
-			// 버튼을 클릭하면 공지사항 삭제
-			$('#deleteNotice').submit();
-		});
-	</script>
 </body>
 </html>

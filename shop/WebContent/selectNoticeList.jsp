@@ -95,7 +95,7 @@
 						<td><%=n.getMember_name() %></td>
 						<td><%=n.getUpdate_date() %></td>
 						<td><%=n.getCreate_date() %></td>
-						<td><a href="<%=request.getContextPath() %>/admin/selectNoticeOne.jsp?noticeNo=<%=n.getNotice_no() %>">상세보기</a></td>
+						<td><a href="<%=request.getContextPath() %>/selectNoticeOne.jsp?noticeNo=<%=n.getNotice_no() %>">상세보기</a></td>
 					</tr>
 			<%
 				}

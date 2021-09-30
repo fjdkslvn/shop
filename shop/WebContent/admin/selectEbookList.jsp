@@ -126,7 +126,16 @@
 			%>
 		</tbody>
 	</table>
+	<form action="<%=request.getContextPath() %>/admin/insertEbookForm.jsp" id="insertEbookForm" method="post">
+		<button class="btn btn-secondary" type="button" id="btn">전자책 추가</button>
+	</form>
 	
+	<script>
+		$('#btn').click(function(){
+			// 버튼을 클릭하면 전자책 생성폼으로 이동
+			$('#insertEbookForm').submit();
+		});
+	</script>
 	<br><br>
 	
 	<!-- 페이지 -->
