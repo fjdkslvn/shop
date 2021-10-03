@@ -75,10 +75,18 @@
 						<button type="button" id="updatePwBtn" class="btn btn-secondary">비밀번호 수정</button>
 					</form>
 				</td>
+				<td>
+					<form action="<%=request.getContextPath() %>/deleteMember.jsp" name="deleteMember" id="deleteMember" method="post">
+						<input type="hidden" name="memberNo" value="<%=member.getMemberNo() %>">
+						<input type="hidden" id="pw2" value="<%=member.getMemberPw() %>">
+						<button type="button" id="deleteMemberBtn" class="btn btn-secondary">회원탈퇴</button>
+					</form>
+				</td>
 			</tr>
 		</table>
 	
 	<script>
+		// 회원 정보 수정 버튼
 		$('#updateBtn').click(function(){
 			// 버튼을 click했을때
 			if($('#pw').val()==''){// 비밀번호가 입력되지 않았다면
@@ -90,6 +98,7 @@
 			}
 		});
 		
+		// 비밀번호 수정 버튼
 		$('#updatePwBtn').click(function(){
 			// 비밀번호 입력이 있는 폼의 입력된 비밀번호를 가져온다.
 			var form1 = document.updateMyImfo;
@@ -101,6 +110,21 @@
 				alert('비밀번호가 틀렸습니다.');
 			} else{
 				$('#updateMyPw').submit();
+			}
+		});
+		
+		// 회원탈퇴 버튼
+		$('#deleteMemberBtn').click(function(){
+			// 비밀번호 입력이 있는 폼의 입력된 비밀번호를 가져온다.
+			var form1 = document.updateMyImfo;
+			var pw = form1.pw.value;
+			
+			if($('#pw').val()==''){// 비밀번호가 입력되지 않았다면
+				alert('비밀번호를 입력하세요.');
+			} else if(pw!= $('#pw2').val()){// 비밀번호가 다르다면
+				alert('비밀번호가 틀렸습니다.');
+			} else{
+				$('#deleteMember').submit();
 			}
 		});
 	</script>

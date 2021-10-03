@@ -49,7 +49,7 @@
                   <td><%=oem.getOrder().getOrderPrice() %></td>
                   <td><%=oem.getOrder().getCreateDate() %></td>
                   <td><%=oem.getMember().getMemberId() %></td>
-                  <td><a href="">상세주문내역</a></td>
+                  <td><a href="<%=request.getContextPath() %>/selectOrderOneByMember.jsp?orderNo=<%=oem.getOrder().getOrderNo() %>">상세주문내역</a></td>
                   <%
                   	OrderCommentDao orderCommentDao = new OrderCommentDao();
                   	boolean existence = orderCommentDao.selectOrderCommentExistence(oem.getOrder().getOrderNo());

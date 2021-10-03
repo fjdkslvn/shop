@@ -78,7 +78,7 @@
                   <td><%=oem.getOrder().getOrderPrice() %></td>
                   <td><%=oem.getOrder().getCreateDate() %></td>
                   <td><%=oem.getMember().getMemberId() %></td>
-                  <td><a href="">상세주문내역</a></td>
+                  <td><a href="<%=request.getContextPath() %>/admin/selectOrderOne.jsp?orderNo=<%=oem.getOrder().getOrderNo() %>">상세주문내역</a></td>
                </tr>
          <%
             }
@@ -86,8 +86,61 @@
       </tbody>
    </table>
    
-   <!-- 페이징 완료합시다 -->
-   
+   <!-- 페이지 -->
+   <%	
+   	   // 페이징을 위해 구해야 할 마지막 페이지 연산
+       int lastPage;
+   	   int currentnumPage=0; // 현재 페이지가 몇번째 묶음인지(이전,다음 구현을 위함)
+   	   int lastnumPage=0; // 마지막 페이지가 몇번째 묶음인지(마지막 페이지에서 다음이 나오지 않도록 하기 위함)
+   	   
+   	   lastPage = orderDao.selectOrderListLastPage(ROW_PER_PAGE);
+	   
+   %>
+    <ul class="pagination body-back-color">
+    <%
+    	if(currentPage!=1){
+    %>
+    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/admin/selectOrderList.jsp?currentPage=<%=1 %>">처음</a></li>
+    <%	
+    	}
+    	if(currentPage%ROW_PER_PAGE==0){ // 현재 페이지가 몇번째 묶음인지
+    		currentnumPage =(currentPage/ROW_PER_PAGE)-1;
+    	} else{
+    		currentnumPage = currentPage/ROW_PER_PAGE;
+    	}
+   	%>
+    <%
+    	if((currentnumPage)>0){ // 이전
+    %>
+    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/admin/selectOrderList.jsp?currentPage=<%=ROW_PER_PAGE*(currentnumPage-1)+1 %>">이전</a></li>
+    <%
+    	}
+    
+    	for(int i=0;i<ROW_PER_PAGE;i++){ // 중간 번호들
+    		if(lastPage>=(ROW_PER_PAGE*currentnumPage)+i+1){
+   	    %>
+   		  <li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/admin/selectOrderList.jsp?currentPage=<%=(ROW_PER_PAGE*currentnumPage)+i+1 %>"><%=(ROW_PER_PAGE*currentnumPage)+i+1 %></a></li>
+   	   <%
+    		}
+    	}
+    	if(lastPage%ROW_PER_PAGE==0){ // 마지막 페이지가 몇번째 묶음인지
+    		lastnumPage =(lastPage/ROW_PER_PAGE)-1;
+    	} else{
+    		lastnumPage = lastPage/ROW_PER_PAGE;
+    	}
+    	
+    	if(lastnumPage>currentnumPage){
+    %>
+    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/admin/selectOrderList.jsp?currentPage=<%=ROW_PER_PAGE*(currentnumPage+1)+1 %>">다음</a></li>
+    <%
+    	}
+    	if(currentPage!=lastPage && lastPage!=0){
+    %>
+    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/admin/selectOrderList.jsp?currentPage=<%=lastPage %>">맨끝</a></li>
+    <%
+    	}
+    %>
+	</ul>
 
 </body>
 </html>

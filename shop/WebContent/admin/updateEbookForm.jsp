@@ -16,28 +16,40 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	
 	<meta charset="UTF-8">
-	<title>전자책 추가</title>
+	<title>전자책 수정</title>
 </head>
 <body>
-
 <%
 	request.setCharacterEncoding("utf-8");
-
-	//로그인이 되어있지 않거나 일반 회원이라면 메인화면으로 넘기기
+	
+	// 로그인이 되어있지 않거나 일반 회원이라면 메인화면으로 넘기기
 	Member loginMember = (Member)session.getAttribute("loginMember");
 	if(loginMember==null || loginMember.getMemberLevel() < 1){
 		response.sendRedirect(request.getContextPath()+"/index.jsp");
 		return;
 	}
+	
+	// 전자책 번호가 없다면 강제이동
+	if(request.getParameter("ebookNo")=="" || request.getParameter("ebookNo")==null){
+		response.sendRedirect(request.getContextPath()+"/admin/adminindex.jsp");
+	}
+	int ebookNo = Integer.parseInt(request.getParameter("ebookNo"));
+	
+	// 상품정보 받아오기
+	EbookDao ebookDao = new EbookDao();
+	Ebook ebook = ebookDao.selectEbookOne(ebookNo);
 %>
-
-	<div class="join-form content-center top-margin">
+   <div class="join-form content-center top-margin">
 		
-		<!-- 전자책 생성 폼 -->
-		<form id="insertEbook" action="insertEbookAction.jsp" method="post" enctype="multipart/form-data">
+		<!-- 전자책 수정 폼 -->
+		<form id="updateEbook" action="<%=request.getContextPath()%>/admin/updateEbookAction.jsp" method="post" enctype="multipart/form-data">
+		<!-- multipart/form-data : 액션으로 기계어코드를 넘길때 사용 -->
+        <!-- application/x-www-form-urlencoded : 액션으로 문자열 넘길때 사용 -->
+        <input type="hidden" name="ebookNo" value="<%=ebookNo%>">
+        <input type="hidden" name="beforeImg" value="<%=ebook.getEbookImg()%>">
 		    <div class="form-group">
 		        고유코드
-		        <input type="text" class="form-control" name="isbn" id="isbn" >
+		        <input type="text" class="form-control" name="isbn" id="isbn" value="<%=ebook.getEbookISBN() %>" >
 		    </div>
 		
 		    <div class="form-group">
@@ -47,9 +59,15 @@
 					CategoryDao categoryDao = new CategoryDao();
 					ArrayList<Category> cateList = categoryDao.selectCategoryList();
 					for(Category c :cateList){
+						if(c.equals(ebook.getCategoryName())){
 				%>
-						<option value="<%=c.getCategoryName() %>"><%=c.getCategoryName() %></option>
+							<option value="<%=c.getCategoryName() %>" selected><%=c.getCategoryName() %></option>
 				<%
+						}else{
+				%>
+							<option value="<%=c.getCategoryName() %>"><%=c.getCategoryName() %></option>
+				<%	
+						}
 					}
 				
 				%>
@@ -58,51 +76,62 @@
 		
 		    <div class="form-group">
 		        제목
-		        <input type="text" class="form-control" name="title" id="title">
+		        <input type="text" class="form-control" name="title" id="title" value="<%=ebook.getEbookTitle() %>">
 		    </div>
 		
 		    <div class="form-group">
 		        저자
-		        <input type="text" class="form-control" name="author" id="author">
+		        <input type="text" class="form-control" name="author" id="author" value="<%=ebook.getEbookAuthor() %>">
 		    </div>
 		    
 		    <div class="form-group">
 		        회사
-		        <input type="text" class="form-control" name="company" id="company">
+		        <input type="text" class="form-control" name="company" id="company" value="<%=ebook.getEbookCompany() %>">
 		    </div>
 		    
 		    <div class="form-group">
 		        분량
-		        <input type="text" class="form-control" name="page" id="page">
+		        <input type="text" class="form-control" name="page" id="page" value="<%=ebook.getEbookPageCount() %>">
 		    </div>
 		    
 		    <div class="form-group">
 		        가격
-		        <input type="text" class="form-control" name="price" id="price">
+		        <input type="text" class="form-control" name="price" id="price" value="<%=ebook.getEbookPrice() %>">
 		    </div>
 		    
 		    <!-- 이미지 -->
 		    <div class="form-group">
-		        책 사진 : 
+		        수정할 책 사진 : 
 		        <input type="file" name="image" id="image">
 		    </div>
 		    
 		    <div class="form-group">
 			 	<label for="content">소개</label>
-			 	<textarea class="form-control" rows="5" name="content" id="content"></textarea>
+			 	<textarea class="form-control" rows="5" name="content" id="content"><%=ebook.getEbookSummary() %></textarea>
 			 </div>
 		
 		    <div class="form-group">
 				상태 : 
 				<select name="state">
-					<option value="판매중">판매중</option>
-					<option value="구편절판">구편절판</option>
-					<option value="품절">품절</option>
+				<%
+					String[] stateList = {"판매중","구편절판","품절"};
+					for(String s : stateList){
+						if(s.equals(ebook.getEbookState())){
+				%>
+							<option value="<%=s %>" selected><%=s %></option>
+				<%
+						} else{
+				%>
+							<option value="<%=s %>"><%=s %></option>
+				<%
+						}
+					}
+				%>
 				</select>
 			</div>
 		
 			<div class="btn-center">
-		    	<button type="button" id="btn" class="btn btn-success">추가</button>
+		    	<button type="button" id="btn" class="btn btn-success">수정</button>
 			</div>
 	
 		</form>
@@ -124,7 +153,7 @@
 			} else if($('#price').val()==''){
 				alert('가격을 입력하세요.');
 			} else{
-				$('#insertEbook').submit();
+				$('#updateEbook').submit();
 			}
 		});
 	</script>

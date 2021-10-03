@@ -11,11 +11,12 @@
 		return;
 	}
 
-	// 회원 삭제
+	// 회원 탈퇴
 	MemberDao memberDao = new MemberDao();
 	memberDao.deleteMemberByAdmin(Integer.parseInt(request.getParameter("memberNo")));
 	
-	// 회원 목록 페이지로 이동
-	response.sendRedirect(request.getContextPath()+"/admin/selectMemberList.jsp");
+	// 메인화면으로 이동
+	session.invalidate(); // 로그아웃
+	response.sendRedirect(request.getContextPath()+"/index.jsp");
 	return;
 %>

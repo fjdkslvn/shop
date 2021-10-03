@@ -89,7 +89,7 @@
 			
 			<input type="hidden" name="memberNo" value="<%=memberNo %>">
 			<div class="btn-center">
-		    	<button type="button" id="btn" class="btn btn-success">회원등급수정</button>
+		    	<button type="button" id="btn" class="btn btn-success">내정보 수정</button>
 			</div>
 	
 		</form>

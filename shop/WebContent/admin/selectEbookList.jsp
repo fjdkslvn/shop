@@ -105,8 +105,8 @@
 		<thead>
 			<tr>
 				<th>ebookNo</th>
-				<th>categoryName</th>
 				<th>ebookTitle</th>
+				<th>categoryName</th>
 				<th>ebookState</th>
 			</tr>
 		</thead>
@@ -117,8 +117,8 @@
 			%>
 					<tr>
 						<td><%=e.getEbookNo() %></td>
-						<td><%=e.getCategoryName() %></td>
 						<td><a href="<%=request.getContextPath() %>/admin/selectEbookOne.jsp?ebookNo=<%=e.getEbookNo() %>"><%=e.getEbookTitle() %></a></td>
+						<td><%=e.getCategoryName() %></td>
 						<td><%=e.getEbookState() %></td>
 					</tr>
 			<%

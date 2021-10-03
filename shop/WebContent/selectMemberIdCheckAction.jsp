@@ -21,7 +21,7 @@
 	// 사용할 수 있으면 값을 넘겨주고 사용할 수 없으면 공백을 넘긴다
 	if(result == null){
 		response.sendRedirect(request.getContextPath()+"/insertMemberForm.jsp?memberIdCheck="+memberIdCheck);
-		System.out.println(memberIdCheck+"는 사용가능한 아이디 입니다:");
+		System.out.println(memberIdCheck+"는 사용가능한 아이디 입니다.");
 	} else{
 		response.sendRedirect(request.getContextPath()+"/insertMemberForm.jsp?idCheckResult=This ID is already taken");
 		return;

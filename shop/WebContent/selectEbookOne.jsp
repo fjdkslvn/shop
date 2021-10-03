@@ -29,7 +29,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	
 	<meta charset="UTF-8">
-	<title>상품상세보기(주문)</title>
+	<title>상품상세보기</title>
 </head>
 <body>
 	<h1>상품상세보기</h1>
@@ -61,6 +61,10 @@
 			<tr>
 				<td>소개</td>
 				<td><%=ebook.getEbookSummary() %></td>
+			</tr>
+			<tr>
+				<td>상태</td>
+				<td><%=ebook.getEbookState() %></td>
 			</tr>
 		</table>
 	</div>

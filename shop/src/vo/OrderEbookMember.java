@@ -24,5 +24,11 @@ public class OrderEbookMember {
       this.member = member;
    }
    
+	@Override
+	public String toString() {
+		return "OrderEbookMember [order=" + order + ", ebook=" + ebook + ", member=" + member + "]";
+	}
+   
+   
 
 }

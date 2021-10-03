@@ -53,4 +53,11 @@ public class Notice {
 		this.member_name = member_name;
 	}
 	
+	@Override
+	public String toString() {
+		return "Notice [notice_no=" + notice_no + ", notice_title=" + notice_title + ", notice_content="
+				+ notice_content + ", member_no=" + member_no + ", create_date=" + create_date + ", update_date="
+				+ update_date + ", member_name=" + member_name + "]";
+	}
+	
 }

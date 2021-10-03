@@ -116,14 +116,42 @@ public class EbookDao {
 	      return list;
 	}
    
-   // 전자책 이미지 변경하기
+   // [관리자] 전자책 수정
    public void updateEbookImg(Ebook ebook) throws ClassNotFoundException, SQLException {
       DBUtil dbUtil = new DBUtil();
        Connection conn = dbUtil.getConnection();
-       String sql ="update ebook set ebook_img=? where ebook_no=?";
-       PreparedStatement stmt = conn.prepareStatement(sql);
-       stmt.setString(1, ebook.getEbookImg());
-       stmt.setInt(2, ebook.getEbookNo());
+       String sql;
+       PreparedStatement stmt;
+       
+       // 만약 변경할 사진이 있다면
+       if(ebook.getEbookImg()=="") {
+    	   sql ="UPDATE ebook set ebook_ISBN=?, category_name=?, ebook_title=?, ebook_author=?, ebook_company=?, ebook_page_count=?, ebook_price=?, ebook_summary=?, ebook_state=?, update_date=NOW() where ebook_no=?";
+    	   stmt = conn.prepareStatement(sql);
+    	   stmt.setString(1, ebook.getEbookISBN());
+           stmt.setString(2, ebook.getCategoryName());
+           stmt.setString(3, ebook.getEbookTitle());
+           stmt.setString(4, ebook.getEbookAuthor());
+           stmt.setString(5, ebook.getEbookCompany());
+           stmt.setInt(6, ebook.getEbookPageCount());
+           stmt.setInt(7, ebook.getEbookPrice());
+           stmt.setString(8, ebook.getEbookSummary());
+           stmt.setString(9, ebook.getEbookState());
+           stmt.setInt(10,ebook.getEbookNo());
+       } else { // 변경할 사진이 없다면
+    	   sql ="UPDATE ebook set ebook_ISBN=?, category_name=?, ebook_title=?, ebook_author=?, ebook_company=?, ebook_page_count=?, ebook_price=?, ebook_img=?, ebook_summary=?, ebook_state=?, update_date=NOW() where ebook_no=?";
+    	   stmt = conn.prepareStatement(sql);
+    	   stmt.setString(1, ebook.getEbookISBN());
+           stmt.setString(2, ebook.getCategoryName());
+           stmt.setString(3, ebook.getEbookTitle());
+           stmt.setString(4, ebook.getEbookAuthor());
+           stmt.setString(5, ebook.getEbookCompany());
+           stmt.setInt(6, ebook.getEbookPageCount());
+           stmt.setInt(7, ebook.getEbookPrice());
+           stmt.setString(8, ebook.getEbookImg());
+           stmt.setString(9, ebook.getEbookSummary());
+           stmt.setString(10, ebook.getEbookState());
+           stmt.setInt(11,ebook.getEbookNo());
+       }
        stmt.executeUpdate();
        
        stmt.close();

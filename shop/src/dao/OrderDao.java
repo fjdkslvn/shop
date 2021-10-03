@@ -12,6 +12,68 @@ import commons.DBUtil;
 
 public class OrderDao {
 	
+	// 주문 상세보기
+	public OrderEbookMember selectOrderOne(int orderNo) throws ClassNotFoundException, SQLException {
+		OrderEbookMember oem = new OrderEbookMember();
+		DBUtil dbUilt = new DBUtil();
+		Connection conn = dbUilt.getConnection();
+		String sql = "select o.order_no orderNo, e.ebook_no ebookNo, e.ebook_title ebookTitle, m.member_no memberNo, m.member_id memberId, o.order_price orderPrice, o.create_date createDate, o.update_date updateDate FROM (SELECT * FROM orders WHERE order_no=?) o inner join ebook e inner join member m on o.ebook_no = e.ebook_no and o.member_no = m.member_no";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, orderNo);
+		System.out.println("주문 상세보기 stmt : "+stmt);
+		ResultSet rs = stmt.executeQuery(); // 쿼리 실행
+		if(rs.next()) {
+          Order o = new Order();
+          o.setOrderNo(rs.getInt("orderNo"));
+          o.setOrderPrice(rs.getInt("orderPrice"));
+          o.setCreateDate(rs.getNString("createDate"));
+          o.setUpdateDate(rs.getNString("updateDate"));
+          oem.setOrder(o);
+          
+          Ebook e = new Ebook();
+          e.setEbookNo(rs.getInt("ebookNo"));
+          e.setEbookTitle(rs.getString("ebookTitle"));
+          oem.setEbook(e);
+          
+          Member m = new Member();
+          m.setMemberNo(rs.getInt("memberNo"));
+          m.setMemberId(rs.getString("memberId"));
+          oem.setMember(m);
+		}
+		
+		rs.close();
+		stmt.close();
+		conn.close();
+		return oem;
+	}
+	
+	// [관리자] 주문목록 마지막 페이지 구하기
+	public int selectOrderListLastPage(int rowPerPage) throws ClassNotFoundException, SQLException {
+		DBUtil dbUtil = new DBUtil();
+	    Connection conn = dbUtil.getConnection();
+    
+	   // 전체 페이지수 구하기
+       PreparedStatement stmt;
+   	   String sql = "select COUNT(*) from orders o inner join ebook e inner join member m on o.ebook_no = e.ebook_no and o.member_no = m.member_no";
+  	   stmt = conn.prepareStatement(sql);
+  	   System.out.println("전체 주문수 stmt : "+stmt);
+	   ResultSet rs = stmt.executeQuery();
+	   rs.next();
+	   int totalData = rs.getInt("count(*)");
+	   int lastPage= totalData/rowPerPage; // 마지막 페이지 번호
+	   if(totalData%rowPerPage!=0){
+	   	lastPage +=1;
+	   }
+	   
+	   rs.close();
+	   stmt.close();
+	   conn.close();
+	   System.out.println("주문목록 개수"+totalData);
+	   System.out.println("마지막페이지"+lastPage);
+	   
+	   return lastPage;
+	}
+	
 	// 전자책 주문 존재 여부
 	public boolean orderExistence(int memberNo, int ebookNo) throws ClassNotFoundException, SQLException {
 		boolean existence = true;
@@ -90,9 +152,9 @@ public class OrderDao {
    
     // 주문 리스트 출력
    public ArrayList<OrderEbookMember> selectOrderList(int beginRow, int rowPerPage) throws ClassNotFoundException, SQLException{
-      ArrayList<OrderEbookMember> list = new ArrayList<>();
-      String memberId = null;
-      DBUtil dbUtil = new DBUtil();
+       ArrayList<OrderEbookMember> list = new ArrayList<>();
+       String memberId = null;
+       DBUtil dbUtil = new DBUtil();
        Connection conn = dbUtil.getConnection();
        String sql = "select o.order_no orderNo, e.ebook_no ebookNo, e.ebook_title ebookTitle, m.member_no memberNo, m.member_id memberId, o.order_price orderPrice, o.create_date createDate from orders o inner join ebook e inner join member m on o.ebook_no = e.ebook_no and o.member_no = m.member_no order by o.create_date DESC limit ?,?";
        PreparedStatement stmt = conn.prepareStatement(sql);

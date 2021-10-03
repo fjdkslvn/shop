@@ -45,7 +45,7 @@
 		</form>
 		
 		<!-- 회원가입 폼 -->
-		<form id="joinForm" action="insertMemberAction.jsp" method="post">
+		<form id="joinForm" action="<%=request.getContextPath() %>/insertMemberAction.jsp" method="post">
 		    <div class="form-group">
 		        아이디
 		        <input type="text" class="form-control" name="id" id="id" value="<%=memberIdCheck %>" readonly>
@@ -82,8 +82,8 @@
 			
 			<div class="form-group">
 				성별 : 
-				<input type="radio" class="memberGender" name="memberGender" value="남">남
-				<input type="radio" class="memberGender" name="memberGender" value="여">여
+				<input type="radio" class="memberGender" name="gender" value="남">남
+				<input type="radio" class="memberGender" name="gender" value="여">여
 			</div>
 		
 			<div class="btn-center">

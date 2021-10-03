@@ -33,6 +33,7 @@
 	MemberDao memberDao = new MemberDao();
 	ArrayList<Member> memberList = new ArrayList<>();
 	
+	// 검색어 여부에 따라 다르게 회원 목록을 불러온다.
 	if(searchMemberId.equals("")){
 		memberList = memberDao.selectMemberListAllByPage(beginRow, ROW_PER_PAGE);
 	} else {
