@@ -14,7 +14,7 @@
          <!-- 전자책 관리 : 목록, 추가(이미지 추가), 수정, 삭제 -->
          <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/admin/selectEbookList.jsp">[전자책 관리]</a></li>
          <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/admin/selectOrderList.jsp">[주문 관리]</a></li>
-         <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/admin/">[상품평 관리]</a></li>
+         <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/admin/selectOrderCommentList.jsp">[상품평 관리]</a></li>
          <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/admin/selectNoticeList.jsp">[공지게시판 관리]</a></li>
          <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/admin/">[QnA게시판 관리]</a></li>
       </ul>

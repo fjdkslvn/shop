@@ -4,6 +4,8 @@
 <%@ page import="java.util.*" %>
 
 <%
+	request.setCharacterEncoding("utf-8");
+
 	int ebookNo = Integer.parseInt(request.getParameter("ebookNo"));
 	
 	//페이지
@@ -11,7 +13,6 @@
 	if(request.getParameter("currentPage")!=null){
 	   currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
-	System.out.println(currentPage+" <--selectEbookList currentPage");
 	
 	final int ROW_PER_PAGE = 10; // 페이지에 보일 후기 개수
 	int beginRow = (currentPage-1)*ROW_PER_PAGE; // 리스트 목록 시작 부분
@@ -128,7 +129,7 @@
 			ArrayList<OrderComment> commentList = orderCommentDao.selectOrderComment(ebookNo, beginRow, ROW_PER_PAGE);
 			
 			// 후기 리스트 마지막 페이지
-			int lastPage = orderCommentDao.selectOrderCommentListLastPage(ROW_PER_PAGE, ebookNo);
+			int lastPage = orderCommentDao.selectOrderCommentListLastPageOne(ROW_PER_PAGE, ebookNo);
 		%>
 			별점 평균 : <%=avgScore %>
 		</div>
@@ -140,7 +141,7 @@
 				<tr>
 					<td>별점</td>
 					<td>후기</td>
-					<td>작성일</td>
+					<td>날짜</td>
 				</tr>
 			<%
 				for(OrderComment o:commentList){
@@ -148,7 +149,7 @@
 					<tr>
 						<td><%=o.getOrderScore() %></td>
 						<td><%=o.getOrderCommentContent() %></td>
-						<td><%=o.getCreateDate() %></td>
+						<td><%=o.getUpdateDate() %></td>
 					</tr>
 			<%
 				}

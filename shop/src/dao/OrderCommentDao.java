@@ -8,6 +8,60 @@ import vo.*;
 
 public class OrderCommentDao {
 	
+	// 특정 전자책 후기 목록 마지막 페이지 구하기
+   public int selectOrderCommentListLastPage(int rowPerPage) throws ClassNotFoundException, SQLException {
+      DBUtil dbUtil = new DBUtil();
+      Connection conn = dbUtil.getConnection();
+    
+      // 전체 페이지수 구하기
+      PreparedStatement stmt;
+	  String sql = "select count(*) from order_comment";
+	  stmt = conn.prepareStatement(sql);
+	  System.out.println("전체 후기 수 stmt : "+stmt);
+      ResultSet rs = stmt.executeQuery();
+      rs.next();
+      int totalData = rs.getInt("count(*)");
+      int lastPage = totalData/rowPerPage; // 마지막 페이지 번호
+      if(totalData%rowPerPage!=0){
+         lastPage +=1;
+      }
+      
+      rs.close();
+      stmt.close();
+      conn.close();
+      
+      return lastPage;
+   }
+	
+	// 전체 후기 목록 가져오기
+	public ArrayList<OrderComment> selectOrderCommentList(int beginRow, int rowPerPage) throws ClassNotFoundException, SQLException {
+		ArrayList<OrderComment> list = new ArrayList<>();
+		OrderComment orderComment = null;
+		DBUtil dbUtil = new DBUtil();
+       Connection conn = dbUtil.getConnection();
+       String sql = "SELECT o.*, e.ebook_title FROM order_comment o INNER JOIN ebook e ON o.ebook_no = e.ebook_no order by update_date DESC LIMIT ?,?";
+       PreparedStatement stmt = conn.prepareStatement(sql);
+       stmt.setInt(1, beginRow);
+       stmt.setInt(2, rowPerPage);
+       ResultSet rs = stmt.executeQuery();
+       while(rs.next()) {
+    	   orderComment = new OrderComment();
+    	   orderComment.setEbookNo(rs.getInt("o.ebook_no"));
+    	   orderComment.setEbookTitle(rs.getString("e.ebook_title"));
+    	   orderComment.setOrderScore(rs.getInt("o.order_score"));
+    	   orderComment.setOrderCommentContent(rs.getString("o.order_comment_content"));
+    	   orderComment.setUpdateDate(rs.getString("o.update_date"));
+    	   list.add(orderComment);
+       }
+       
+       rs.close();
+       stmt.close();
+       conn.close();
+		
+		return list;
+	}
+	
+	// 후기 수정하기
 	public void updateOrderComment(OrderComment orderComment) throws ClassNotFoundException, SQLException {
 		// DB 연동 및 쿼리실행
 		DBUtil dbUilt = new DBUtil();
@@ -24,7 +78,7 @@ public class OrderCommentDao {
 		conn.close();
 	}
 	
-	// 후기 불러오기
+	// 특정 주문의 후기 불러오기
 	public OrderComment selectOrderCommentOne(int orderNo) throws ClassNotFoundException, SQLException {
 		OrderComment orderComment = new OrderComment();
 		DBUtil dbUtil = new DBUtil();
@@ -67,8 +121,8 @@ public class OrderCommentDao {
 		return existence;
 	}
 	
-   // 후기 목록 마지막 페이지 구하기
-   public int selectOrderCommentListLastPage(int rowPerPage, int ebookNo) throws ClassNotFoundException, SQLException {
+   // 특정 전자책 후기 목록 마지막 페이지 구하기
+   public int selectOrderCommentListLastPageOne(int rowPerPage, int ebookNo) throws ClassNotFoundException, SQLException {
       DBUtil dbUtil = new DBUtil();
       Connection conn = dbUtil.getConnection();
     
@@ -93,22 +147,23 @@ public class OrderCommentDao {
       return lastPage;
    }
 	
-	// 상품 평점
+	// 특정 전자책 후기 가져오기
 	public ArrayList<OrderComment> selectOrderComment(int ebookNo, int beginRow, int rowPerPage) throws ClassNotFoundException, SQLException {
 		ArrayList<OrderComment> list = new ArrayList<>();
-		OrderComment orderComment = new OrderComment();
+		OrderComment orderComment = null;
 		DBUtil dbUtil = new DBUtil();
        Connection conn = dbUtil.getConnection();
-       String sql = "SELECT order_score, order_comment_content, create_date FROM order_comment WHERE ebook_no=? limit ?,?";
+       String sql = "SELECT order_score, order_comment_content, update_date FROM order_comment WHERE ebook_no=? limit ?,?";
        PreparedStatement stmt = conn.prepareStatement(sql);
        stmt.setInt(1, ebookNo);
        stmt.setInt(2, beginRow);
        stmt.setInt(3, rowPerPage);
        ResultSet rs = stmt.executeQuery();
-       if(rs.next()) {
+       while(rs.next()) {
+    	   orderComment = new OrderComment();
     	   orderComment.setOrderScore(rs.getInt("order_score"));
     	   orderComment.setOrderCommentContent(rs.getString("order_comment_content"));
-    	   orderComment.setCreateDate(rs.getString("create_date"));
+    	   orderComment.setUpdateDate(rs.getString("update_date"));
     	   list.add(orderComment);
        }
        

@@ -7,7 +7,14 @@ public class OrderComment {
 	private String orderCommentContent;
 	private String createDate;
 	private String updateDate;
+	private String ebookTitle; // DB 스키마와 다르지만 편의성을 위해 추가
 	
+	public String getEbookTitle() {
+		return ebookTitle;
+	}
+	public void setEbookTitle(String ebookTitle) {
+		this.ebookTitle = ebookTitle;
+	}
 	public int getOrderNo() {
 		return orderNo;
 	}
