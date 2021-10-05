@@ -6,17 +6,17 @@
 	request.setCharacterEncoding("utf-8");
 	
 	// 방어코드
-	if(request.getParameter("noticeNo")=="" || request.getParameter("noticeNo")==null){
-		response.sendRedirect(request.getContextPath()+"/selectNoticeList.jsp");
+	if(request.getParameter("qnaNo")=="" || request.getParameter("qnaNo")==null){
+		response.sendRedirect(request.getContextPath()+"/selectQnaList.jsp");
 		return;
 	}
 	
 	// 상세보기할 공지 번호
-	int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+	int qnaNo = Integer.parseInt(request.getParameter("qnaNo"));
 	
 	// 정보 가져오기
-	NoticeDao noticeDao = new NoticeDao();
-	Notice notice = noticeDao.selectNoticeOne(noticeNo);
+	QnaDao qnaDao = new QnaDao();
+	Qna qna = qnaDao.selectQnaOne(qnaNo);
 %>
 
 <!DOCTYPE html>
@@ -32,26 +32,30 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	
 	<meta charset="UTF-8">
-	<title>공지사항 상세보기</title>
+	<title>질문 상세보기</title>
 </head>
 <body>
-	<h2>공지사항 상세보기</h2>
+	<h2>질문 상세보기</h2>
 	<table class="table" border="1">
 		<tr>
 			<td>제목</td>
-			<td><%=notice.getNotice_title() %></td>
+			<td><%=qna.getQnaTitle() %></td>
 		</tr>
 		<tr>
 			<td>내용</td>
-			<td><%=notice.getNotice_content() %></td>
+			<td><%=qna.getQnaContent() %></td>
+		</tr>
+		<tr>
+			<td>작성자</td>
+			<td><%=qna.getMemberId() %></td>
 		</tr>
 		<tr>
 			<td>작성일</td>
-			<td><%=notice.getCreate_date() %></td>
+			<td><%=qna.getCreateDate() %></td>
 		</tr>
 		<tr>
 			<td>수정일</td>
-			<td><%=notice.getUpdate_date() %></td>
+			<td><%=qna.getUpdateDate() %></td>
 		</tr>
 	</table>
 </body>

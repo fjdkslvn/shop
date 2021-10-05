@@ -8,9 +8,7 @@
 		<ul class="navbar-nav">
 			<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/index.jsp">메인</a></li>
 			<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/selectNoticeList.jsp">공지사항</a></li>
-			<li class="nav-item"><a class="nav-link" href="">menu3</a></li>
-			<li class="nav-item"><a class="nav-link" href="">menu4</a></li>
-			<li class="nav-item"><a class="nav-link" href="">menu5</a></li>
+			<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/selectQnaList.jsp">질문게시판</a></li>
 		</ul>
 	</nav>
 </div>
