@@ -26,7 +26,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<!-- style.css 불러오기 -->
+   <!-- style.css 불러오기 -->
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/style.css">
 	
 	<!-- 부트스트랩 -->
@@ -34,11 +34,26 @@
 	
 	<!-- 자바스크립트 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	
-	<meta charset="UTF-8">
-	<title>공지 업데이트</title>
+   
+   <meta charset="UTF-8">
+   <title>전자책 상점</title>
 </head>
-<body class="content-center top-margin">
+<body>
+	<div class="text-center">
+		<a href="<%=request.getContextPath() %>/admin/adminindex.jsp"><img src="<%=request.getContextPath() %>/image/adminbanner.PNG" width="650" height="130"></a>
+	</div>
+	<div class="right">
+		<a href="<%=request.getContextPath() %>/index.jsp">메인으로 돌아가기</a>
+		<a href="<%=request.getContextPath() %>/logout.jsp">로그아웃</a>
+	</div>
+	<br>
+	<!-- start : submenu include -->
+   <div>
+      <jsp:include page="/partial/adminMenu.jsp"></jsp:include>
+   </div>
+   <!-- end : submenu include -->
+	<br>
+	<div class="content-center">
 	<form action="<%=request.getContextPath() %>/admin/updateNoticeAction.jsp" id="updateNoticeAction" method="post">
 		<input type="hidden" id="noticeNo" name="noticeNo" value="<%=notice.getNotice_no() %>">
 		<div class="form-group">
@@ -52,7 +67,7 @@
 		<br><br>
 		<button type="button" class="btn btn-success" id="btn">수정</button>
 	</form>
-
+	</div>
 	<script>
 		// 작성 버튼을 눌렀을 경우
 		$('#btn').click(function(){

@@ -3,13 +3,22 @@
 /*회원가입,로그인 중앙 정렬*/
 .content-center{
 	width: 600px;
-       margin:auto;
+    margin:auto;
+}
+
+.body-center{
+	width: 2000px;
+    margin:auto;
 }
 
 .top-margin{
-	margin-top: 100px;
+	margin-top: 30px;
 }
 
 .right{
     float:right;
+}
+
+.text-center{
+	text-align : center;
 }

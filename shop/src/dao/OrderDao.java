@@ -12,6 +12,27 @@ import commons.DBUtil;
 
 public class OrderDao {
 	
+	// 주문 취소
+	public void deleteOrder(int orderNo) throws ClassNotFoundException, SQLException {
+		DBUtil dbUilt = new DBUtil();
+		Connection conn = dbUilt.getConnection();
+		
+		// 주문의 후기 삭제
+		String sql1 = "delete from order_comment where order_no=?";
+		PreparedStatement stmt = conn.prepareStatement(sql1);
+		stmt.setInt(1, orderNo);
+		stmt.executeUpdate();
+		
+		// 주문 삭제
+		String sql2 = "delete from orders where order_no=?";
+		stmt = conn.prepareStatement(sql2);
+		stmt.setInt(1, orderNo);
+		stmt.executeUpdate();
+		
+		stmt.close();
+		conn.close();
+	}
+	
 	// 주문 상세보기
 	public OrderEbookMember selectOrderOne(int orderNo) throws ClassNotFoundException, SQLException {
 		OrderEbookMember oem = new OrderEbookMember();

@@ -4,8 +4,8 @@
 
 <%
 	request.setCharacterEncoding("utf-8");
-
-	//로그인이 되어있지 않거나 일반 회원이라면 메인화면으로 넘기기
+	
+	// 로그인이 되어있지 않거나 일반 회원이라면 메인화면으로 넘기기
 	Member loginMember = (Member)session.getAttribute("loginMember");
 	if(loginMember==null || loginMember.getMemberLevel() < 1){
 		response.sendRedirect(request.getContextPath()+"/index.jsp");
@@ -13,19 +13,22 @@
 	}
 	
 	// 방어코드
-	if(request.getParameter("orderNo")=="" || request.getParameter("orderNo")==null){
-		response.sendRedirect(request.getContextPath()+"/admin/selectOrderList.jsp");
+	if(request.getParameter("qnaNo")=="" || request.getParameter("qnaNo")==null){
+		response.sendRedirect(request.getContextPath()+"/admin/selectQnaList.jsp");
 		return;
 	}
 	
-	// 상세보기할 주문 번호
-	int orderNo = Integer.parseInt(request.getParameter("orderNo"));
+	// 답변할 질문 번호
+	int qnaNo = Integer.parseInt(request.getParameter("qnaNo"));
 	
 	// 정보 가져오기
-	OrderDao orderDao = new OrderDao();
-	OrderEbookMember oem = orderDao.selectOrderOne(orderNo);
+	QnaDao qnaDao = new QnaDao();
+	Qna qna = qnaDao.selectQnaOne(qnaNo);
+	
+	// 답변 가져오기
+	QnaCommentDao qnaCommentDao = new QnaCommentDao();
+	QnaComment qnaComment = qnaCommentDao.selectQnaCommentOne(qnaNo);
 %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,29 +61,49 @@
 	<br>
 	<table class="table" border="1">
 		<tr>
-			<td>주문번호</td>
-			<td><%=oem.getOrder().getOrderNo() %></td>
+			<td>제목</td>
+			<td><%=qna.getQnaTitle() %></td>
 		</tr>
 		<tr>
-			<td>전자책</td>
-			<td><%=oem.getEbook().getEbookTitle() %></td>
+			<td>내용</td>
+			<td><%=qna.getQnaContent() %></td>
 		</tr>
 		<tr>
-			<td>가격</td>
-			<td><%=oem.getOrder().getOrderPrice() %></td>
+			<td>작성자</td>
+			<td><%=qna.getMemberId() %></td>
 		</tr>
 		<tr>
-			<td>구매자</td>
-			<td><%=oem.getMember().getMemberId() %></td>
-		</tr>
-		<tr>
-			<td>구매일</td>
-			<td><%=oem.getOrder().getCreateDate() %></td>
+			<td>작성일</td>
+			<td><%=qna.getCreateDate() %></td>
 		</tr>
 		<tr>
 			<td>수정일</td>
-			<td><%=oem.getOrder().getUpdateDate() %></td>
+			<td><%=qna.getUpdateDate() %></td>
 		</tr>
 	</table>
+	<br><br>
+	
+	<h3>답변</h3>
+	<div class="content-center">
+	<form action="<%=request.getContextPath() %>/admin/updateQnaCommentAction.jsp" id="updateQnaCommentAction" method="post">
+		<div class="form-group">
+		  <textarea class="form-control" rows="5" name="content" id="content"><%=qnaComment.getQnaCommentContent() %></textarea>
+		 </div>
+		 <input type="hidden" name="qnaNo" value="<%=qnaNo %>">
+		<br><br>
+		<button type="button" class="btn btn-success" id="btn">작성</button>
+	</form>
+	</div>
+	<script>
+		// 작성 버튼을 눌렀을 경우
+		$('#btn').click(function(){
+			if($('#content').val()==''){
+				alert('답변을 작성하세요');
+			} else{
+				// 버튼을 클릭하면 답변 수정
+				$('#updateQnaCommentAction').submit();
+			}
+		});
+	</script>	
 </body>
 </html>

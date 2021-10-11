@@ -29,7 +29,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<!-- style.css 불러오기 -->
+   <!-- style.css 불러오기 -->
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/style.css">
 	
 	<!-- 부트스트랩 -->
@@ -37,12 +37,25 @@
 	
 	<!-- 자바스크립트 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	
-	<meta charset="UTF-8">
-	<title>공지사항 상세보기</title>
+   
+   <meta charset="UTF-8">
+   <title>전자책 상점</title>
 </head>
 <body>
-	<h2>공지사항 상세보기</h2>
+	<div class="text-center">
+		<a href="<%=request.getContextPath() %>/admin/adminindex.jsp"><img src="<%=request.getContextPath() %>/image/adminbanner.PNG" width="650" height="130"></a>
+	</div>
+	<div class="right">
+		<a href="<%=request.getContextPath() %>/index.jsp">메인으로 돌아가기</a>
+		<a href="<%=request.getContextPath() %>/logout.jsp">로그아웃</a>
+	</div>
+	<br>
+	<!-- start : submenu include -->
+   <div>
+      <jsp:include page="/partial/adminMenu.jsp"></jsp:include>
+   </div>
+   <!-- end : submenu include -->
+	<br>
 	<table class="table" border="1">
 		<tr>
 			<td>제목</td>

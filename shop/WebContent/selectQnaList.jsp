@@ -5,20 +5,6 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-	<!-- style.css 불러오기 -->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/style.css">
-	
-	<!-- 부트스트랩 -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	
-	<!-- 자바스크립트 -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	
-	<meta charset="UTF-8">
-	<title>질문 게시판</title>
-</head>
-
 <%
 	request.setCharacterEncoding("utf-8");
 	
@@ -32,18 +18,33 @@
 	final int ROW_PER_PAGE = 10; // 페이지에 보일 질문 개수
 	int  beginRow = (currentPage-1)*ROW_PER_PAGE; // 질문 목록 시작 부분
 	
-	// 공지 목록을 리스트에 담기
+	// 질문 목록을 리스트에 담기
 	QnaDao qnaDao = new QnaDao();
 	ArrayList<Qna> qnaList = qnaDao.selectQnaList(beginRow,ROW_PER_PAGE);
 %>
+<head>
+   <!-- style.css 불러오기 -->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/style.css">
+	
+	<!-- 부트스트랩 -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	
+	<!-- 자바스크립트 -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+   
+   <meta charset="UTF-8">
+   <title>전자책 상점</title>
+</head>
 <body>
-	<h1>질문 게시판</h1>
+	<div class="text-center">
+		<a href="<%=request.getContextPath() %>/index.jsp"><img src="<%=request.getContextPath() %>/image/banner.PNG" width="550" height="130"></a>
+	</div>
    <div class="right">
       <%
       	 request.setCharacterEncoding("utf-8");
       
          // 로그인이 되어있지 않으면 로그인,회원가입 보여주고 / 로그인 되어있으면 로그아웃 보이기
-         Member loginMember=null;
+         Member loginMember = null;
          if(session.getAttribute("loginMember")==null){
             %>
                   <a href="<%=request.getContextPath() %>/loginForm.jsp">로그인</a>
@@ -66,19 +67,19 @@
       %>
    </div>
    <br>
-      <!-- start : submenu include -->
-      <div>
-         <jsp:include page="/partial/mainMenu.jsp"></jsp:include>
-      </div>
-      <!-- end : submenu include -->
-      <br>
+   <!-- start : submenu include -->
+   <div>
+      <jsp:include page="/partial/mainMenu.jsp"></jsp:include>
+   </div>
+   <!-- end : submenu include -->
+   <br>
 	
 	
 	<table class="table" border="1">
 		<thead>
 			<tr>
 				<th></th>
-				<th>번호</th>
+				<th>카테고리</th>
 				<th>제목</th>
 				<th>작성자</th>
 				<th>날짜</th>
@@ -95,7 +96,7 @@
 						%>
 							<tr>
 								<td><img src="<%=request.getContextPath() %>/image/lock.PNG" width="20" height="20"></td>
-								<td><%=q.getQnaNo() %></td>
+								<td><%=q.getQnaCategory() %></td>
 								<td><a href="<%=request.getContextPath() %>/selectQnaOne.jsp?qnaNo=<%=q.getQnaNo() %>"><%=q.getQnaTitle() %></a></td>
 								<td><%=q.getMemberId() %></td>
 								<td><%=q.getCreateDate() %></td>
@@ -105,7 +106,7 @@
 						%>
 							<tr>
 								<td><img src="<%=request.getContextPath() %>/image/lock.PNG" width="20" height="20"></td>
-								<td><%=q.getQnaNo() %></td>
+								<td><%=q.getQnaCategory() %></td>
 								<td><%=q.getQnaTitle() %></td>
 								<td><%=q.getMemberId() %></td>
 								<td><%=q.getCreateDate() %></td>
@@ -116,7 +117,7 @@
 					%>
 						<tr>
 							<td></td>
-							<td><%=q.getQnaNo() %></td>
+							<td><%=q.getQnaCategory() %></td>
 							<td><a href="<%=request.getContextPath() %>/selectQnaOne.jsp?qnaNo=<%=q.getQnaNo() %>"><%=q.getQnaTitle() %></a></td>
 							<td><%=q.getMemberId() %></td>
 							<td><%=q.getCreateDate() %></td>
@@ -198,7 +199,7 @@
 	
 	<script>
 		$('#insertBtn').click(function(){
-			// 버튼을 클릭하면 공지사항 수정폼으로 이동
+			// 버튼을 클릭하면 질문 생성폼으로 이동
 			$('#insertQnaForm').submit();
 		});
 	</script>

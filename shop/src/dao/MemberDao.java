@@ -87,15 +87,33 @@ public class MemberDao {
 	   conn.close();
 	}
 	
-	// [관리자] 특정 회원을 강제 탈퇴
+	// [관리자&회원] 특정 회원 탈퇴
 	public void deleteMemberByAdmin(int memberNo) throws ClassNotFoundException, SQLException {
 		DBUtil dbUtil = new DBUtil();
 	    Connection conn = dbUtil.getConnection();
     
 	   // 회원을 삭제하기
        PreparedStatement stmt;
-   	   String sql = "delete from member where member_no=?";
-  	   stmt = conn.prepareStatement(sql);
+       String sql1 = "delete oc from orders o INNER JOIN order_comment oc on o.order_no=oc.order_no WHERE o.member_no=?";
+       stmt = conn.prepareStatement(sql1);
+  	   stmt.setInt(1, memberNo);
+  	   System.out.println("특정 멤버의 주문 후기 삭제 stmt : "+stmt);
+	   stmt.executeUpdate();
+	   
+	   String sql2 = "delete qc FROM qna q INNER JOIN qna_comment qc on q.qna_no=qc.qna_no WHERE q.member_no=?";
+       stmt = conn.prepareStatement(sql2);
+  	   stmt.setInt(1, memberNo);
+  	   System.out.println("특정 멤버의 질문 답변 삭제 stmt : "+stmt);
+	   stmt.executeUpdate();
+	   
+	   String sql3 = "delete FROM qna WHERE member_no=?";
+       stmt = conn.prepareStatement(sql3);
+  	   stmt.setInt(1, memberNo);
+  	   System.out.println("특정 멤버의 질문 삭제 stmt : "+stmt);
+	   stmt.executeUpdate();
+	   
+       String sql4 = "delete from member where member_no=?";
+  	   stmt = conn.prepareStatement(sql4);
   	   stmt.setInt(1, memberNo);
   	   System.out.println("특정 멤버 삭제 stmt : "+stmt);
 	   stmt.executeUpdate();

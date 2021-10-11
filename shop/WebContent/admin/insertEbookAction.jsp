@@ -2,7 +2,7 @@
 <%@ page import="dao.*" %>
 <%@ page import="vo.*" %>
 <%@ page import="com.oreilly.servlet.MultipartRequest" %> <!-- request 대신 -->
-<%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %> <!-- 파일이름 중복을 피할 수 있도록 -->
+<%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
     
 <%
 	request.setCharacterEncoding("utf-8");

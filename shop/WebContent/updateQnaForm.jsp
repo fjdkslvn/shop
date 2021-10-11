@@ -4,28 +4,25 @@
 
 <%
 	request.setCharacterEncoding("utf-8");
-
-	//로그인이 되어있지 않으면 메인화면으로 넘기기
+	
+	// 로그인이 되어있지 않으면 로그인 화면으로 보내기
 	Member loginMember = (Member)session.getAttribute("loginMember");
 	if(loginMember==null){
-		response.sendRedirect(request.getContextPath()+"/index.jsp");
+		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
 		return;
 	}
 	
 	// 방어코드
-	if(request.getParameter("orderNo")=="" || request.getParameter("orderNo")==null){
-		response.sendRedirect(request.getContextPath()+"/selectOrderListByMember.jsp");
+	if(request.getParameter("qnaNo")==null || request.getParameter("qnaNo")==""){
+		response.sendRedirect(request.getContextPath()+"/selectQnaList.jsp");
 		return;
 	}
 	
-	// 상세보기할 주문 번호
-	int orderNo = Integer.parseInt(request.getParameter("orderNo"));
+	int qnaNo = Integer.parseInt(request.getParameter("qnaNo"));
 	
-	// 정보 가져오기
-	OrderDao orderDao = new OrderDao();
-	OrderEbookMember oem = orderDao.selectOrderOne(orderNo);
+	QnaDao qnaDao = new QnaDao();
+	Qna qna = qnaDao.selectQnaOne(qnaNo);
 %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -78,41 +75,66 @@
    </div>
    <!-- end : submenu include -->
    <br>
-	<table class="table" border="1">
-		<tr>
-			<td>주문번호</td>
-			<td><%=oem.getOrder().getOrderNo() %></td>
-		</tr>
-		<tr>
-			<td>전자책</td>
-			<td><%=oem.getEbook().getEbookTitle() %></td>
-		</tr>
-		<tr>
-			<td>가격</td>
-			<td><%=oem.getOrder().getOrderPrice() %></td>
-		</tr>
-		<tr>
-			<td>구매자</td>
-			<td><%=oem.getMember().getMemberId() %></td>
-		</tr>
-		<tr>
-			<td>구매일</td>
-			<td><%=oem.getOrder().getCreateDate() %></td>
-		</tr>
-		<tr>
-			<td>수정일</td>
-			<td><%=oem.getOrder().getUpdateDate() %></td>
-		</tr>
-	</table>
-	<form action="<%=request.getContextPath() %>/deleteOrder.jsp" id="deleteForm" class="join-form">
-		<input type="hidden" value="<%=orderNo %>" name="orderNo">
-		<button class="btn btn-secondary" type="button" id="btn">주문취소</button>
-	</form>
+	<div class="content-center">
+		<form action="<%=request.getContextPath() %>/updateQnaAction.jsp" id="updateQnaAction" method="post">
+			<div class="form-group">
+	        	카테고리 : 
+	        	<select name="category">
+	       		<%
+	       			String[] category = {"전자책관련","개인정보관련","기타"};
+	       			for(String c:category){
+	       				if(c.equals(qna.getQnaCategory())){
+       					%>
+       						<option value="<%=c %>" selected><%=c %></option>
+       					<%
+	       				} else{
+	       				%>
+							<option value="<%=c %>"><%=c %></option>
+						<%
+	       				}
+	       			}
+	       		%>
+	        	</select>
+	        </div>
+			<div class="form-group">
+	            질문 제목
+	            <input type="text" class="form-control" name="title" id="title" value="<%=qna.getQnaTitle() %>">
+	        </div>
+			<div class="form-group">
+			  <label for="content">질문 내용</label>
+			  <textarea class="form-control" rows="5" name="content" id="content"><%=qna.getQnaContent() %></textarea>
+			</div>
+			<div class="form-group">
+				<%
+					if(qna.getQnaSecret().equals("Y")){
+					%>
+						<input type="checkbox" name="secret" value="Y" checked> 비밀글
+					<%	
+					} else{
+					%>
+						<input type="checkbox" name="secret" value="Y"> 비밀글
+					<%	
+					}
+				%>
+			</div>
+			<input type="hidden" name="qnaNo" value="<%=qnaNo %>">
+			<br><br>
+			<button type="button" class="btn btn-success" id="btn">작성</button>
+		</form>
+	</div>
+
 	<script>
+		// 작성 버튼을 눌렀을 경우
 		$('#btn').click(function(){
-			// 버튼을 click했을때
-			$('#deleteForm').submit();
+			if($('#title').val()==''){
+				alert('질문 제목을 작성하세요');
+			} else if($('#content').val()==''){
+				alert('질문 내용을 작성하세요');
+			} else{
+				// 버튼을 클릭하면 질문 생성
+				$('#updateQnaAction').submit();
+			}
 		});
-	</script>
+	</script>	
 </body>
 </html>
