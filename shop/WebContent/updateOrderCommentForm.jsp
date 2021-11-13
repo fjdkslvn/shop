@@ -103,10 +103,24 @@
 			</select>
 			<input type="hidden" name="orderNo" value="<%=orderNo %>">
 			<br><br>
-			<button type="button" id="updateBtn" class="btn btn-success">작성</button>
-		</form>
+			
+			<table>
+				<tr>
+					<td>
+							<button type="button" id="updateBtn" class="btn btn-success">작성</button>
+						</form>
+					</td>
+					<td>
+						<form id="deleteForm" action="<%=request.getContextPath() %>/deleteOrderComment.jsp" method="post">
+							<input type="hidden" name="orderNo" value="<%=orderNo %>">
+							<button type="button" id="deleteBtn" class="btn btn-secondary">후기삭제</button>
+						</form>
+					</td>
+				</tr>
+			</table>
 	</div>
 	<script>
+		// 수정 버튼 클릭 시
 		$('#updateBtn').click(function(){
 			// 버튼을 click했을때
 			if($('#content').val()==''){ // 후기 내용이 공백이면
@@ -114,6 +128,12 @@
 			} else{
 				$('#updateForm').submit();	
 			}
+		});
+		
+		// 삭제 버튼 클릭 시
+		$('#deleteBtn').click(function(){
+			// 버튼을 click했을때
+			$('#deleteForm').submit();
 		});
 	</script>
 </body>

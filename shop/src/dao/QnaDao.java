@@ -16,7 +16,7 @@ public class QnaDao {
 		DBUtil dbUilt = new DBUtil();
 		Connection conn = dbUilt.getConnection();
 		
-		// 주문의 후기 삭제
+		// 질문의 답변 삭제
 		String sql1 = "delete from qna_comment where qna_no=?";
 		PreparedStatement stmt = conn.prepareStatement(sql1);
 		stmt.setInt(1, qnaNo);

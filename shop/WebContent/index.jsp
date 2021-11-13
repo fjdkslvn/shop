@@ -10,10 +10,13 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/style.css">
 	
 	<!-- 부트스트랩 -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	
 	<!-- 자바스크립트 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
    
    <meta charset="UTF-8">
    <title>전자책 상점</title>
@@ -35,7 +38,7 @@
          } else {
             Member loginMember = (Member)session.getAttribute("loginMember");
             %>
-               *<%=loginMember.getMemberLevel() %>레벨* <%=loginMember.getMemberId() %>회원님 반갑습니다.
+               <%=loginMember.getMemberId() %>회원님 반갑습니다.
                <a href="<%=request.getContextPath() %>/logout.jsp">로그아웃</a>
                <a href="<%=request.getContextPath() %>/selectMyImfo.jsp">내정보</a>
                <a href="<%=request.getContextPath() %>/selectOrderListByMember.jsp">나의주문</a>
@@ -83,36 +86,44 @@
       ArrayList<Ebook> newEbookList = ebookDao.selectNewEbookList();
       %>
       
-      <h2>최근 공지</h2>
+      <div class="page-center">
+      
 		<!-- 최근 공지사항 5개를 출력 -->
-		<table class="table table-striped" border="1">
+		<table class="table" border="1">
 			<thead>
 				<tr>
-					<th>번호</th>
-					<th>제목</th>
-					<th>수정일</th>
-					<th>생성일</th>
-					<th>상세보기</th>
+					<th>최근 공지사항</th>
 				</tr>
 			</thead>
 			<tbody>
-				<%
-					// 반복을 통해 카테고리 목록을 표로 출력
-					for(Notice n : noticeList){
-				%>
-						<tr>
-							<td><%=n.getNotice_no() %></td>
-							<td><%=n.getNotice_title() %></td>
-							<td><%=n.getUpdate_date() %></td>
-							<td><%=n.getCreate_date() %></td>
-							<td><a href="<%=request.getContextPath() %>/selectNoticeOne.jsp?noticeNo=<%=n.getNotice_no() %>">상세보기</a></td>
-						</tr>
-				<%
-					}
-				%>
+				<tr>
+					<td>
+					<%
+						for(Notice n : noticeList){
+					%>
+						  <div class="card">
+						    <div class="card-header" id="heading<%=n.getNotice_no() %>">
+						      <h5 class="mb-0">
+						        <button class="btn btn-link" data-toggle="collapse" data-target="#<%=n.getNotice_no() %>" aria-controls="<%=n.getNotice_no() %>">
+						          * <%=n.getNotice_title() %> - <%=n.getCreate_date().substring(0,10) %>
+						        </button>
+						      </h5>
+						    </div>
+						
+						    <div id="<%=n.getNotice_no() %>" class="collapse" aria-labelledby="heading<%=n.getNotice_no() %>" data-parent="#accordion">
+						      <div class="card-body">
+						        <%=n.getNotice_content() %>
+						      </div>
+						    </div>
+						  </div>
+					<%	
+						}
+					%>
+					</td>
+				</tr>
 			</tbody>
 		</table>
-		<br>
+		<br><br><br><br>
       
       <h2>신상품 목록</h2>
       <!-- 주문 목록 출력 -->
@@ -121,7 +132,7 @@
 	         <%
 	            for(Ebook e : newEbookList){
 	         %>
-		               <td>
+		               <td class="size-19">
 		                  <div>
 		                  	<a href="<%=request.getContextPath() %>/selectEbookOne.jsp?ebookNo=<%=e.getEbookNo() %>">
 		                  	<img src="<%=request.getContextPath() %>/image/<%=e.getEbookImg() %>" width="200" height="200">
@@ -139,7 +150,7 @@
 	         %>
 	      </tr>
 	   </table>
-	   <br>
+	   <br><br><br><br>
       
       <h2>인기 상품 목록</h2>
       <!-- 주문 목록 출력 -->
@@ -148,7 +159,7 @@
 	         <%
 	            for(Ebook e : popularEbookList){
 	         %>
-		               <td>
+		               <td class="size-19">
 		                  <div>
 			                  <a href="<%=request.getContextPath() %>/selectEbookOne.jsp?ebookNo=<%=e.getEbookNo() %>">
 			                  	<img src="<%=request.getContextPath() %>/image/<%=e.getEbookImg() %>" width="200" height="200">
@@ -166,7 +177,7 @@
 	         %>
 	      </tr>
 	   </table>
-	   <br>
+	   <br><br><br><br>
       
       <h2>전체 상품 목록</h2>
    <!-- 주문 목록 출력 -->
@@ -178,7 +189,7 @@
             // 반복을 통해 카테고리 목록을 표로 출력
             for(Ebook e : ebookList){
          %>
-               <td>
+               <td class="size-19">
                   <div>
                   	<a href="<%=request.getContextPath() %>/selectEbookOne.jsp?ebookNo=<%=e.getEbookNo() %>">
                   		<img src="<%=request.getContextPath() %>/image/<%=e.getEbookImg() %>" width="200" height="200">
@@ -199,11 +210,19 @@
          <%
                }
             }
+            
+            if(ebookList.size()%5!=0){
+            	for(int i=0; i<5-(ebookList.size()%5);i++){
+    		%>
+    				<td class="size-19"></td>
+    		<%
+            	}
+            }
          %>
       </tr>
    </table>
    
-   <div></div>
+   <br>
    
    <!-- 페이지 -->
    <%	
@@ -215,11 +234,12 @@
    	   lastPage = ebookDao.selectEbookListLastPage(ROW_PER_PAGE); // 상품의 개수를 통해 마지막 페이지가 몇번인지 추출
 	   
    %>
-    <ul class="pagination body-back-color">
+   <div>
+    <ul class="pagination pagination-lg body-back-color">
     <%
     	if(currentPage!=1){
     %>
-    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/index.jsp?currentPage=<%=1 %>">처음</a></li>
+    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/index.jsp?currentPage=<%=1 %>"><<</a></li>
     <%	
     	}
     	if(currentPage%ROW_PER_PAGE==0){ // 현재 페이지가 몇번째 묶음인지
@@ -231,15 +251,21 @@
     <%
     	if((currentnumPage)>0){ // 이전
     %>
-    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/index.jsp?currentPage=<%=ROW_PER_PAGE*(currentnumPage-1)+1 %>">이전</a></li>
+    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/index.jsp?currentPage=<%=ROW_PER_PAGE*(currentnumPage-1)+1 %>"><</a></li>
     <%
     	}
     
     	for(int i=0;i<ROW_PER_PAGE;i++){ // 중간 번호들
     		if(lastPage>=(ROW_PER_PAGE*currentnumPage)+i+1){
-   	    %>
-   		  <li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/index.jsp?currentPage=<%=(ROW_PER_PAGE*currentnumPage)+i+1 %>"><%=(ROW_PER_PAGE*currentnumPage)+i+1 %></a></li>
-   	   <%
+    			if(currentPage == (ROW_PER_PAGE*currentnumPage)+i+1){
+  				%>
+  					<li class="page-item active"><a class="page-link" href="<%=request.getContextPath() %>/index.jsp?currentPage=<%=(ROW_PER_PAGE*currentnumPage)+i+1 %>"><%=(ROW_PER_PAGE*currentnumPage)+i+1 %></a></li>
+  				<%
+    			} else{
+   				%>
+   		   		  	<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/index.jsp?currentPage=<%=(ROW_PER_PAGE*currentnumPage)+i+1 %>"><%=(ROW_PER_PAGE*currentnumPage)+i+1 %></a></li>
+   		   	   <%	
+    			}
     		}
     	}
     	if(lastPage%ROW_PER_PAGE==0){ // 마지막 페이지가 몇번째 묶음인지
@@ -250,15 +276,17 @@
     	
     	if(lastnumPage>currentnumPage){
     %>
-    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/index.jsp?currentPage=<%=ROW_PER_PAGE*(currentnumPage+1)+1 %>">다음</a></li>
+    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/index.jsp?currentPage=<%=ROW_PER_PAGE*(currentnumPage+1)+1 %>">></a></li>
     <%
     	}
     	if(currentPage!=lastPage && lastPage!=0){
     %>
-    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/index.jsp?currentPage=<%=lastPage %>">맨끝</a></li>
+    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/index.jsp?currentPage=<%=lastPage %>">>></a></li>
     <%
     	}
     %>
+    </div>
 	</ul>
+	</div>
 </body>
 </html>

@@ -8,6 +8,21 @@ import vo.*;
 
 public class OrderCommentDao {
 	
+	// 주문 후기 삭제
+	public void deleteOrderComment(int orderNo) throws ClassNotFoundException, SQLException {
+		DBUtil dbUilt = new DBUtil();
+		Connection conn = dbUilt.getConnection();
+		
+		// 주문의 후기 삭제
+		String sql1 = "delete from order_comment where order_no=?";
+		PreparedStatement stmt = conn.prepareStatement(sql1);
+		stmt.setInt(1, orderNo);
+		stmt.executeUpdate();
+		
+		stmt.close();
+		conn.close();
+	}
+	
 	// 특정 전자책 후기 목록 마지막 페이지 구하기
    public int selectOrderCommentListLastPage(int rowPerPage) throws ClassNotFoundException, SQLException {
       DBUtil dbUtil = new DBUtil();

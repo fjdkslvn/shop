@@ -118,7 +118,7 @@
     <%
     	if(currentPage!=1){
     %>
-    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeListMain.jsp?currentPage=<%=1 %>">처음</a></li>
+    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeList.jsp?currentPage=<%=1 %>">처음</a></li>
     <%	
     	}
     	if(currentPage%ROW_PER_PAGE==0){ // 현재 페이지가 몇번째 묶음인지
@@ -130,14 +130,14 @@
     <%
     	if((currentnumPage)>0){ // 이전
     %>
-    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeListMain.jsp?currentPage=<%=ROW_PER_PAGE*(currentnumPage-1)+1 %>">이전</a></li>
+    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeList.jsp?currentPage=<%=ROW_PER_PAGE*(currentnumPage-1)+1 %>">이전</a></li>
     <%
     	}
     
     	for(int i=0;i<ROW_PER_PAGE;i++){ // 중간 번호들
     		if(lastPage>=(ROW_PER_PAGE*currentnumPage)+i+1){
    	    %>
-   		  <li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeListMain.jsp?currentPage=<%=(ROW_PER_PAGE*currentnumPage)+i+1 %>"><%=(ROW_PER_PAGE*currentnumPage)+i+1 %></a></li>
+   		  <li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeList.jsp?currentPage=<%=(ROW_PER_PAGE*currentnumPage)+i+1 %>"><%=(ROW_PER_PAGE*currentnumPage)+i+1 %></a></li>
    	   <%
     		}
     	}
@@ -149,12 +149,12 @@
     	
     	if(lastnumPage>currentnumPage){
     %>
-    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeListMain.jsp?currentPage=<%=ROW_PER_PAGE*(currentnumPage+1)+1 %>">다음</a></li>
+    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeList.jsp?currentPage=<%=ROW_PER_PAGE*(currentnumPage+1)+1 %>">다음</a></li>
     <%
     	}
     	if(currentPage!=lastPage && lastPage!=0){
     %>
-    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeListMain.jsp?currentPage=<%=lastPage %>">맨끝</a></li>
+    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeList.jsp?currentPage=<%=lastPage %>">맨끝</a></li>
     <%
     	}
     %>

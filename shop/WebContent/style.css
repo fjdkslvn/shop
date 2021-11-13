@@ -6,19 +6,72 @@
     margin:auto;
 }
 
+/* 전체 요소 가운데 정렬 */
 .body-center{
 	width: 2000px;
     margin:auto;
 }
 
+.page-center{
+	width: 1400px;
+    margin:auto;
+}
+
+/* 위쪽 여백 주기 */
 .top-margin{
 	margin-top: 30px;
 }
 
+/* 일부 요소 오른쪽 정렬 */
 .right{
     float:right;
 }
 
+.text-right{
+	text-align : right;
+}
+
+/* 글씨 가운데 정렬 */
 .text-center{
 	text-align : center;
+}
+
+/* 페이징 가운데 정렬 */
+ul{
+	justify-content: center;
+}
+
+/*가운데서 좌우로 펼쳐지는 라인 에니메이션*/
+li {
+  color: #333;
+  text-decoration: none;
+  display: inline-block;
+  padding: 15px 0;
+  position: relative;
+}
+li:after {    
+  background: none repeat scroll 0 0 transparent;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 2px;
+  left: 50%;
+  position: absolute;
+  background: #84a5db;
+  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  width: 0;
+}
+li:hover:after { 
+  width: 100%; 
+  left: 0; 
+}
+/*가운데서 좌우로 펼쳐지는 라인 에니메이션:끝*/
+
+h2{
+	width: 100%;
+	text-align : center;
+}
+
+td.size-19{
+	width: 19%;
 }

@@ -62,7 +62,7 @@
         </div>
 		<div class="form-group">
 		  <label for="content">공지 내용</label>
-		  <textarea class="form-control" rows="5" name="content" id="content"><%=notice.getNotice_content() %></textarea>
+		  <textarea class="form-control" rows="5" name="content" id="content"><%=notice.getNotice_content().replace("<br>","\r\n") %></textarea>
 		 </div>
 		<br><br>
 		<button type="button" class="btn btn-success" id="btn">수정</button>
