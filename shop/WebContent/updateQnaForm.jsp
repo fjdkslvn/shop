@@ -102,7 +102,7 @@
 	        </div>
 			<div class="form-group">
 			  <label for="content">질문 내용</label>
-			  <textarea class="form-control" rows="5" name="content" id="content"><%=qna.getQnaContent() %></textarea>
+			  <textarea class="form-control" rows="5" name="content" id="content"><%=qna.getQnaContent().replace("<br>","\r\n") %></textarea>
 			</div>
 			<div class="form-group">
 				<%

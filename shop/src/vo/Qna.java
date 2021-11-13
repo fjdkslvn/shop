@@ -72,5 +72,7 @@ public class Qna {
 				+ qnaContent + ", qnaSecret=" + qnaSecret + ", memberNo=" + memberNo + ", createDate=" + createDate
 				+ ", updateDate=" + updateDate + ", memberId=" + memberId + "]";
 	}
+	
+	
 	 
 }

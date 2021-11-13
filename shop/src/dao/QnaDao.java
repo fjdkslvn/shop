@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import commons.DBUtil;
 import vo.*;
@@ -41,7 +43,7 @@ public class QnaDao {
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, qna.getQnaCategory());
 		stmt.setString(2, qna.getQnaTitle());
-		stmt.setString(3, qna.getQnaContent());
+		stmt.setString(3, qna.getQnaContent().replace("\r\n","<br>"));
 		stmt.setString(4, qna.getQnaSecret());
 		stmt.setInt(5, qna.getMemberNo());
 		stmt.setInt(6, qna.getQnaNo());
@@ -153,7 +155,7 @@ public class QnaDao {
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, qna.getQnaCategory());
 		stmt.setString(2, qna.getQnaTitle());
-		stmt.setString(3, qna.getQnaContent());
+		stmt.setString(3, qna.getQnaContent().replace("\r\n","<br>"));
 		stmt.setString(4, qna.getQnaSecret());
 		stmt.setInt(5, qna.getMemberNo());
 		System.out.println("질문생성 stmt : "+stmt);
@@ -253,5 +255,56 @@ public class QnaDao {
 		conn.close();
 		
 		return list;
+	}
+	
+	// [관리자&고객] 질문과 답변 목록 추출
+	public Map<String, Object> selectQnaJoinCommentList(int beginRow, int rowPerPage) throws ClassNotFoundException, SQLException {
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		ArrayList<Qna> qnaList = new ArrayList<Qna>();
+		ArrayList<QnaComment> qnaCommentList = new ArrayList<QnaComment>();
+		
+		Qna qna = null;
+		QnaComment qnaComment = null;
+		
+		
+		// DB 연동 및 쿼리실행
+		DBUtil dbUilt = new DBUtil();
+		Connection conn = dbUilt.getConnection();
+		String sql = "SELECT q.*, m.member_id, qa.qna_comment_content, qa.create_date from (SELECT * FROM qna ORDER BY update_date DESC LIMIT ?,?) q INNER JOIN member m ON q.member_no = m.member_no LEFT JOIN  qna_comment qa ON q.qna_no=qa.qna_no";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, beginRow);
+		stmt.setInt(2, rowPerPage);
+		ResultSet rs = stmt.executeQuery();
+		System.out.println("질문 목록 추출 stmt : "+stmt);
+		
+		while(rs.next()) {			
+			qna = new Qna();
+			qna.setQnaNo(rs.getInt("q.qna_no"));
+			qna.setQnaTitle(rs.getString("q.qna_title"));
+			qna.setQnaContent(rs.getString("q.qna_content"));
+			qna.setQnaCategory(rs.getString("q.qna_category"));
+			qna.setQnaSecret(rs.getString("q.qna_secret"));
+			qna.setMemberNo(rs.getInt("q.member_no"));
+			qna.setCreateDate(rs.getString("q.create_date"));
+			qna.setUpdateDate(rs.getString("q.update_date"));
+			qna.setMemberId(rs.getNString("m.member_id"));
+			
+			qnaComment = new QnaComment();
+			qnaComment.setQnaCommentContent(rs.getString("qa.qna_comment_content"));
+			qnaComment.setCreateDate(rs.getString("qa.create_date"));
+			
+			qnaList.add(qna);
+			qnaCommentList.add(qnaComment);
+		}
+		
+		result.put("qnaList", qnaList);
+		result.put("qnaCommentList", qnaCommentList);
+		
+		rs.close();
+		stmt.close();
+		conn.close();
+		
+		return result;
 	}
 }

@@ -45,6 +45,6 @@
 	QnaDao qnaDao = new QnaDao();
 	qnaDao.updateQna(qna);
 	
-	response.sendRedirect(request.getContextPath()+"/selectQnaOne.jsp?qnaNo="+qnaNo);
+	response.sendRedirect(request.getContextPath()+"/selectQnaList.jsp?qnaNo="+qnaNo);
 	return;
 %>

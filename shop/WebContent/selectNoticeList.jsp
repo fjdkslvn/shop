@@ -23,84 +23,54 @@
 	ArrayList<Notice> noticeList = noticeDao.selectNoticeList(beginRow,ROW_PER_PAGE);
 %>
 <head>
-   <!-- style.css 불러오기 -->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/style.css">
-	
-	<!-- 부트스트랩 -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	
-	<!-- 자바스크립트 -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-   
    <meta charset="UTF-8">
    <title>전자책 상점</title>
 </head>
 <body>
-	<div class="text-center">
-		<a href="<%=request.getContextPath() %>/index.jsp"><img src="<%=request.getContextPath() %>/image/banner.PNG" width="550" height="130"></a>
-	</div>
-   <div class="right">
-      <%
-      	 request.setCharacterEncoding("utf-8");
-      
-         // 로그인이 되어있지 않으면 로그인,회원가입 보여주고 / 로그인 되어있으면 로그아웃 보이기
-         if(session.getAttribute("loginMember")==null){
-            %>
-                  <a href="<%=request.getContextPath() %>/loginForm.jsp">로그인</a>
-                  <a href="<%=request.getContextPath() %>/insertMemberForm.jsp">회원가입</a>
-            <%
-         } else {
-            Member loginMember = (Member)session.getAttribute("loginMember");
-            %>
-               *<%=loginMember.getMemberLevel() %>레벨* <%=loginMember.getMemberId() %>회원님 반갑습니다.
-               <a href="<%=request.getContextPath() %>/logout.jsp">로그아웃</a>
-               <a href="<%=request.getContextPath() %>/selectMyImfo.jsp">내정보</a>
-               <a href="<%=request.getContextPath() %>/selectOrderListByMember.jsp">나의주문</a>
-            <%
-            if(loginMember.getMemberLevel()>0){
-               %>
-                  <a href="<%=request.getContextPath() %>/admin/adminindex.jsp">관리자 페이지</a>
-               <%
-            }
-         }
-      %>
-   </div>
-   <br>
+
    <!-- start : submenu include -->
    <div>
       <jsp:include page="/partial/mainMenu.jsp"></jsp:include>
    </div>
    <!-- end : submenu include -->
    <br>
-	
+   
+   <div class="page-center">
 	
 	<table class="table" border="1">
-		<thead>
-			<tr>
-				<th>번호</th>
-				<th>제목</th>
-				<th>수정일</th>
-				<th>생성일</th>
-				<th>상세보기</th>
-			</tr>
-		</thead>
-		<tbody>
-			<%
-				// 반복을 통해 공지 목록을 표로 출력
-				for(Notice n : noticeList){
-			%>
-					<tr>
-						<td><%=n.getNotice_no() %></td>
-						<td><%=n.getNotice_title() %></td>
-						<td><%=n.getUpdate_date() %></td>
-						<td><%=n.getCreate_date() %></td>
-						<td><a href="<%=request.getContextPath() %>/selectNoticeOne.jsp?noticeNo=<%=n.getNotice_no() %>">상세보기</a></td>
-					</tr>
-			<%
-				}
-			%>
-		</tbody>
-	</table>
+			<thead>
+				<tr>
+					<th>공지사항</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+					<%
+						for(Notice n : noticeList){
+					%>
+						  <div class="card">
+						    <div class="card-header" id="heading<%=n.getNotice_no() %>">
+						      <h5 class="mb-0">
+						        <button class="btn btn-link" data-toggle="collapse" data-target="#<%=n.getNotice_no() %>" aria-controls="<%=n.getNotice_no() %>">
+						          * <%=n.getNotice_title() %> - <%=n.getCreate_date().substring(0,10) %>
+						        </button>
+						      </h5>
+						    </div>
+						
+						    <div id="<%=n.getNotice_no() %>" class="collapse" aria-labelledby="heading<%=n.getNotice_no() %>" data-parent="#accordion">
+						      <div class="card-body">
+						        <%=n.getNotice_content() %>
+						      </div>
+						    </div>
+						  </div>
+					<%	
+						}
+					%>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	
 	<br><br>
 	
@@ -114,11 +84,11 @@
    	   lastPage = noticeDao.selectNoticeListLastPage(ROW_PER_PAGE);
 	   
    %>
-    <ul class="pagination body-back-color">
+    <ul class="pagination pagination-lg body-back-color">
     <%
     	if(currentPage!=1){
     %>
-    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeList.jsp?currentPage=<%=1 %>">처음</a></li>
+    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeList.jsp?currentPage=<%=1 %>"><<</a></li>
     <%	
     	}
     	if(currentPage%ROW_PER_PAGE==0){ // 현재 페이지가 몇번째 묶음인지
@@ -130,15 +100,21 @@
     <%
     	if((currentnumPage)>0){ // 이전
     %>
-    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeList.jsp?currentPage=<%=ROW_PER_PAGE*(currentnumPage-1)+1 %>">이전</a></li>
+    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeList.jsp?currentPage=<%=ROW_PER_PAGE*(currentnumPage-1)+1 %>"><</a></li>
     <%
     	}
-    
+    	
     	for(int i=0;i<ROW_PER_PAGE;i++){ // 중간 번호들
     		if(lastPage>=(ROW_PER_PAGE*currentnumPage)+i+1){
-   	    %>
-   		  <li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeList.jsp?currentPage=<%=(ROW_PER_PAGE*currentnumPage)+i+1 %>"><%=(ROW_PER_PAGE*currentnumPage)+i+1 %></a></li>
-   	   <%
+    			if(currentPage == (ROW_PER_PAGE*currentnumPage)+i+1){
+  				%>
+  					<li class="page-item active"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeList.jsp?currentPage=<%=(ROW_PER_PAGE*currentnumPage)+i+1 %>"><%=(ROW_PER_PAGE*currentnumPage)+i+1 %></a></li>
+  				<%
+    			} else{
+   				%>
+   		   		  	<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeList.jsp?currentPage=<%=(ROW_PER_PAGE*currentnumPage)+i+1 %>"><%=(ROW_PER_PAGE*currentnumPage)+i+1 %></a></li>
+   		   		  <%	
+    			}
     		}
     	}
     	if(lastPage%ROW_PER_PAGE==0){ // 마지막 페이지가 몇번째 묶음인지
@@ -149,15 +125,16 @@
     	
     	if(lastnumPage>currentnumPage){
     %>
-    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeList.jsp?currentPage=<%=ROW_PER_PAGE*(currentnumPage+1)+1 %>">다음</a></li>
+    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeList.jsp?currentPage=<%=ROW_PER_PAGE*(currentnumPage+1)+1 %>">></a></li>
     <%
     	}
     	if(currentPage!=lastPage && lastPage!=0){
     %>
-    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeList.jsp?currentPage=<%=lastPage %>">맨끝</a></li>
+    		<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectNoticeList.jsp?currentPage=<%=lastPage %>">>></a></li>
     <%
     	}
     %>
 	</ul>
+	</div>
 </body>
 </html>

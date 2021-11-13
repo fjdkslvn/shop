@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+/*폰트*/
+*{
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
 /*회원가입,로그인 중앙 정렬*/
 .content-center{
 	width: 600px;
@@ -74,4 +79,8 @@ h2{
 
 td.size-19{
 	width: 19%;
+}
+
+p.size-15{
+	font-size: 15px;
 }

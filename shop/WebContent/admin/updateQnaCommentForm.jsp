@@ -87,7 +87,7 @@
 	<div class="content-center">
 	<form action="<%=request.getContextPath() %>/admin/updateQnaCommentAction.jsp" id="updateQnaCommentAction" method="post">
 		<div class="form-group">
-		  <textarea class="form-control" rows="5" name="content" id="content"><%=qnaComment.getQnaCommentContent() %></textarea>
+		  <textarea class="form-control" rows="5" name="content" id="content"><%=qnaComment.getQnaCommentContent().replace("<br>","\r\n") %></textarea>
 		 </div>
 		 <input type="hidden" name="qnaNo" value="<%=qnaNo %>">
 		<br><br>

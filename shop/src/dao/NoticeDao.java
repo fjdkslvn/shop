@@ -62,7 +62,7 @@ public class NoticeDao {
 		String sql = "UPDATE notice SET notice_title=?, notice_content=?, member_no=?, update_date=now() WHERE notice_no=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, notice.getNotice_title());
-		stmt.setString(2, notice.getNotice_content());
+		stmt.setString(2, notice.getNotice_content().replace("\r\n","<br>"));
 		stmt.setInt(3, notice.getMember_no());
 		stmt.setInt(4, notice.getNotice_no());
 		System.out.println("공지수정 stmt : "+stmt);
@@ -162,6 +162,7 @@ public class NoticeDao {
 			notice.setNotice_no(rs.getInt("n.notice_no"));
 			notice.setNotice_title(rs.getString("n.notice_title"));
 			notice.setMember_no(rs.getInt("n.member_no"));
+			notice.setNotice_content(rs.getString("n.notice_content"));
 			notice.setCreate_date(rs.getString("n.create_date"));
 			notice.setUpdate_date(rs.getString("n.update_date"));
 			notice.setMember_name(rs.getString("m.member_name"));

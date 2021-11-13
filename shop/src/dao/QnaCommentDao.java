@@ -32,7 +32,7 @@ public class QnaCommentDao {
 			Connection conn = dbUilt.getConnection();
 			String sql = "UPDATE qna_comment SET qna_comment_content=?, member_no=? ,update_date=now() WHERE qna_no=?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setString(1, qnaComment.getQnaCommentContent());
+			stmt.setString(1, qnaComment.getQnaCommentContent().replace("\r\n","<br>"));
 			stmt.setInt(2, qnaComment.getMemberNo());
 			stmt.setInt(3, qnaComment.getQnaNo());
 			System.out.println("질문 답변 수정 stmt : "+stmt);
@@ -50,7 +50,7 @@ public class QnaCommentDao {
 		String sql = "INSERT INTO qna_comment VALUE(?,?,?,now(),now())";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, qnaComment.getQnaNo());
-		stmt.setString(2, qnaComment.getQnaCommentContent());
+		stmt.setString(2, qnaComment.getQnaCommentContent().replace("\r\n","<br>"));
 		stmt.setInt(3, qnaComment.getMemberNo());
 		System.out.println("질문 답변 생성 stmt : "+stmt);
 		stmt.executeUpdate(); // 쿼리 실행
