@@ -134,14 +134,44 @@ public class OrderDao {
         conn.close();
 	}
 	
+	// 본인의 주문목록 마지막 페이지 구하기
+	public int selectOrderListByMemberLastPage(int rowPerPage, int memberNo) throws ClassNotFoundException, SQLException {
+		DBUtil dbUtil = new DBUtil();
+	    Connection conn = dbUtil.getConnection();
+    
+	   // 전체 페이지수 구하기
+       PreparedStatement stmt;
+   	   String sql = "select COUNT(*) from orders o inner join ebook e inner join member m on o.ebook_no = e.ebook_no and o.member_no = m.member_no where m.member_no=?";
+  	   stmt = conn.prepareStatement(sql);
+  	   stmt.setInt(1, memberNo);
+  	   System.out.println("나의 전체 주문수 stmt : "+stmt);
+	   ResultSet rs = stmt.executeQuery();
+	   rs.next();
+	   int totalData = rs.getInt("count(*)");
+	   int lastPage= totalData/rowPerPage; // 마지막 페이지 번호
+	   if(totalData%rowPerPage!=0){
+	   	lastPage +=1;
+	   }
+	   
+	   rs.close();
+	   stmt.close();
+	   conn.close();
+	   System.out.println("주문목록 개수"+totalData);
+	   System.out.println("마지막페이지"+lastPage);
+	   
+	   return lastPage;
+	}
+	
 	// 나의 주문 리스트 출력
-    public ArrayList<OrderEbookMember> selectOrderListByMember(int memberNo) throws ClassNotFoundException, SQLException{
+    public ArrayList<OrderEbookMember> selectOrderListByMember(int memberNo, int beginRow, int rowPerPage) throws ClassNotFoundException, SQLException{
       ArrayList<OrderEbookMember> list = new ArrayList<>();
       DBUtil dbUtil = new DBUtil();
        Connection conn = dbUtil.getConnection();
-       String sql = "select o.order_no orderNo, e.ebook_no ebookNo, e.ebook_title ebookTitle, m.member_no memberNo, m.member_id memberId, o.order_price orderPrice, o.create_date createDate from orders o inner join ebook e inner join member m on o.ebook_no = e.ebook_no and o.member_no = m.member_no where m.member_no=? order by o.create_date DESC";
+       String sql = "select o.order_no orderNo, e.ebook_no ebookNo, e.ebook_title ebookTitle, o.order_price orderPrice, o.create_date createDate from orders o inner join ebook e inner join member m on o.ebook_no = e.ebook_no and o.member_no = m.member_no where m.member_no=? order by o.create_date DESC LIMIT ?,?";
        PreparedStatement stmt = conn.prepareStatement(sql);
        stmt.setInt(1, memberNo);
+       stmt.setInt(2, beginRow);
+       stmt.setInt(3, rowPerPage);
        ResultSet rs = stmt.executeQuery();
        while(rs.next()) {
           OrderEbookMember oem = new OrderEbookMember();
@@ -155,11 +185,6 @@ public class OrderDao {
           e.setEbookNo(rs.getInt("ebookNo"));
           e.setEbookTitle(rs.getString("ebookTitle"));
           oem.setEbook(e);
-          
-          Member m = new Member();
-          m.setMemberNo(rs.getInt("memberNo"));
-          m.setMemberId(rs.getString("memberId"));
-          oem.setMember(m);
           
           list.add(oem);
        }

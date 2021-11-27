@@ -5,6 +5,11 @@
 
 <!DOCTYPE html>
 <html>
+<head>
+   <meta charset="UTF-8">
+   <title>전자책 상점</title>
+</head>
+<body>
 <%
 	request.setCharacterEncoding("utf-8");
 	
@@ -29,11 +34,6 @@
 	ArrayList<Qna> qnaList = (ArrayList<Qna>)map.get("qnaList");
 	ArrayList<QnaComment> qnaCommentList = (ArrayList<QnaComment>)map.get("qnaCommentList");
 %>
-<head>
-   <meta charset="UTF-8">
-   <title>전자책 상점</title>
-</head>
-<body>
 
    <!-- start : submenu include -->
    <div>
@@ -84,7 +84,7 @@
 					        			<br><br><br>
 								        <p>[답변]</p>
 								        <%=qnaComment.getQnaCommentContent() %>
-								        <p class="size-15">작성일 : <%=qnaComment.getCreateDate().substring(0,10) %></p>
+								        <p class="size-15">답변일 : <%=qnaComment.getCreateDate().substring(0,10) %></p>
 					        		<%
 							        	}
 							        %>
@@ -101,7 +101,7 @@
 					    						<!-- 질문 삭제 버튼 -->
 					    						<form action="<%=request.getContextPath() %>/deleteQna.jsp" id="deleteQnaForm" method="post">
 					    							<input type="hidden" value="<%=qna.getQnaNo() %>" name="qnaNo">
-					    							<button class="btn btn-secondary" type="submit" id="deleteBtn">질문삭제</button>
+					    							<button class="btn btn-danger" type="submit" id="deleteBtn">질문삭제</button>
 					    						</form>
 					    					</td>
 					    				</tr>
@@ -147,7 +147,7 @@
 					        			<br><br><br>
 								        <p>[답변]</p>
 								        <%=qnaComment.getQnaCommentContent() %>
-								        <p class="size-15">작성일 : <%=qnaComment.getCreateDate().substring(0,10) %></p>
+								        <p class="size-15">답변일 : <%=qnaComment.getCreateDate().substring(0,10) %></p>
 					        		<%
 							        	}
 							        %>
@@ -167,7 +167,7 @@
 														<!-- 질문 삭제 버튼 -->
 														<form action="<%=request.getContextPath() %>/deleteQna.jsp" id="deleteQnaForm" method="post">
 															<input type="hidden" value="<%=qna.getQnaNo() %>" name="qnaNo">
-															<button class="btn btn-secondary" type="submit" id="deleteBtn">질문삭제</button>
+															<button class="btn btn-danger" type="submit" id="deleteBtn">질문삭제</button>
 														</form>
 													</td>
 												</tr>
@@ -209,7 +209,7 @@
    	   lastPage = qnaDao.selectQnaListLastPage(ROW_PER_PAGE);
 	   
    %>
-    <ul class="pagination body-back-color">
+    <ul class="pagination pagination-lg body-back-color">
     <%
     	if(currentPage!=1){
     %>

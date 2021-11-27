@@ -83,7 +83,7 @@ public class OrderCommentDao {
 		Connection conn = dbUilt.getConnection();
 		String sql = "UPDATE order_comment SET order_comment_content=?, order_score=?, update_date=now() WHERE order_no=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, orderComment.getOrderCommentContent());
+		stmt.setString(1, orderComment.getOrderCommentContent().replace("\r\n","<br>"));
 		stmt.setInt(2, orderComment.getOrderScore());
 		stmt.setInt(3, orderComment.getOrderNo());
 		System.out.println("후기수정 stmt : "+stmt);
@@ -163,12 +163,14 @@ public class OrderCommentDao {
    }
 	
 	// 특정 전자책 후기 가져오기
-	public ArrayList<OrderComment> selectOrderComment(int ebookNo, int beginRow, int rowPerPage) throws ClassNotFoundException, SQLException {
-		ArrayList<OrderComment> list = new ArrayList<>();
+	public Map<String,Object> selectOrderComment(int ebookNo, int beginRow, int rowPerPage) throws ClassNotFoundException, SQLException {
+		Map<String,Object> list = new HashMap<String, Object>();
+		ArrayList<OrderComment> comment = new ArrayList<>();
+		ArrayList<String> memberName = new ArrayList<String>();
 		OrderComment orderComment = null;
 		DBUtil dbUtil = new DBUtil();
        Connection conn = dbUtil.getConnection();
-       String sql = "SELECT order_score, order_comment_content, update_date FROM order_comment WHERE ebook_no=? limit ?,?";
+       String sql = "SELECT oc.order_score, oc.order_comment_content, m.member_name, oc.update_date FROM order_comment oc INNER JOIN orders o ON oc.order_no=o.order_no INNER JOIN member m ON o.member_no=m.member_no WHERE oc.ebook_no=? limit ?,?";
        PreparedStatement stmt = conn.prepareStatement(sql);
        stmt.setInt(1, ebookNo);
        stmt.setInt(2, beginRow);
@@ -176,11 +178,15 @@ public class OrderCommentDao {
        ResultSet rs = stmt.executeQuery();
        while(rs.next()) {
     	   orderComment = new OrderComment();
-    	   orderComment.setOrderScore(rs.getInt("order_score"));
-    	   orderComment.setOrderCommentContent(rs.getString("order_comment_content"));
-    	   orderComment.setUpdateDate(rs.getString("update_date"));
-    	   list.add(orderComment);
+    	   orderComment.setOrderScore(rs.getInt("oc.order_score"));
+    	   orderComment.setOrderCommentContent(rs.getString("oc.order_comment_content"));
+    	   orderComment.setUpdateDate(rs.getString("oc.update_date"));
+    	   memberName.add(rs.getString("m.member_name"));
+    	   comment.add(orderComment);
        }
+       
+       list.put("memberName", memberName);
+       list.put("comment", comment);
        
        rs.close();
        stmt.close();
@@ -218,7 +224,7 @@ public class OrderCommentDao {
        stmt.setInt(1, orderComment.getOrderNo());
        stmt.setInt(2, orderComment.getEbookNo());
        stmt.setInt(3, orderComment.getOrderScore());
-       stmt.setString(4, orderComment.getOrderCommentContent());
+       stmt.setString(4, orderComment.getOrderCommentContent().replace("\r\n","<br>"));
        stmt.executeUpdate();
        
        stmt.close();

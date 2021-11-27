@@ -2,6 +2,13 @@
 <%@ page import="vo.*" %>
 <%@ page import="dao.*" %>
 
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="UTF-8">
+   <title>전자책 상점</title>
+</head>
+<body>
 <%
 	request.setCharacterEncoding("utf-8");
 
@@ -24,55 +31,7 @@
 	// 기존에 작성한 후기값 받아오기
 	OrderCommentDao orderCommentDao = new OrderCommentDao();
 	OrderComment orderComment = orderCommentDao.selectOrderCommentOne(orderNo);
-	
-	
 %>
-<!DOCTYPE html>
-<html>
-<head>
-   <!-- style.css 불러오기 -->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/style.css">
-	
-	<!-- 부트스트랩 -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	
-	<!-- 자바스크립트 -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-   
-   <meta charset="UTF-8">
-   <title>전자책 상점</title>
-</head>
-<body>
-	<div class="text-center">
-		<a href="<%=request.getContextPath() %>/index.jsp"><img src="<%=request.getContextPath() %>/image/banner.PNG" width="550" height="130"></a>
-	</div>
-   <div class="right">
-      <%
-      	 request.setCharacterEncoding("utf-8");
-      
-         // 로그인이 되어있지 않으면 로그인,회원가입 보여주고 / 로그인 되어있으면 로그아웃 보이기
-         if(session.getAttribute("loginMember")==null){
-            %>
-                  <a href="<%=request.getContextPath() %>/loginForm.jsp">로그인</a>
-                  <a href="<%=request.getContextPath() %>/insertMemberForm.jsp">회원가입</a>
-            <%
-         } else {
-            loginMember = (Member)session.getAttribute("loginMember");
-            %>
-               *<%=loginMember.getMemberLevel() %>레벨* <%=loginMember.getMemberId() %>회원님 반갑습니다.
-               <a href="<%=request.getContextPath() %>/logout.jsp">로그아웃</a>
-               <a href="<%=request.getContextPath() %>/selectMyImfo.jsp">내정보</a>
-               <a href="<%=request.getContextPath() %>/selectOrderListByMember.jsp">나의주문</a>
-            <%
-            if(loginMember.getMemberLevel()>0){
-               %>
-                  <a href="<%=request.getContextPath() %>/admin/adminindex.jsp">관리자 페이지</a>
-               <%
-            }
-         }
-      %>
-   </div>
-   <br>
    <!-- start : submenu include -->
    <div>
       <jsp:include page="/partial/mainMenu.jsp"></jsp:include>
@@ -82,8 +41,8 @@
 	<div class="content-center">
 		<form id="updateForm" action="<%=request.getContextPath() %>/updateOrderCommentAction.jsp" method="post">
 			<div class="form-group">
-			  <label for="comment">후기:</label>
-			  <textarea id="content" class="form-control" rows="5" name="comment"><%=orderComment.getOrderCommentContent() %></textarea>
+			  <label for="comment">후기 작성</label>
+			  <textarea id="content" class="form-control" rows="5" name="comment"><%=orderComment.getOrderCommentContent().replace("<br>","\r\n") %></textarea>
 			</div>
 			별점 : 
 			<select name="starNum">
@@ -104,16 +63,17 @@
 			<input type="hidden" name="orderNo" value="<%=orderNo %>">
 			<br><br>
 			
-			<table>
+			<table style="width:100%">
 				<tr>
-					<td>
-							<button type="button" id="updateBtn" class="btn btn-success">작성</button>
+					<td style="width:60%">
+							<button type="button" id="updateBtn" style="width:100%;" class="btn btn-primary">작성</button>
 						</form>
 					</td>
-					<td>
+					<td style="width:20%"></td>
+					<td style="width:20%">
 						<form id="deleteForm" action="<%=request.getContextPath() %>/deleteOrderComment.jsp" method="post">
 							<input type="hidden" name="orderNo" value="<%=orderNo %>">
-							<button type="button" id="deleteBtn" class="btn btn-secondary">후기삭제</button>
+							<button type="button" id="deleteBtn" style="width:100%;" class="btn btn-danger">삭제</button>
 						</form>
 					</td>
 				</tr>

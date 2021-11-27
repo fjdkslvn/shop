@@ -2,7 +2,13 @@
 <%@ page import="vo.*" %>
 <%@ page import="dao.*" %>
 <%@ page import="java.util.*" %>
-
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="UTF-8">
+   <title>전자책 상점</title>
+</head>
+<body>
 <%
 	request.setCharacterEncoding("utf-8");
 
@@ -17,65 +23,22 @@
 	final int ROW_PER_PAGE = 10; // 페이지에 보일 후기 개수
 	int beginRow = (currentPage-1)*ROW_PER_PAGE; // 리스트 목록 시작 부분
 %>
-<!DOCTYPE html>
-<html>
-<head>
-   <!-- style.css 불러오기 -->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/style.css">
-	
-	<!-- 부트스트랩 -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	
-	<!-- 자바스크립트 -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-   
-   <meta charset="UTF-8">
-   <title>전자책 상점</title>
-</head>
-<body>
-	<div class="text-center">
-		<a href="<%=request.getContextPath() %>/index.jsp"><img src="<%=request.getContextPath() %>/image/banner.PNG" width="550" height="130"></a>
-	</div>
-   <div class="right">
-      <%
-      	 request.setCharacterEncoding("utf-8");
-      
-         // 로그인이 되어있지 않으면 로그인,회원가입 보여주고 / 로그인 되어있으면 로그아웃 보이기
-         if(session.getAttribute("loginMember")==null){
-            %>
-                  <a href="<%=request.getContextPath() %>/loginForm.jsp">로그인</a>
-                  <a href="<%=request.getContextPath() %>/insertMemberForm.jsp">회원가입</a>
-            <%
-         } else {
-            Member loginMember = (Member)session.getAttribute("loginMember");
-            %>
-               *<%=loginMember.getMemberLevel() %>레벨* <%=loginMember.getMemberId() %>회원님 반갑습니다.
-               <a href="<%=request.getContextPath() %>/logout.jsp">로그아웃</a>
-               <a href="<%=request.getContextPath() %>/selectMyImfo.jsp">내정보</a>
-               <a href="<%=request.getContextPath() %>/selectOrderListByMember.jsp">나의주문</a>
-            <%
-            if(loginMember.getMemberLevel()>0){
-               %>
-                  <a href="<%=request.getContextPath() %>/admin/adminindex.jsp">관리자 페이지</a>
-               <%
-            }
-         }
-      %>
-   </div>
-   <br>
    <!-- start : submenu include -->
    <div>
       <jsp:include page="/partial/mainMenu.jsp"></jsp:include>
    </div>
    <!-- end : submenu include -->
    <br>
-	<div>
+	<div class="page-center">
 		<!-- 상품상세출력 -->
 		<%
 			EbookDao ebookDao = new EbookDao();
 			Ebook ebook = ebookDao.selectEbookOne(ebookNo);
 		%>
-		<img src="<%=request.getContextPath() %>/image/<%=ebook.getEbookImg() %>" width="200" height="200">
+		
+		<div style="text-align : center;">
+			<img src="<%=request.getContextPath() %>/image/<%=ebook.getEbookImg() %>" width="400" height="500">
+		</div>
 		<br><br>
 		<table class="table">
 			<tr>
@@ -103,8 +66,7 @@
 				<td><%=ebook.getEbookState() %></td>
 			</tr>
 		</table>
-	</div>
-	<div>
+		
 		<!-- 주문 입력하는 폼 -->
 		<%
 			Member loginMember = (Member)session.getAttribute("loginMember");
@@ -147,10 +109,8 @@
 				}
 			}
 		%>
-	</div>
-	<br><br>
+		<br><br>
 	
-	<div>
 		<h2>상품 후기</h2>
 		<!-- 이 상품의 별점의 평균 -->
 		<!-- select avg(order_score) from order_comment where ebook_no=? order by ebook_no -->
@@ -161,7 +121,9 @@
 			double avgScore = orderCommentDao.selectOrderScoreAvg(ebookNo);
 			
 			// 후기 리스트 추출
-			ArrayList<OrderComment> commentList = orderCommentDao.selectOrderComment(ebookNo, beginRow, ROW_PER_PAGE);
+			Map<String, Object> commentList = orderCommentDao.selectOrderComment(ebookNo, beginRow, ROW_PER_PAGE);
+			ArrayList<OrderComment> comment = (ArrayList<OrderComment>)commentList.get("comment");
+			ArrayList<String> memberName = (ArrayList<String>)commentList.get("memberName");
 			
 			// 후기 리스트 마지막 페이지
 			int lastPage = orderCommentDao.selectOrderCommentListLastPageOne(ROW_PER_PAGE, ebookNo);
@@ -174,39 +136,41 @@
 		<div>
 			<table class="table">
 				<tr>
-					<td>별점</td>
-					<td>후기</td>
-					<td>날짜</td>
+					<td style="width:10%;">별점</td>
+					<td style="width:55%;">후기</td>
+					<td style="width:20%;">작성자</td>
+					<td style="width:15%;">날짜</td>
 				</tr>
 			<%
-				for(OrderComment o:commentList){
+				for(int i=0; i<comment.size();i++){
 			%>
 					<tr>
-						<td><%=o.getOrderScore() %></td>
-						<td><%=o.getOrderCommentContent() %></td>
-						<td><%=o.getUpdateDate() %></td>
+						<td><%=comment.get(i).getOrderScore() %></td>
+						<td><%=comment.get(i).getOrderCommentContent() %></td>
+						<td><%=memberName.get(i) %></td>
+						<td><%=comment.get(i).getUpdateDate() %></td>
 					</tr>
 			<%
 				}
 			%>
 			</table>
 		</div>
-		
+		<ul class="pagination pagination-lg body-back-color">
 		<%
 			if(currentPage>1){
 		%>
-				<a href="<%=request.getContextPath() %>/selectEbookOne.jsp?ebookNo=<%=ebookNo %>&currentPage=<%=currentPage-1 %>">이전</a>
+				<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectEbookOne.jsp?ebookNo=<%=ebookNo %>&currentPage=<%=currentPage-1 %>"><</a></li>
 		<%
 			}
 			
 			if(currentPage<lastPage){
 		%>
-				<a href="<%=request.getContextPath() %>/selectEbookOne.jsp?ebookNo=<%=ebookNo %>&currentPage=<%=currentPage+1 %>">다음</a>
+				<li class="page-item"><a class="page-link" href="<%=request.getContextPath() %>/selectEbookOne.jsp?ebookNo=<%=ebookNo %>&currentPage=<%=currentPage+1 %>">></a></li>
 		<%
 			}
 		%>
-		
-		
+		</ul>
+		<br><br>
 	</div>
 </body>
 </html>

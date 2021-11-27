@@ -22,10 +22,6 @@
     margin:auto;
 }
 
-/* 위쪽 여백 주기 */
-.top-margin{
-	margin-top: 30px;
-}
 
 /* 일부 요소 오른쪽 정렬 */
 .right{
