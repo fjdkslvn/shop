@@ -7,7 +7,7 @@ import java.util.*;
 
 public class NoticeDao {
 	
-	// [관리자&고객]최근 공지 5개 보이기
+	// [관리자&고객]최근 공지 3개 보이기
 	public ArrayList<Notice> selectRecentNoticeList() throws ClassNotFoundException, SQLException {
 		ArrayList<Notice> list = new ArrayList<>();
 		Notice notice = null;
@@ -15,7 +15,7 @@ public class NoticeDao {
 		// DB 연동 및 쿼리실행
 		DBUtil dbUilt = new DBUtil();
 		Connection conn = dbUilt.getConnection();
-		String sql = "SELECT n.*, m.member_name FROM notice n INNER JOIN member m ON n.member_no = m.member_no  ORDER BY n.update_date DESC limit 0,5";
+		String sql = "SELECT n.*, m.member_name FROM notice n INNER JOIN member m ON n.member_no = m.member_no  ORDER BY n.update_date DESC limit 0,3";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
 		System.out.println("최근 공지 목록 추출 stmt : "+stmt);

@@ -36,36 +36,48 @@
 			Ebook ebook = ebookDao.selectEbookOne(ebookNo);
 		%>
 		
-		<div style="text-align : center;">
-			<img src="<%=request.getContextPath() %>/image/<%=ebook.getEbookImg() %>" width="400" height="500">
-		</div>
-		<br><br>
-		<table class="table">
+		<!-- 표지와 상세정보를 가로로 나열 -->
+		<table style="width: 100%;">
 			<tr>
-				<td>제목</td>
-				<td><%=ebook.getEbookTitle() %></td>
-			</tr>
-			<tr>
-				<td>저자</td>
-				<td><%=ebook.getEbookAuthor() %></td>
-			</tr>
-			<tr>
-				<td>가격</td>
-				<td><%=ebook.getEbookPrice() %></td>
-			</tr>
-			<tr>
-				<td>분량</td>
-				<td><%=ebook.getEbookPageCount() %>p</td>
-			</tr>
-			<tr>
-				<td>소개</td>
-				<td><%=ebook.getEbookSummary() %></td>
-			</tr>
-			<tr>
-				<td>상태</td>
-				<td><%=ebook.getEbookState() %></td>
+				<td style="width: 30%;">
+					<!-- 전자책 표지 -->
+					<div style="text-align : center;">
+						<img src="<%=request.getContextPath() %>/image/<%=ebook.getEbookImg() %>" width="100%";>
+					</div>
+				</td>
+				<td style="width: 10%;"></td>
+				<td style="width: 60%;">
+					<!-- 전자책 상세정보 -->
+					<table class="table">
+						<tr>
+							<td style="width: 10%;">제목</td>
+							<td style="width: 90%;"><%=ebook.getEbookTitle() %></td>
+						</tr>
+						<tr>
+							<td>저자</td>
+							<td><%=ebook.getEbookAuthor() %></td>
+						</tr>
+						<tr>
+							<td>가격</td>
+							<td><%=ebook.getEbookPrice() %></td>
+						</tr>
+						<tr>
+							<td>분량</td>
+							<td><%=ebook.getEbookPageCount() %>p</td>
+						</tr>
+						<tr>
+							<td>소개</td>
+							<td><%=ebook.getEbookSummary() %></td>
+						</tr>
+						<tr>
+							<td>상태</td>
+							<td><%=ebook.getEbookState() %></td>
+						</tr>
+					</table>
+				</td>
 			</tr>
 		</table>
+		<br>
 		
 		<!-- 주문 입력하는 폼 -->
 		<%

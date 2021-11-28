@@ -21,7 +21,7 @@
 <style type="text/css">
 		*{
 			font-family: 'Noto Sans KR', sans-serif;
-			font-size: 18px;
+			font-size: 13px;
 		}
 </style>
 
@@ -64,7 +64,7 @@
   </div>
    <br>
 <div>
-	<nav class="navbar navbar-expand-sm bg-light">
+	<nav class="navbar navbar-expand-sm bg-light" style="width: 100%;">
 		<ul class="navbar-nav">
 			<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/index.jsp">메인</a></li>
 			<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/selectNoticeList.jsp">공지사항</a></li>

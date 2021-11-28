@@ -46,8 +46,8 @@
       
       <div class="page-center">
       <br>
-		<!-- 최근 공지사항 5개를 출력 -->
-		<table class="table" border="1">
+		<!-- 최근 공지사항 3개를 출력 -->
+		<table class="table">
 			<thead>
 				<tr>
 					<th>최근 공지사항</th>
@@ -93,7 +93,7 @@
 		               <td class="size-19">
 		                  <div>
 		                  	<a href="<%=request.getContextPath() %>/selectEbookOne.jsp?ebookNo=<%=e.getEbookNo() %>">
-		                  	<img src="<%=request.getContextPath() %>/image/<%=e.getEbookImg() %>" width="200" height="200">
+		                  	<div id="square"><img src="<%=request.getContextPath() %>/image/<%=e.getEbookImg() %>"></div>
 		                  	</a>
 		                  </div>
 		                  <div>
@@ -120,7 +120,7 @@
 		               <td class="size-19">
 		                  <div>
 			                  <a href="<%=request.getContextPath() %>/selectEbookOne.jsp?ebookNo=<%=e.getEbookNo() %>">
-			                  	<img src="<%=request.getContextPath() %>/image/<%=e.getEbookImg() %>" width="200" height="200">
+			                  	<div id="square"><img src="<%=request.getContextPath() %>/image/<%=e.getEbookImg() %>"></div>
 			                  </a>
 		                  </div>
 		                  <div>
@@ -150,7 +150,7 @@
                <td class="size-19">
                   <div>
                   	<a href="<%=request.getContextPath() %>/selectEbookOne.jsp?ebookNo=<%=e.getEbookNo() %>">
-                  		<img src="<%=request.getContextPath() %>/image/<%=e.getEbookImg() %>" width="200" height="200">
+                  		<div id="square"><img src="<%=request.getContextPath() %>/image/<%=e.getEbookImg() %>"></div>
                   	</a>
                   </div>
                   <div>
@@ -193,7 +193,7 @@
 	   
    %>
    <div>
-    <ul class="pagination pagination-lg body-back-color">
+    <ul class="pagination body-back-color">
     <%
     	if(currentPage!=1){
     %>

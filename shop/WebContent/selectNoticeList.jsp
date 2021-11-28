@@ -37,7 +37,7 @@
    
    <div class="page-center">
 	
-	<table class="table" border="1">
+	<table class="table">
 			<thead>
 				<tr>
 					<th>공지사항</th>
@@ -84,7 +84,7 @@
    	   lastPage = noticeDao.selectNoticeListLastPage(ROW_PER_PAGE);
 	   
    %>
-    <ul class="pagination pagination-lg body-back-color">
+    <ul class="pagination body-back-color">
     <%
     	if(currentPage!=1){
     %>

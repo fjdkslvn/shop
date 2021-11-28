@@ -43,7 +43,7 @@
    <br>
 	
 	<div class="page-center">
-	<table class="table" border="1">
+	<table class="table">
 		<thead>
 			<tr>
 				<th>QnA</th>
@@ -76,7 +76,7 @@
 							      <div class="card-body">
 							      	<p>[질문]</p>
 							        <%=qna.getQnaContent() %>
-							        <p class="size-15">작성일 : <%=qna.getCreateDate().substring(0,10) %></p>
+							        <p class="size-10">작성일 : <%=qna.getCreateDate().substring(0,10) %></p>
 							        
 							        <%
 							        	if(qnaComment.getQnaCommentContent()!=null && qnaComment.getQnaCommentContent()!=""){
@@ -84,7 +84,7 @@
 					        			<br><br><br>
 								        <p>[답변]</p>
 								        <%=qnaComment.getQnaCommentContent() %>
-								        <p class="size-15">답변일 : <%=qnaComment.getCreateDate().substring(0,10) %></p>
+								        <p class="size-10">답변일 : <%=qnaComment.getCreateDate().substring(0,10) %></p>
 					        		<%
 							        	}
 							        %>
@@ -139,7 +139,7 @@
 							      <div class="card-body">
 							      	<p>[질문]</p>
 							        <%=qna.getQnaContent() %>
-							        <p class="size-15">작성일 : <%=qna.getCreateDate().substring(0,10) %></p>
+							        <p class="size-10">작성일 : <%=qna.getCreateDate().substring(0,10) %></p>
 							        
 							        <%
 							        	if(qnaComment.getQnaCommentContent()!=null && qnaComment.getQnaCommentContent()!=""){
@@ -147,7 +147,7 @@
 					        			<br><br><br>
 								        <p>[답변]</p>
 								        <%=qnaComment.getQnaCommentContent() %>
-								        <p class="size-15">답변일 : <%=qnaComment.getCreateDate().substring(0,10) %></p>
+								        <p class="size-10">답변일 : <%=qnaComment.getCreateDate().substring(0,10) %></p>
 					        		<%
 							        	}
 							        %>
@@ -209,7 +209,7 @@
    	   lastPage = qnaDao.selectQnaListLastPage(ROW_PER_PAGE);
 	   
    %>
-    <ul class="pagination pagination-lg body-back-color">
+    <ul class="pagination body-back-color">
     <%
     	if(currentPage!=1){
     %>
