@@ -62,7 +62,7 @@ li:after {
   transition: width 0.3s ease 0s, left 0.3s ease 0s;
   width: 0;
 }
-li:hover:after { 
+li.line:hover:after { 
   width: 100%; 
   left: 0; 
 }
@@ -81,11 +81,11 @@ p.size-10{
 	font-size: 10sp;
 }
 
-/* 정사각형 사진 만들기 */
+/* 메인에서 책 나열 */
 #square {
 	position:relative;
 	width:100%;
-	padding-bottom: 100%;
+	padding-bottom: 140%;
 	overflow:hidden;
 }
 #square >img{

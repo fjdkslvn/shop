@@ -58,5 +58,11 @@
 			<button type="submit" style="width:100%" class="btn btn-primary">작성</button>
 		</form>
 	</div>
+	
+	<!-- footer -->
+	<div>
+      <jsp:include page="/partial/footer.jsp"></jsp:include>
+   </div>
+   
 </body>
 </html>

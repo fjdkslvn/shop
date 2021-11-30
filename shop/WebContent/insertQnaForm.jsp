@@ -55,7 +55,12 @@
 			<button type="button" style="width:100%" class="btn btn-primary" id="btn">작성</button>
 		</form>
 	</div>
-
+	
+	<!-- footer -->
+	<div>
+      <jsp:include page="/partial/footer.jsp"></jsp:include>
+   </div>
+   
 	<script>
 		// 작성 버튼을 눌렀을 경우
 		$('#btn').click(function(){

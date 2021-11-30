@@ -67,12 +67,16 @@
 		<input type="hidden" value="<%=orderNo %>" name="orderNo">
 		<button class="btn btn-danger" type="button" id="btn">주문취소</button>
 	</form>
+	</div>
+	<!-- footer -->
+	<div>
+      <jsp:include page="/partial/footer.jsp"></jsp:include>
+   </div>
 	<script>
 		$('#btn').click(function(){
 			// 버튼을 click했을때
 			$('#deleteForm').submit();
 		});
 	</script>
-</div>
 </body>
 </html>

@@ -81,7 +81,11 @@
 				</td>
 			</tr>
 		</table>
-	
+	</div>
+	<!-- footer -->
+	<div>
+      <jsp:include page="/partial/footer.jsp"></jsp:include>
+   </div>
 	<script>
 		// 회원 정보 수정 버튼
 		$('#updateBtn').click(function(){
@@ -125,6 +129,5 @@
 			}
 		});
 	</script>
-</div>
 </body>
 </html>

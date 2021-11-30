@@ -62,14 +62,14 @@ public class EbookDao {
         return check;
 	}
 	
-	// 신상품 5개 목록 출력
+	// 신상품 10개 목록 출력
 	public ArrayList<Ebook> selectNewEbookList() throws ClassNotFoundException, SQLException{
 		ArrayList<Ebook> list = new ArrayList<>();
 		
 	      // mariaDB 연동
 	      DBUtil dbUilt = new DBUtil();
 	      Connection conn = dbUilt.getConnection();
-	      String sql = "SELECT ebook_no ebookNo, ebook_title ebookTitle, ebook_img ebookImg, ebook_price ebookPrice FROM ebook ORDER BY create_date DESC LIMIT 0,5";
+	      String sql = "SELECT ebook_no ebookNo, ebook_title ebookTitle, ebook_img ebookImg, ebook_price ebookPrice FROM ebook ORDER BY create_date DESC LIMIT 0,10";
 	      PreparedStatement stmt = conn.prepareStatement(sql);
 	      System.out.println("ebook 목록 출력 stmt : "+stmt);
 	      ResultSet rs = stmt.executeQuery();
@@ -89,14 +89,14 @@ public class EbookDao {
 	      return list;
 	}
 	
-	// 인기 상품 5개 목록 출력
+	// 인기 상품 10개 목록 출력
 	public ArrayList<Ebook> selectPopularEbookList() throws ClassNotFoundException, SQLException{
 		ArrayList<Ebook> list = new ArrayList<>();
 		
 	      // mariaDB 연동
 	      DBUtil dbUilt = new DBUtil();
 	      Connection conn = dbUilt.getConnection();
-	      String sql = "SELECT t.ebook_no ebookNo, e.ebook_title ebookTitle, e.ebook_img ebookImg, e.ebook_price ebookPrice from ebook e INNER join (select ebook_no, count(ebook_no) cnt from orders GROUP BY ebook_no ORDER BY COUNT(ebook_no) DESC LIMIT 0,5) t ON e.ebook_no=t.ebook_no";
+	      String sql = "SELECT t.ebook_no ebookNo, e.ebook_title ebookTitle, e.ebook_img ebookImg, e.ebook_price ebookPrice from ebook e INNER join (select ebook_no, count(ebook_no) cnt from orders GROUP BY ebook_no ORDER BY COUNT(ebook_no) DESC LIMIT 0,10) t ON e.ebook_no=t.ebook_no";
 	      PreparedStatement stmt = conn.prepareStatement(sql);
 	      System.out.println("ebook 목록 출력 stmt : "+stmt);
 	      ResultSet rs = stmt.executeQuery();

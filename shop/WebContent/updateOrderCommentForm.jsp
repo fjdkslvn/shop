@@ -79,6 +79,12 @@
 				</tr>
 			</table>
 	</div>
+	
+	<!-- footer -->
+	<div>
+      <jsp:include page="/partial/footer.jsp"></jsp:include>
+   </div>
+   
 	<script>
 		// 수정 버튼 클릭 시
 		$('#updateBtn').click(function(){

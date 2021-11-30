@@ -136,5 +136,10 @@
     %>
 	</ul>
 	</div>
+	
+	<!-- footer -->
+	<div>
+      <jsp:include page="/partial/footer.jsp"></jsp:include>
+   </div>
 </body>
 </html>

@@ -98,8 +98,14 @@
 			</div>
 	
 		</form>
+	</div>
 		
-		<script>
+	<!-- footer -->
+	<div>
+      <jsp:include page="/partial/footer.jsp"></jsp:include>
+   </div>
+   
+	<script>
 		$('#btn').click(function(){
 			// 버튼을 click했을때
 			let memberGedner = $('.memberGender:checked'); // .클래스속성으로 부르면 리턴값은 배열
@@ -115,6 +121,7 @@
 			}
 		});
 	</script>
-	</div>
+	
+	
 </body>
 </html>

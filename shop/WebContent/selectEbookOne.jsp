@@ -50,8 +50,8 @@
 					<!-- 전자책 상세정보 -->
 					<table class="table">
 						<tr>
-							<td style="width: 10%;">제목</td>
-							<td style="width: 90%;"><%=ebook.getEbookTitle() %></td>
+							<td style="width: 13%;">제목</td>
+							<td style="width: 87%;"><%=ebook.getEbookTitle() %></td>
 						</tr>
 						<tr>
 							<td>저자</td>
@@ -184,5 +184,10 @@
 		</ul>
 		<br><br>
 	</div>
+	
+	<!-- footer -->
+	<div>
+      <jsp:include page="/partial/footer.jsp"></jsp:include>
+   </div>
 </body>
 </html>

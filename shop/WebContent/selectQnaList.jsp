@@ -263,6 +263,11 @@
 	</ul>
 	</div>
 	
+	<!-- footer -->
+	<div>
+      <jsp:include page="/partial/footer.jsp"></jsp:include>
+   </div>
+   
 	<script>
 		$('#insertBtn').click(function(){
 			// 버튼을 클릭하면 질문 생성폼으로 이동

@@ -107,6 +107,11 @@
 		<br><br>
 	</div>
 	
+	<!-- footer -->
+	<div>
+      <jsp:include page="/partial/footer.jsp"></jsp:include>
+   </div>
+	
 	<script>
 		$('#btn').click(function(){
 			// 버튼을 click했을때
@@ -127,6 +132,6 @@
 			}
 		});
 	</script>
-
+	
 </body>
 </html>

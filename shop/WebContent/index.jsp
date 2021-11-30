@@ -37,11 +37,12 @@
       EbookDao ebookDao = new EbookDao();
       ArrayList<Ebook> ebookList = ebookDao.selectEbookList(beginRow, ROW_PER_PAGE);
       
-      // 인기 상품 목록 5개
+      // 인기 상품 목록 10개
       ArrayList<Ebook> popularEbookList = ebookDao.selectPopularEbookList();
       
-      // 신상품 목록 5개
+      // 신상품 목록 10개
       ArrayList<Ebook> newEbookList = ebookDao.selectNewEbookList();
+      int rotateNum=0;
       %>
       
       <div class="page-center">
@@ -83,8 +84,8 @@
 		</table>
 		<br><br><br><br>
       
-      <h2>신상품 목록</h2>
-      <!-- 주문 목록 출력 -->
+      <h2>화제의 신간</h2>
+      <!-- 신상품 목록 출력 -->
 	   <table class="table" border="1">
 	   		<tr>
 	         <%
@@ -104,14 +105,21 @@
 		                  <div>₩ <%=e.getEbookPrice() %></div>
 		               </td>
 	         <%
+			 	   rotateNum+=1; // for문 끝날때마다 i는 1씩 증가
+	               if(rotateNum%5==0){
+	         %>
+	                  </tr><tr> <!-- 줄바꿈 -->
+	         <%
+	               }
 	            }
+	            rotateNum=0;
 	         %>
 	      </tr>
 	   </table>
 	   <br><br><br><br>
       
-      <h2>인기 상품 목록</h2>
-      <!-- 주문 목록 출력 -->
+      <h2>베스트 셀러</h2>
+      <!-- 인기상품 목록 출력 -->
 	   <table class="table" border="1">
 	   		<tr>
 	         <%
@@ -130,8 +138,15 @@
 		                  </div>
 		                  <div>₩ <%=e.getEbookPrice() %></div>
 		               </td>
-	         <%
+				 <%
+				 	   rotateNum+=1; // for문 끝날때마다 i는 1씩 증가
+		               if(rotateNum%5==0){
+		         %>
+		                  </tr><tr> <!-- 줄바꿈 -->
+		         <%
+		               }
 	            }
+	         	rotateNum=0;
 	         %>
 	      </tr>
 	   </table>
@@ -142,8 +157,6 @@
    <table class="table" border="1">
       <tr>
          <%
-            int j = 0;
-         
             // 반복을 통해 카테고리 목록을 표로 출력
             for(Ebook e : ebookList){
          %>
@@ -161,8 +174,8 @@
                   <div>₩ <%=e.getEbookPrice() %></div>
                </td>
          <%
-               j+=1; // for문 끝날때마다 i는 1씩 증가
-               if(j%5==0){
+         	   rotateNum+=1; // for문 끝날때마다 rotateNum는 1씩 증가
+               if(rotateNum%5==0){
          %>
                   </tr><tr> <!-- 줄바꿈 -->
          <%
@@ -246,5 +259,10 @@
     </div>
 	</ul>
 	</div>
+	
+	<!-- footer -->
+	<div>
+      <jsp:include page="/partial/footer.jsp"></jsp:include>
+   </div>
 </body>
 </html>
