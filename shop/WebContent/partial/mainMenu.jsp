@@ -12,6 +12,7 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 <!-- 폰트 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,9 +26,6 @@
 		}
 </style>
 
-<div class="text-center">
-	<a href="<%=request.getContextPath() %>/index.jsp"><img src="<%=request.getContextPath() %>/image/banner.PNG" width="550" height="130"></a>
-</div>
   <div class="right">
      <%
      	 request.setCharacterEncoding("utf-8");
@@ -61,14 +59,62 @@
            }
         }
      %>
+     &nbsp;&nbsp;
   </div>
    <br>
+	<div class="logo-center">
+	  <br>
+	  <table>
+	  	<tr>
+	  		<td>
+	  			<a href="<%=request.getContextPath() %>/index.jsp">
+	  				<img src="<%=request.getContextPath() %>/image/logo.png" width="100px">
+	  			</a>
+	  		</td>
+	  		<td style="width : 5%;"></td>
+	  		<td style="width : 90%;">
+	  			<form class="form-inline">
+			    	<input style="width:70%; height: 45px;" class="form-control mr-sm-2 all-margin-10" type="search" placeholder="원하는 서적을 입력해주세요" aria-label="Search">
+			    	<button style="width:50px; padding-top:10px; padding-bottom:10px;" class="btn btn-outline-dark my-2 my-sm-0" type="submit">검색</button>
+			    </form>
+	  		</td>
+	  	</tr>
+	  </table>
+	  <br>
+	</div>
+
 <div>
-	<nav class="navbar navbar-expand-sm bg-light" style="width: 100%;">
-		<ul class="navbar-nav">
-			<li class="nav-item line"><a class="nav-link" href="<%=request.getContextPath() %>/index.jsp">메인</a></li>
-			<li class="nav-item line"><a class="nav-link" href="<%=request.getContextPath() %>/selectNoticeList.jsp">공지사항</a></li>
-			<li class="nav-item line"><a class="nav-link" href="<%=request.getContextPath() %>/selectQnaList.jsp">질문게시판</a></li>
-		</ul>
+	
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	  <div class="container-fluid">
+	    <a class="navbar-brand" href="<%=request.getContextPath() %>/index.jsp">홈</a>
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	
+	    <div class="collapse navbar-collapse" id="navbarColor02">
+	      <ul class="navbar-nav me-auto">
+	        <li class="nav-item">
+	          <a class="nav-link active" href="<%=request.getContextPath() %>/selectNoticeList.jsp">공지사항</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link active" href="<%=request.getContextPath() %>/selectQnaList.jsp">QnA</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link active" href="#">About</a>
+	        </li>
+	        <li class="nav-item dropdown">
+	          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+	          <div class="dropdown-menu">
+	            <a class="dropdown-item" href="#">Action</a>
+	            <a class="dropdown-item" href="#">Another action</a>
+	            <a class="dropdown-item" href="#">Something else here</a>
+	            <div class="dropdown-divider"></div>
+	            <a class="dropdown-item" href="#">Separated link</a>
+	          </div>
+	        </li>
+	      </ul>
+	    </div>
+	  </div>
 	</nav>
 </div>

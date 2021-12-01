@@ -70,7 +70,7 @@
 	
 	// 전자책 수정 업데이트
 	EbookDao ebookDao = new EbookDao();
-    ebookDao.updateEbookImg(ebook);
+    ebookDao.updateEbook(ebook);
     response.sendRedirect(request.getContextPath()+"/admin/selectEbookOne.jsp?ebookNo="+ebookNo);
 
 	

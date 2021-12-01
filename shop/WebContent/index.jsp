@@ -6,6 +6,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	
    <meta charset="UTF-8">
    <title>전자책 상점</title>
 </head>
@@ -48,43 +50,35 @@
       <div class="page-center">
       <br>
 		<!-- 최근 공지사항 3개를 출력 -->
-		<table class="table">
-			<thead>
-				<tr>
-					<th>최근 공지사항</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>
-					<%
-						for(Notice n : noticeList){
-					%>
-						  <div class="card">
-						    <div class="card-header" id="heading<%=n.getNotice_no() %>">
-						      <h5 class="mb-0">
-						        <button class="btn btn-link" data-toggle="collapse" data-target="#<%=n.getNotice_no() %>" aria-controls="<%=n.getNotice_no() %>">
-						          * <%=n.getNotice_title() %> - <%=n.getCreate_date().substring(0,10) %>
-						        </button>
-						      </h5>
-						    </div>
-						
-						    <div id="<%=n.getNotice_no() %>" class="collapse" aria-labelledby="heading<%=n.getNotice_no() %>" data-parent="#accordion">
-						      <div class="card-body">
-						        <%=n.getNotice_content() %>
-						      </div>
-						    </div>
-						  </div>
-					<%	
-						}
-					%>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+		  <div class="carousel-inner">
+		    <%
+				for(int i=0;i<noticeList.size();i++){
+					if(i==0){
+			%>
+						<div class="carousel-item active">
+					      <a href="<%=request.getContextPath() %>/selectNoticeOne.jsp?noticeNo=<%=noticeList.get(i).getNotice_no() %>">
+					      	<img src="<%=request.getContextPath() %>/image/<%=noticeList.get(i).getImage() %>" class="d-block w-100">
+					      </a>
+					     </div>
+			<%
+					} else{
+			%>
+						<div class="carousel-item">
+					      <a href="<%=request.getContextPath() %>/selectNoticeOne.jsp?noticeNo=<%=noticeList.get(i).getNotice_no() %>">
+					      	<img src="<%=request.getContextPath() %>/image/<%=noticeList.get(i).getImage() %>" class="d-block w-100">
+					      </a>
+					    </div>
+			<%
+					}
+				}
+			%>
+		  </div>
+		</div>
+		 
 		<br><br><br><br>
       
-      <h2>화제의 신간</h2>
+      <h2 class="center">화제의 신간</h2>
       <!-- 신상품 목록 출력 -->
 	   <table class="table" border="1">
 	   		<tr>
@@ -118,7 +112,7 @@
 	   </table>
 	   <br><br><br><br>
       
-      <h2>베스트 셀러</h2>
+      <h2 class="center">베스트 셀러</h2>
       <!-- 인기상품 목록 출력 -->
 	   <table class="table" border="1">
 	   		<tr>
@@ -152,7 +146,7 @@
 	   </table>
 	   <br><br><br><br>
       
-      <h2>전체 상품 목록</h2>
+      <h2 class="center">전체 상품 목록</h2>
    <!-- 주문 목록 출력 -->
    <table class="table" border="1">
       <tr>

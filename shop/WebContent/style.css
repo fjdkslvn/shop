@@ -11,14 +11,15 @@
     margin:auto;
 }
 
-/* 전체 요소 가운데 정렬 */
-.body-center{
-	width: 2000px;
+/*로고 및 검색 중앙 정렬*/
+.logo-center{
+	width: 60%;
     margin:auto;
 }
 
+/*전체 요소 가운데 정렬*/
 .page-center{
-	width: 70%;
+	width: 65%;
     margin:auto;
 }
 
@@ -68,7 +69,7 @@ li.line:hover:after {
 }
 /*가운데서 좌우로 펼쳐지는 라인 에니메이션:끝*/
 
-h2{
+h2.center{
 	width: 100%;
 	text-align : center;
 }

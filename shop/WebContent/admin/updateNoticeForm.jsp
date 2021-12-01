@@ -54,7 +54,8 @@
    <!-- end : submenu include -->
 	<br>
 	<div class="content-center">
-	<form action="<%=request.getContextPath() %>/admin/updateNoticeAction.jsp" id="updateNoticeAction" method="post">
+	<form action="<%=request.getContextPath() %>/admin/updateNoticeAction.jsp" id="updateNoticeAction" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="beforeImg" value="<%=notice.getImage()%>">
 		<input type="hidden" id="noticeNo" name="noticeNo" value="<%=notice.getNotice_no() %>">
 		<div class="form-group">
             공지 제목
@@ -64,6 +65,11 @@
 		  <label for="content">공지 내용</label>
 		  <textarea class="form-control" rows="5" name="content" id="content"><%=notice.getNotice_content().replace("<br>","\r\n") %></textarea>
 		 </div>
+		 <!-- 이미지 -->
+	    <div class="form-group">
+	        수정할 공지 사진 : 
+	        <input type="file" name="image" id="image">
+	    </div>
 		<br><br>
 		<button type="button" class="btn btn-success" id="btn">수정</button>
 	</form>

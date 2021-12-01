@@ -15,7 +15,7 @@ public class NoticeDao {
 		// DB 연동 및 쿼리실행
 		DBUtil dbUilt = new DBUtil();
 		Connection conn = dbUilt.getConnection();
-		String sql = "SELECT n.*, m.member_name FROM notice n INNER JOIN member m ON n.member_no = m.member_no  ORDER BY n.update_date DESC limit 0,3";
+		String sql = "SELECT n.notice_no, n.image, m.member_name FROM notice n INNER JOIN member m ON n.member_no = m.member_no  ORDER BY n.update_date DESC limit 0,3";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
 		System.out.println("최근 공지 목록 추출 stmt : "+stmt);
@@ -23,12 +23,7 @@ public class NoticeDao {
 		while(rs.next()) {
 			notice = new Notice();
 			notice.setNotice_no(rs.getInt("n.notice_no"));
-			notice.setNotice_title(rs.getString("n.notice_title"));
-			notice.setMember_no(rs.getInt("n.member_no"));
-			notice.setNotice_content(rs.getString("n.notice_content"));
-			notice.setCreate_date(rs.getString("n.create_date"));
-			notice.setUpdate_date(rs.getString("n.update_date"));
-			notice.setMember_name(rs.getString("m.member_name"));
+			notice.setImage(rs.getString("n.image"));
 			list.add(notice);
 		}
 		
@@ -59,12 +54,26 @@ public class NoticeDao {
 		// DB 연동 및 쿼리실행
 		DBUtil dbUilt = new DBUtil();
 		Connection conn = dbUilt.getConnection();
-		String sql = "UPDATE notice SET notice_title=?, notice_content=?, member_no=?, update_date=now() WHERE notice_no=?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, notice.getNotice_title());
-		stmt.setString(2, notice.getNotice_content().replace("\r\n","<br>"));
-		stmt.setInt(3, notice.getMember_no());
-		stmt.setInt(4, notice.getNotice_no());
+		String sql;
+		PreparedStatement stmt;
+		
+		if(notice.getImage()=="") {
+			sql = "UPDATE notice SET notice_title=?, notice_content=?, member_no=?, update_date=now() WHERE notice_no=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, notice.getNotice_title());
+			stmt.setString(2, notice.getNotice_content().replace("\r\n","<br>"));
+			stmt.setInt(3, notice.getMember_no());
+			stmt.setInt(4, notice.getNotice_no());
+		} else {
+			sql = "UPDATE notice SET notice_title=?, notice_content=?, member_no=?, image=?, update_date=now() WHERE notice_no=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, notice.getNotice_title());
+			stmt.setString(2, notice.getNotice_content().replace("\r\n","<br>"));
+			stmt.setInt(3, notice.getMember_no());
+			stmt.setString(4, notice.getImage());
+			stmt.setInt(5, notice.getNotice_no());
+		}
+		
 		System.out.println("공지수정 stmt : "+stmt);
 		stmt.executeUpdate(); // 쿼리 실행
 		
@@ -89,6 +98,7 @@ public class NoticeDao {
 			notice.setNotice_content(rs.getString("n.notice_content"));
 			notice.setMember_name(rs.getString("m.member_name"));
 			notice.setMember_no(rs.getInt("n.member_no"));
+			notice.setImage(rs.getString("n.image"));
 			notice.setCreate_date(rs.getString("n.create_date"));
 			notice.setUpdate_date(rs.getString("n.update_date"));
 		}
@@ -105,11 +115,12 @@ public class NoticeDao {
 		// DB 연동 및 쿼리실행
 		DBUtil dbUilt = new DBUtil();
 		Connection conn = dbUilt.getConnection();
-		String sql = "INSERT INTO notice(notice_title, notice_content, member_no, create_date, update_date) VALUE(?,?,?,NOW(),NOW())";
+		String sql = "INSERT INTO notice(notice_title, notice_content, member_no, image, create_date, update_date) VALUE(?,?,?,?,NOW(),NOW())";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, notice.getNotice_title());
 		stmt.setString(2, notice.getNotice_content().replace("\r\n","<br>"));
 		stmt.setInt(3, notice.getMember_no());
+		stmt.setString(4, notice.getImage());
 		System.out.println("공지생성 stmt : "+stmt);
 		stmt.executeUpdate(); // 쿼리 실행
 		

@@ -5,6 +5,11 @@
 
 <!DOCTYPE html>
 <html>
+<head>
+   <meta charset="UTF-8">
+   <title>전자책 상점</title>
+</head>
+<body>
 <%
 	request.setCharacterEncoding("utf-8");
 	
@@ -22,12 +27,6 @@
 	NoticeDao noticeDao = new NoticeDao();
 	ArrayList<Notice> noticeList = noticeDao.selectNoticeList(beginRow,ROW_PER_PAGE);
 %>
-<head>
-   <meta charset="UTF-8">
-   <title>전자책 상점</title>
-</head>
-<body>
-
    <!-- start : submenu include -->
    <div>
       <jsp:include page="/partial/mainMenu.jsp"></jsp:include>
@@ -46,27 +45,15 @@
 			<tbody>
 				<tr>
 					<td>
+						<div class="list-group">
 					<%
 						for(Notice n : noticeList){
 					%>
-						  <div class="card">
-						    <div class="card-header" id="heading<%=n.getNotice_no() %>">
-						      <h5 class="mb-0">
-						        <button class="btn btn-link" data-toggle="collapse" data-target="#<%=n.getNotice_no() %>" aria-controls="<%=n.getNotice_no() %>">
-						          * <%=n.getNotice_title() %> - <%=n.getCreate_date().substring(0,10) %>
-						        </button>
-						      </h5>
-						    </div>
-						
-						    <div id="<%=n.getNotice_no() %>" class="collapse" aria-labelledby="heading<%=n.getNotice_no() %>" data-parent="#accordion">
-						      <div class="card-body">
-						        <%=n.getNotice_content() %>
-						      </div>
-						    </div>
-						  </div>
+  							<a href="<%=request.getContextPath() %>/selectNoticeOne.jsp?noticeNo=<%=n.getNotice_no() %>" class="list-group-item list-group-item-action"><%=n.getNotice_title() %></a>
 					<%	
 						}
 					%>
+						</div>
 					</td>
 				</tr>
 			</tbody>

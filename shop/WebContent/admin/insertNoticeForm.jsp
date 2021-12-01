@@ -42,7 +42,7 @@
    <!-- end : submenu include -->
 	<br>
 	<div class="content-center ">
-	<form action="<%=request.getContextPath() %>/admin/insertNoticeAction.jsp" id="insertNoticeAction" method="post">
+	<form action="<%=request.getContextPath() %>/admin/insertNoticeAction.jsp" id="insertNoticeAction" method="post" enctype="multipart/form-data">
 		<div class="form-group">
             공지 제목
             <input type="text" class="form-control" name="title" id="title">
@@ -51,6 +51,11 @@
 		  <label for="content">공지 내용</label>
 		  <textarea class="form-control" rows="5" name="content" id="content"></textarea>
 		 </div>
+		 <!-- 이미지 -->
+	    <div class="form-group">
+	        공지 사진 : 
+	        <input type="file" name="image" id="image">
+	    </div>
 		<br><br>
 		<button type="button" class="btn btn-success" id="btn">작성</button>
 	</form>

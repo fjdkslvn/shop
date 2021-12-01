@@ -5,9 +5,10 @@ public class Notice {
 	private String notice_title;
 	private String notice_content;
 	private int member_no;
+	private String image;
 	private String create_date;
 	private String update_date;
-	// member 테이블 요소이지만 하나뿐이라 그냥 넣었습니다.
+	// member 테이블 요소이지만, 유연성을 위해 넣었습니다.
 	private String member_name;
 	
 	public int getNotice_no() {
@@ -34,6 +35,12 @@ public class Notice {
 	public void setMember_no(int member_no) {
 		this.member_no = member_no;
 	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
 	public String getCreate_date() {
 		return create_date;
 	}
@@ -56,8 +63,8 @@ public class Notice {
 	@Override
 	public String toString() {
 		return "Notice [notice_no=" + notice_no + ", notice_title=" + notice_title + ", notice_content="
-				+ notice_content + ", member_no=" + member_no + ", create_date=" + create_date + ", update_date="
-				+ update_date + ", member_name=" + member_name + "]";
+				+ notice_content + ", member_no=" + member_no + ", image=" + image + ", create_date=" + create_date
+				+ ", update_date=" + update_date + ", member_name=" + member_name + "]";
 	}
 	
 }

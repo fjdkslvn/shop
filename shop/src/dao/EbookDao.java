@@ -117,7 +117,7 @@ public class EbookDao {
 	}
    
    // [관리자] 전자책 수정
-   public void updateEbookImg(Ebook ebook) throws ClassNotFoundException, SQLException {
+   public void updateEbook(Ebook ebook) throws ClassNotFoundException, SQLException {
       DBUtil dbUtil = new DBUtil();
        Connection conn = dbUtil.getConnection();
        String sql;

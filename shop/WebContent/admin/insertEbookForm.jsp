@@ -48,7 +48,7 @@
 	<div class="join-form content-center top-margin">
 		
 		<!-- 전자책 생성 폼 -->
-		<form id="insertEbook" action="insertEbookAction.jsp" method="post" enctype="multipart/form-data">
+		<form id="insertEbook" action="<%=request.getContextPath() %>/admin/insertEbookAction.jsp" method="post" enctype="multipart/form-data">
 		    <div class="form-group">
 		        고유코드
 		        <input type="text" class="form-control" name="isbn" id="isbn" >
