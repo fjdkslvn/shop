@@ -9,7 +9,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	
    <meta charset="UTF-8">
-   <title>전자책 상점!!!!</title>
+   <title>메인 | 전자책 상점</title>
 </head>
 <body>
    <!-- start : submenu include -->
@@ -21,6 +21,8 @@
    
       <!-- 상품 목록 출력 -->
       <%
+      request.setCharacterEncoding("utf-8");
+      
       // 페이지
       int currentPage = 1;
       if(request.getParameter("currentPage")!=null){
@@ -28,8 +30,8 @@
       }
       System.out.println(currentPage+" <--selectEbookList currentPage");
       
-      final int ROW_PER_PAGE = 10; // 페이지에 보일 주문 개수
-      int beginRow = (currentPage-1)*ROW_PER_PAGE; // 주문 목록 시작 부분
+      final int ROW_PER_PAGE = 10; // 페이지에 보일 상품 개수
+      int beginRow = (currentPage-1)*ROW_PER_PAGE; // 상품 목록 시작 부분
       
       // 최근 공지 가져오기
   	  NoticeDao noticeDao = new NoticeDao();
@@ -147,7 +149,7 @@
 	   <br><br><br><br>
       
       <h2 class="center">전체 상품 목록</h2>
-   <!-- 주문 목록 출력 -->
+   <!-- 상품 목록 출력 -->
    <table class="table" border="1">
       <tr>
          <%

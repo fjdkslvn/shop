@@ -73,9 +73,9 @@
 	  		</td>
 	  		<td style="width : 5%;"></td>
 	  		<td style="width : 90%;">
-	  			<form class="form-inline">
-			    	<input style="width:70%; height: 45px;" class="form-control mr-sm-2 all-margin-10" type="search" placeholder="원하는 서적을 입력해주세요" aria-label="Search">
-			    	<button style="width:50px; padding-top:10px; padding-bottom:10px;" class="btn btn-outline-dark my-2 my-sm-0" type="submit">검색</button>
+	  			<form class="form-inline" action="<%=request.getContextPath() %>/searchResult.jsp" id="searchForm">
+			    	<input style="width:70%; height: 45px;" class="form-control mr-sm-2 all-margin-10" type="search" placeholder="원하는 서적을 입력해주세요" aria-label="Search" name="searchText" id="searchText">
+			    	<button style="width:50px; padding-top:10px; padding-bottom:10px;" class="btn btn-outline-dark my-2 my-sm-0" id="searchBtn"type="button">검색</button>
 			    </form>
 	  		</td>
 	  	</tr>
@@ -118,3 +118,14 @@
 	  </div>
 	</nav>
 </div>
+
+<script>
+		$('#searchBtn').click(function(){
+			// 버튼을 click했을때
+			if($('#searchText').val()=='' || $('#searchText').val()==' '){ // 검색어가 공백이면
+				loaction.assign(location.href); // 현재페이지로 이동(새로고침)
+			} else{
+				$('#searchForm').submit();	
+			}
+		});
+	</script>

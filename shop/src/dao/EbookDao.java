@@ -12,6 +12,62 @@ import vo.Ebook;
 
 public class EbookDao {
 	
+	// 검색 결과 전자책 마지막 페이지 연산
+    public int selectSearchResultLastPage(int rowPerPage, String searchText) throws ClassNotFoundException, SQLException {
+    	DBUtil dbUtil = new DBUtil();
+        Connection conn = dbUtil.getConnection();
+    
+        // 전체 페이지수 구하기
+        String sql = "select count(*) from ebook WHERE ebook_title LIKE CONCAT('%', ?, '%')";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, searchText);
+        System.out.println("전체 검색결과 수 stmt : "+stmt);
+        ResultSet rs = stmt.executeQuery();
+        rs.next();
+        int totalData = rs.getInt("count(*)");
+        int lastPage= totalData/rowPerPage; // 마지막 페이지 번호
+        if(totalData%rowPerPage!=0){
+           lastPage +=1;
+        }
+      
+        rs.close();
+        stmt.close();
+        conn.close();
+      
+        return lastPage;
+   }
+	
+	// 전자책 검색 결과
+	public ArrayList<Ebook> selectSearchResult(String searchText, int beginRow, int rowPerPage) throws ClassNotFoundException, SQLException{
+		ArrayList<Ebook> list = new ArrayList<>();
+		
+	    // mariaDB 연동
+	    DBUtil dbUilt = new DBUtil();
+	    Connection conn = dbUilt.getConnection();
+	    String sql = "SELECT * FROM ebook WHERE ebook_title LIKE CONCAT('%', ?, '%') ORDER BY create_date DESC LIMIT ?,?";
+	    PreparedStatement stmt = conn.prepareStatement(sql);
+	    stmt.setString(1, searchText);
+	    stmt.setInt(2, beginRow);
+	    stmt.setInt(3, rowPerPage);
+	    System.out.println("검색 결과 ebook 목록 출력 stmt : "+stmt);
+	    ResultSet rs = stmt.executeQuery();
+	      
+	    // 각 전자책의 정보를 리스트에 담는다
+	    while(rs.next()) {
+	       Ebook ebook = new Ebook();
+	       ebook.setEbookNo(Integer.parseInt(rs.getString("ebook_no")));
+	       ebook.setEbookTitle(rs.getString("ebook_title"));
+	       ebook.setEbookImg(rs.getString("ebook_img"));
+	       ebook.setEbookPrice(rs.getInt("ebook_price"));
+	       ebook.setEbookAuthor(rs.getString("ebook_author"));
+	       list.add(ebook);
+	    }
+	    rs.close();
+	    stmt.close();
+	    conn.close();
+	    return list;
+	}
+	
 	// [관리자] 전자책 생성
 	public void insertEbook(Ebook ebook) throws ClassNotFoundException, SQLException {
 		DBUtil dbUtil = new DBUtil();
