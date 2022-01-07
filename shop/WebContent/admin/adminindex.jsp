@@ -67,7 +67,6 @@
 				<th>번호</th>
 				<th>제목</th>
 				<th>작성자</th>
-				<th>수정일</th>
 				<th>생성일</th>
 				<th>상세보기</th>
 			</tr>
@@ -81,7 +80,6 @@
 						<td><%=n.getNotice_no() %></td>
 						<td><%=n.getNotice_title() %></td>
 						<td><%=n.getMember_name() %></td>
-						<td><%=n.getUpdate_date() %></td>
 						<td><%=n.getCreate_date() %></td>
 						<td><a href="<%=request.getContextPath() %>/admin/selectNoticeOne.jsp?noticeNo=<%=n.getNotice_no() %>">상세보기</a></td>
 					</tr>

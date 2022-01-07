@@ -306,7 +306,7 @@ public class EbookDao {
       // mariaDB 연동
       DBUtil dbUilt = new DBUtil();
       Connection conn = dbUilt.getConnection();
-      String sql = "select ebook_no ebookNo, category_name categoryName, ebook_title ebookTitle, ebook_img ebookImg, ebook_price ebookPrice, ebook_state ebookState from ebook order by create_date desc limit ?,?";
+      String sql = "select ebook_no ebookNo, category_name categoryName, ebook_title ebookTitle, CONCAT(SUBSTR(ebook_summary,1,15),'...') ebookSummary, ebook_img ebookImg, ebook_price ebookPrice, ebook_state ebookState from ebook order by create_date desc LIMIT ?,?";
       PreparedStatement stmt = conn.prepareStatement(sql);
       stmt.setInt(1, beginRow);
       stmt.setInt(2, rowPerPage);
@@ -321,6 +321,7 @@ public class EbookDao {
          ebook.setEbookTitle(rs.getString("ebookTitle"));
          ebook.setEbookImg(rs.getString("ebookImg"));
          ebook.setEbookPrice(rs.getInt("ebookPrice"));
+         ebook.setEbookSummary(rs.getString("ebookSummary"));
          ebook.setEbookState(rs.getString("ebookState"));
          list.add(ebook);
       }

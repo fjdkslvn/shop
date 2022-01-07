@@ -36,13 +36,23 @@
 			Ebook ebook = ebookDao.selectEbookOne(ebookNo);
 		%>
 		
+		<!-- breadcrumb -->
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb" style="background: white;">
+				<li class="breadcrumb-item"><a href="<%=request.getContextPath() %>/index.jsp">홈</a></li>
+				<li class="breadcrumb-item"><a href="<%=request.getContextPath() %>/selectEbookList.jsp">서적 목록</a></li>
+				<li class="breadcrumb-item active" aria-current="page">'<%=ebook.getEbookTitle() %>' 상세정보</li>
+			</ol>
+		</nav>
+		<br><br>
+		
 		<!-- 표지와 상세정보를 가로로 나열 -->
 		<table style="width: 100%;">
 			<tr>
 				<td style="width: 30%;">
 					<!-- 전자책 표지 -->
 					<div style="text-align : center;">
-						<img src="<%=request.getContextPath() %>/image/<%=ebook.getEbookImg() %>" width="100%";>
+						<img src="<%=request.getContextPath() %>/image/ebook/<%=ebook.getEbookImg() %>" width="100%";>
 					</div>
 				</td>
 				<td style="width: 10%;"></td>

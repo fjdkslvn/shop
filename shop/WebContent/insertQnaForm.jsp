@@ -23,7 +23,16 @@
       <jsp:include page="/partial/mainMenu.jsp"></jsp:include>
    </div>
    <!-- end : submenu include -->
-   <br>
+   <div class="page-center">
+	   <!-- breadcrumb -->
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb" style="background: white;">
+				<li class="breadcrumb-item"><a href="<%=request.getContextPath() %>/index.jsp">홈</a></li>
+				<li class="breadcrumb-item"><a href="<%=request.getContextPath() %>/selectQnaList.jsp">QnA</a></li>
+				<li class="breadcrumb-item active" aria-current="page">질문 작성</li>
+			</ol>
+		</nav>
+	</div>
    
 	<div class="content-center">
 		<form action="<%=request.getContextPath() %>/insertQnaAction.jsp" id="insertQnaAction" method="post">

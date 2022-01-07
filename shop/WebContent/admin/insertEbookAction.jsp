@@ -15,7 +15,7 @@
 	}
 	
 	// multipart/form-data로 넘겼기 때문에 request.getParameter()형태 사용불가능
-	MultipartRequest mr = new MultipartRequest(request, "C:/Users/fjdks/Desktop/goodee/git-shop/shop/WebContent/image", 1024*1024*1024, "utf-8", new DefaultFileRenamePolicy());
+	MultipartRequest mr = new MultipartRequest(request, request.getRealPath("/")+"\\image\\ebook\\", 1024*1024*1024, "utf-8", new DefaultFileRenamePolicy());
 	// 값 받아오기
 	String ebookISBN = mr.getParameter("isbn");
 	String ebookCategory = mr.getParameter("category");

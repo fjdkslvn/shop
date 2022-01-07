@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>검색 | 전자책 상점</title>
+<title>전자책 상점</title>
 </head>
 <body>
 <%
@@ -35,14 +35,51 @@
     <br>
    
 	<div class="page-center">
-		<%
-			for(Ebook e : ebookList){
-		%>
-				<div><a href="<%=request.getContextPath() %>/selectEbookOne.jsp?ebookNo=<%=e.getEbookNo() %>"><%=e.getEbookTitle() %></a></div>
-		<%
-			}
-		%>
+		<!-- breadcrumb -->
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb" style="background: white;">
+				<li class="breadcrumb-item"><a href="<%=request.getContextPath() %>/index.jsp">홈</a></li>
+				<li class="breadcrumb-item active" aria-current="page">'<%=searchText %>' 검색결과</li>
+			</ol>
+		</nav>
 		
+		<!-- 상품 목록 출력 -->
+	   <table class="table">
+	      <tr>
+	         <%
+	         	int rotateNum=0;
+	            // 반복을 통해 전자책을 출력
+	            for(Ebook e : ebookList){
+	         %>
+	               <td class="size-19">
+	               	<div class="card" style="width: 18rem;">
+					  <img class="card-img-top" src="<%=request.getContextPath() %>/image/ebook/<%=e.getEbookImg() %>" height="300px;">
+					  <div class="card-body">
+					    <h5 class="card-title"><%=e.getEbookTitle()  %></h5>
+					    <p class="card-text">₩ <%=e.getEbookPrice() %></p>
+					    <a href="<%=request.getContextPath() %>/selectEbookOne.jsp?ebookNo=<%=e.getEbookNo() %>" class="btn btn-outline-primary">상세보기</a>
+					  </div>
+					</div>
+	               </td>
+	         <%
+	         	   rotateNum+=1; // for문 끝날때마다 rotateNum는 1씩 증가
+	               if(rotateNum%5==0){
+	         %>
+	                  </tr><tr> <!-- 줄바꿈 -->
+	         <%
+	               }
+	            }
+	            
+	            if(ebookList.size()%5!=0){
+	            	for(int i=0; i<5-(ebookList.size()%5);i++){
+	    		%>
+	    				<td class="size-19"></td>
+	    		<%
+	            	}
+	            }
+	         %>
+	      </tr>
+	   </table>
 		<br>
    
 	   <!-- 페이지 -->

@@ -8,7 +8,6 @@ public class Notice {
 	private String image;
 	private String create_date;
 	private String update_date;
-	// member 테이블 요소이지만, 유연성을 위해 넣었습니다.
 	private String member_name;
 	
 	public int getNotice_no() {

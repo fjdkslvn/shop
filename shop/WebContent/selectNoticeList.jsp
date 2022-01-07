@@ -35,6 +35,14 @@
    <br>
    
    <div class="page-center">
+   
+   <!-- breadcrumb -->
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb" style="background: white;">
+			<li class="breadcrumb-item"><a href="<%=request.getContextPath() %>/index.jsp">홈</a></li>
+			<li class="breadcrumb-item active" aria-current="page">공지사항</li>
+		</ol>
+	</nav>
 	
 	<table class="table">
 			<thead>

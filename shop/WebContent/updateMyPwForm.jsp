@@ -29,6 +29,18 @@
    </div>
    <!-- end : submenu include -->
    <br>
+   
+   <div class="page-center">
+   		<!-- breadcrumb -->
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb" style="background: white;">
+				<li class="breadcrumb-item"><a href="<%=request.getContextPath() %>/index.jsp">홈</a></li>
+				<li class="breadcrumb-item"><a href="<%=request.getContextPath() %>/selectMyImfo.jsp">정보 확인</a></li>
+				<li class="breadcrumb-item active" aria-current="page">비밀번호 수정</li>
+			</ol>
+		</nav>
+   </div>
+   
 	<div class="content-center top-margin">
 	    <form action="<%=request.getContextPath() %>/updateMyPwAction.jsp" id="updateMyPw" method="post">
 	        <div class="form-group">

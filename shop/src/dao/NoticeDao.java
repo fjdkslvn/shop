@@ -15,7 +15,7 @@ public class NoticeDao {
 		// DB 연동 및 쿼리실행
 		DBUtil dbUilt = new DBUtil();
 		Connection conn = dbUilt.getConnection();
-		String sql = "SELECT n.notice_no, n.image, m.member_name FROM notice n INNER JOIN member m ON n.member_no = m.member_no  ORDER BY n.update_date DESC limit 0,3";
+		String sql = "SELECT n.notice_no, n.image, n.notice_title, n.notice_content,n.create_date, m.member_name FROM notice n INNER JOIN member m ON n.member_no = m.member_no  ORDER BY n.update_date DESC limit 0,3";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
 		System.out.println("최근 공지 목록 추출 stmt : "+stmt);
@@ -23,7 +23,11 @@ public class NoticeDao {
 		while(rs.next()) {
 			notice = new Notice();
 			notice.setNotice_no(rs.getInt("n.notice_no"));
+			notice.setNotice_title(rs.getString("n.notice_title"));
+			notice.setNotice_content(rs.getString("n.notice_content"));
+			notice.setCreate_date(rs.getString("n.create_date"));
 			notice.setImage(rs.getString("n.image"));
+			notice.setMember_name(rs.getString("m.member_name"));
 			list.add(notice);
 		}
 		

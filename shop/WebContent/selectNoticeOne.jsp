@@ -27,6 +27,15 @@
    <br>
    
    <div class="page-center">
+   
+   		<!-- breadcrumb -->
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb" style="background: white;">
+				<li class="breadcrumb-item"><a href="<%=request.getContextPath() %>/index.jsp">홈</a></li>
+				<li class="breadcrumb-item"><a href="<%=request.getContextPath() %>/selectNoticeList.jsp">공지사항</a></li>
+				<li class="breadcrumb-item active" aria-current="page">공지사항 상세</li>
+			</ol>
+		</nav>
    		
    		<h4><%=notice.getNotice_title() %></h4>
    		<br><br>
@@ -35,7 +44,7 @@
    		<br><br>
    		<%=notice.getNotice_content() %>
    		<br><br><br><br><br><br>
-   		<%=notice.getUpdate_date() %>
+   		작성일 : <%=notice.getUpdate_date() %>
    </div>
    
    <!-- footer -->

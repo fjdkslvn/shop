@@ -32,6 +32,14 @@
    <br>
    
    <div class="page-center">
+   
+   	<!-- breadcrumb -->
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb" style="background: white;">
+			<li class="breadcrumb-item"><a href="<%=request.getContextPath() %>/index.jsp">홈</a></li>
+			<li class="breadcrumb-item active" aria-current="page">정보 확인</li>
+		</ol>
+	</nav>
 	<form action="<%=request.getContextPath() %>/updateMyImfoForm.jsp" id="updateMyImfo" name="updateMyImfo" method="post">
 		<table class="table" border="1">
 			<tr>
